@@ -3,8 +3,8 @@ package com.booking.backend.controller;
 import com.booking.backend.dto.AuthDTO;
 import com.booking.backend.dto.LoginDTO;
 import com.booking.backend.dto.ResponseDTO;
-import com.booking.backend.dto.UserDTO;
-import com.booking.backend.service.impl.UserServiceImpl;
+import com.booking.backend.dto.RegisterDTO;
+import com.booking.backend.service.impl.RegisterServiceImpl;
 import com.booking.backend.util.JwtUtil;
 import com.booking.backend.util.VarList;
 import org.springframework.http.HttpStatus;
@@ -20,10 +20,10 @@ public class AuthController {
 
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
-    private final UserServiceImpl userService;
+    private final RegisterServiceImpl userService;
     private final ResponseDTO responseDTO;
 
-    public AuthController(JwtUtil jwtUtil, AuthenticationManager authenticationManager, UserServiceImpl userService, ResponseDTO responseDTO) {
+    public AuthController(JwtUtil jwtUtil, AuthenticationManager authenticationManager, RegisterServiceImpl userService, ResponseDTO responseDTO) {
         this.jwtUtil = jwtUtil;
         this.authenticationManager = authenticationManager;
         this.userService = userService;
@@ -40,7 +40,7 @@ public class AuthController {
                     .body(new ResponseDTO(VarList.Unauthorized, "Invalid Credentials", e.getMessage()));
         }
 
-        UserDTO loadedUser = userService.loadUserDetailsByUsername(loginDto.getEmail());
+        RegisterDTO loadedUser = userService.loadUserDetailsByUsername(loginDto.getEmail());
         if (loadedUser == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(new ResponseDTO(VarList.Conflict, "Authorization Failure! Please Try Again", null));

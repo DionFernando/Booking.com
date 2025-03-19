@@ -1,11 +1,11 @@
 package com.booking.backend.repo;
 
-import com.booking.backend.entity.User;
+import com.booking.backend.entity.Register;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User,String> {
+public interface RegisterRepository extends JpaRepository<Register,String> {
 
-    User findByEmail(String userName);
+    Register findByEmail(String userName);
 
     boolean existsByEmail(String userName);
 

@@ -13,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class User implements Serializable {
+public class Register implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uid;

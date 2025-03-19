@@ -1,6 +1,6 @@
 package com.booking.backend.util;
 
-import com.booking.backend.dto.UserDTO;
+import com.booking.backend.dto.RegisterDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -56,7 +56,7 @@ public class JwtUtil implements Serializable {
     }
 
     // Generate token for user
-    public String generateToken(UserDTO userDTO) {
+    public String generateToken(RegisterDTO userDTO) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", userDTO.getRole());
         return doGenerateToken(claims, userDTO.getEmail());

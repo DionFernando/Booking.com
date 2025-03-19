@@ -2,8 +2,8 @@ package com.booking.backend.controller;
 
 import com.booking.backend.dto.AuthDTO;
 import com.booking.backend.dto.ResponseDTO;
-import com.booking.backend.dto.UserDTO;
-import com.booking.backend.service.UserService;
+import com.booking.backend.dto.RegisterDTO;
+import com.booking.backend.service.RegisterService;
 import com.booking.backend.util.JwtUtil;
 import com.booking.backend.util.VarList;
 import jakarta.validation.Valid;
@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("api/v1/user")
-public class UserController {
-    private final UserService userService;
+public class RegisterController {
+    private final RegisterService userService;
     private final JwtUtil jwtUtil;
 
-    public UserController(UserService userService, JwtUtil jwtUtil) {
+    public RegisterController(RegisterService userService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
     }
     @PostMapping(value = "/register")
-    public ResponseEntity<ResponseDTO> registerUser(@RequestBody @Valid UserDTO userDTO) {
+    public ResponseEntity<ResponseDTO> registerUser(@RequestBody @Valid RegisterDTO userDTO) {
         try {
             int res = userService.saveUser(userDTO);
             switch (res) {

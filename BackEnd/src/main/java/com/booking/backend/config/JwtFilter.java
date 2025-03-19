@@ -1,7 +1,7 @@
 package com.booking.backend.config;
 
 
-import com.booking.backend.service.impl.UserServiceImpl;
+import com.booking.backend.service.impl.RegisterServiceImpl;
 import com.booking.backend.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -26,7 +26,7 @@ JwtFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
     @Autowired
-    private UserServiceImpl userService;
+    private RegisterServiceImpl userService;
     @Value("${jwt.secret}")
     private String secretKey;
 
