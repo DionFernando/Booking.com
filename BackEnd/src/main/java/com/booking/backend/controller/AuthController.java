@@ -20,13 +20,14 @@ public class AuthController {
 
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
-    private final RegisterServiceImpl userService;
+    private final RegisterServiceImpl registerService;
     private final ResponseDTO responseDTO;
 
-    public AuthController(JwtUtil jwtUtil, AuthenticationManager authenticationManager, RegisterServiceImpl userService, ResponseDTO responseDTO) {
+    public AuthController(JwtUtil jwtUtil, AuthenticationManager authenticationManager,
+                          RegisterServiceImpl registerService, ResponseDTO responseDTO) {
         this.jwtUtil = jwtUtil;
         this.authenticationManager = authenticationManager;
-        this.userService = userService;
+        this.registerService = registerService;
         this.responseDTO = responseDTO;
     }
 
@@ -40,7 +41,7 @@ public class AuthController {
                     .body(new ResponseDTO(VarList.Unauthorized, "Invalid Credentials", e.getMessage()));
         }
 
-        RegisterDTO loadedUser = userService.loadUserDetailsByUsername(loginDto.getEmail());
+        RegisterDTO loadedUser = registerService.loadUserDetailsByUsername(loginDto.getEmail());
         if (loadedUser == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(new ResponseDTO(VarList.Conflict, "Authorization Failure! Please Try Again", null));
@@ -59,6 +60,4 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new ResponseDTO(VarList.Created, "Success", authDTO));
     }
-
 }
-
