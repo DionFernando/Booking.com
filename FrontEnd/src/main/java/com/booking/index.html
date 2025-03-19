@@ -1,0 +1,1391 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Booking.com</title>
+
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            integrity="sha512-acmR6M5tzI4Zew+O2ZbK+rT1/XgqWkLZ1ir+gVZ6PdW7ShDZhQzy6f8N4oXEmZ8MtqJo0HW9zRFlCL7Wq0Y4+Q=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
+
+        .header {
+            background-color: #003580;
+            color: #fff;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .logo {
+            height: 60px;
+            margin-left: 50px;
+        }
+        .user-actions a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 0.95rem;
+        }
+
+        .user-actions>a.nav-useractions{
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        .user-actions>a.nav-useractions:nth-child(2){
+            background-color: #005999;
+        }
+
+        .user-actions>a.nav-useractions:last-child{
+            background-color: #005999;
+        }
+
+        .user-actions>a.nav-useractions:hover{
+            background-color: #28a1c9;
+            border-radius: 10px;
+        }
+
+        .user-actions>a.nav-useractions:first-child:hover{
+            color: #79ceed!important;
+            background-color:#003580 ;
+        }
+
+        /*&#45;&#45;Navigation&#45;&#45;*/
+        .nav-btns{
+            background-color: transparent;
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 15px 20px;
+            transition: background-color 0.2s;
+        }
+
+        .nav-btns:hover {
+            background-color: #005999;
+            border-radius: 40px;
+        }
+
+        .nav-links-container {
+            background-color: #003580;
+            display: flex;
+            justify-content: left;
+
+
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            padding: 10px 0;
+            margin-left: 50px;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: border 0.2s;
+        }
+        .nav-links a:hover {
+            border: 1px solid #fff;
+        }
+
+
+        .banner {
+            background-color: #003580;
+            color: white;
+            text-align: left;
+            padding: 50px 20px;
+        }
+        .banner h1 {
+            margin-bottom: 10px;
+            margin-left: 50px;
+            font-size: 3rem;
+            font-weight: 1000;
+        }
+        .banner h2 {
+            font-weight: 400;
+            font-size: 1.4rem;
+            margin-left: 50px;
+        }
+
+        /*&#45;&#45;Search Bar&#45;&#45;*/
+        .search-bar {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .search-bar input,
+        .search-bar button {
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            width: 90%;
+            max-width: 300px;
+        }
+        .search-bar button {
+            background-color: #0071c2;
+            color: #fff;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background-color: #005999;
+        }
+
+        /* 5) Responsiveness */
+        @media (min-width: 768px) {
+            .search-bar {
+                flex-direction: row;
+                justify-content: center;
+            }
+            .search-bar input {
+                width: auto;
+            }
+            .search-bar button {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="top-bar">
+        <img src="assets/bookinglogowhite.png" alt="Booking.com Logo" class="logo" />
+        <div class="user-actions">
+            <a href="#" class="nav-useractions">List your property</a>
+            <a href="#" class="nav-useractions">Register</a>
+            <a href="#" class="nav-useractions">Sign in</a>
+        </div>
+    </div>
+
+    <div class="nav-links-container">
+        <nav class="nav-links">
+            <button class="nav-btns"><img src="assets/bed.png" style="width: 20px"><i class="fa-solid fa-bed"></i>Stays</button>
+            <button class="nav-btns"><img src="assets/plane.png" style="width: 20px"><i class="fa-solid fa-plane"></i>Flights</button>
+            <button class="nav-btns"><img src="assets/car.png" style="width: 20px"><i class="fa-solid fa-car"></i>Car Rentals</button>
+            <button class="nav-btns"><img src="assets/mountain.png" style="width: 20px"><i class="fa-solid fa-landmark"></i>Attractions</button>
+        </nav>
+    </div>
+</header>
+
+&lt;!&ndash; Banner Section &ndash;&gt;
+<section class="banner">
+    <h1>Find your next stay</h1>
+    <h2>Search deals on hotels, homes, and much more...</h2>
+
+    &lt;!&ndash; Search Bar &ndash;&gt;
+    <div class="search-bar">
+        <input type="text" placeholder="Colombo" />
+        <input type="text" placeholder="Wed, Feb 19 – Thu, Feb 20" />
+        <input type="text" placeholder="2 adults · 1 room" />
+        <button>Search</button>
+    </div>
+</section>
+</body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Dion.com</title>
+
+    <!-- Font Awesome for icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            integrity="sha512-acmR6M5tzI4Zew+O2ZbK+rT1/XgqWkLZ1ir+gVZ6PdW7ShDZhQzy6f8N4oXEmZ8MtqJo0HW9zRFlCL7Wq0Y4+Q=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
+
+        /* Header + Top Bar */
+        .header {
+            background-color: #003580;
+            color: #fff;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .logo {
+            height: 60px;
+            margin-left: 50px;
+        }
+        .user-actions a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 0.95rem;
+        }
+        .user-actions > a.nav-useractions {
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+        .user-actions > a.nav-useractions:nth-child(2),
+        .user-actions > a.nav-useractions:last-child {
+            background-color: #005999;
+        }
+        .user-actions > a.nav-useractions:hover {
+            background-color: #28a1c9;
+            border-radius: 10px;
+        }
+        .user-actions > a.nav-useractions:first-child:hover {
+            color: #79ceed!important;
+            background-color: #003580;
+        }
+
+        /* Navigation */
+        .nav-links-container {
+            background-color: #003580;
+            display: flex;
+            justify-content: left;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            padding: 10px 0;
+            margin-left: 50px;
+        }
+        .nav-btns {
+            background-color: transparent;
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 15px 20px;
+            transition: background-color 0.2s;
+        }
+        .nav-btns:hover {
+            background-color: #005999;
+            border-radius: 40px;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: border 0.2s;
+        }
+        .nav-links a:hover {
+            border: 1px solid #fff;
+        }
+
+        /* Banner */
+        .banner {
+            background-color: #003580;
+            color: white;
+            text-align: left;
+            padding: 50px 20px;
+            position: relative; /* needed for absolute .search-bar */
+        }
+        .banner h1 {
+            margin-bottom: 10px;
+            margin-left: 50px;
+            font-size: 3rem;
+            font-weight: 1000;
+        }
+        .banner h2 {
+            font-weight: 400;
+            font-size: 1.4rem;
+            margin-left: 50px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            position: absolute;
+            left: 50%;
+            bottom: -40px;              /* moves it partly below the banner */
+            transform: translateX(-50%);
+            display: flex;
+            overflow: hidden;           /* ensure vertical lines are full height */
+            border: 3px solid #FFC72C;  /* yellow outer border */
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 888px;
+        }
+        /* Each child is a separate "column" with a full-height divider */
+        .search-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            flex: 1;             /* all columns share space equally */
+            position: relative;
+        }
+        /* Full vertical line for all items except the first */
+        .search-item:not(:first-child) {
+            border-left: 2px solid #FFC72C;
+        }
+        /* Icon inside the item (optional) */
+        .search-item i {
+            margin-right: 10px;
+            color: #000; /* or #003580 if you want brand color icons */
+        }
+        /* Text fields */
+        .search-item input {
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            flex: 1;               /* fill remaining space */
+            /*background-color: #f7f7f7;*/
+            border-radius: 4px;
+            padding: 10px;
+        }
+        /* Button */
+        .search-item button {
+            border: none;
+            outline: none;
+            background-color: #0071c2;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 10px 20px;
+        }
+        .search-item button:hover {
+            background-color: #005999;
+        }
+
+        /*---*/
+        .after-banner-body{
+            margin-top: 80px;
+            margin-left: 50px;
+        }
+
+        .offers-section{
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .offer-card{
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .offer-button{
+            background-color: #0071c2;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .offer-button:hover{
+            background-color: #005999;
+        }
+
+        .offer-img{
+            width: 200px;
+            height: auto;
+            border-radius: 6px;
+            object-fit: cover;
+            display: block;
+        }
+
+        @media (max-width: 767px) {
+            .search-bar {
+                position: static;
+                transform: none;
+                margin: 0 auto;
+                flex-direction: column;
+                width: 90%;
+            }
+            .search-item:not(:first-child) {
+                border-left: none;             /* remove vertical line */
+                border-top: 2px solid #FFC72C; /* horizontal line instead */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .offer-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .offer-image img {
+                width: 100% !important;
+                max-width: 400px;
+                margin: 20px auto 0;
+            }
+        }
+
+
+        /*---*/
+        .property-destination {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        /* ---- PROPERTY GRID (4 items) ---- */
+        .property-destination {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        /* ---- PROPERTY GRID (4 items) ---- */
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .property-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .property-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .property-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .property-item p {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+
+        /* ---- TRENDING DESTINATIONS (5 items) ---- */
+        .destination-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Each row is its own grid */
+        .destination-row {
+            display: grid;
+            gap: 15px;
+        }
+
+        .first-row {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .second-row {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .destination-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .destination-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .destination-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Caption: White text at the top-left */
+        .location-name {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #fff;
+            font-size: 24px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        /* ---- RESPONSIVE BREAKPOINT ---- */
+        @media (max-width: 768px) {
+            .first-row, .second-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /*---why booking---*/
+        .why-booking {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+        }
+        .why-booking .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .why-booking h2 {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        /* Two-column Grid with 50px gap */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        /* Feature Box Styles */
+        .feature-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+        .feature-box:hover {
+            transform: translateY(-5px);
+        }
+        .feature-box i {
+            color: #007bff;
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        .feature-box h4 {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .feature-box p {
+            color: #555;
+        }
+        /* Responsive: Stack in one column on small screens */
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /*--Youtube--*/
+        .youtube-video {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh; /* Full screen height */
+            background-color: black;
+        }
+
+        .youtube-video iframe {
+            width: 90%;  /* 90% of the screen width */
+            max-width: 1060px; /* Max width for better view */
+            height: 500px; /* Adjust as needed */
+        }
+
+
+        /*popular*/
+        .popular-sri-lanka {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            padding: 30px 40px;
+            /* Adjust as needed for your layout */
+        }
+
+        /* Section Heading */
+        .popular-sri-lanka h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* --- Tabs Navigation --- */
+        .nav-tabs ul {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .nav-tabs li a {
+            text-decoration: none;
+            font-size: 0.875rem;
+            color: #333;
+            padding: 5px 0;
+        }
+        /* Highlight the active tab */
+        .nav-tabs li a.active {
+            border-bottom: 2px solid #0071c2;
+            color: #0071c2;
+        }
+
+        /* --- Tab Content Panels --- */
+        .tab-content {
+            display: none; /* hidden by default */
+        }
+        .tab-content.active {
+            display: block; /* only the active panel is shown */
+        }
+
+        /* --- Destination Columns (5 columns) --- */
+        .destinations {
+            display: grid;
+            grid-template-columns: repeat(5, auto);
+            gap: 20px; /* space between columns */
+            margin-bottom: 10px;
+        }
+        .destinations ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .destinations li {
+            margin-bottom: 6px;
+        }
+        .destinations a {
+            color: #666666;      /* Booking.com brand color */
+            font-size: 0.775rem; /* ~14px */
+            text-decoration: none;
+        }
+        .destinations a:hover {
+            color: #007bff;
+        }
+
+
+        /* --- Footer Links --- */
+        .footer-links {
+            margin-top: 20px;
+        }
+        .footer-links p {
+            margin: 0;
+            font-size: 0.775rem;
+            color: #666666;
+            line-height: 1.6;
+        }
+        .footer-links a {
+            color: #666666;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            color: #007bff;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 768px) {
+            .destinations {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+        @media (max-width: 480px) {
+            .destinations {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        /* Footer Container */
+        .booking-footer {
+            background-color: #f0f0f0;
+            padding: 30px 40px;
+            font-family: Arial, sans-serif;
+            color: black;
+            font-size: 14px;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Top Row (5 Columns) */
+        .footer-top {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;          /* spacing between columns */
+            margin-bottom: 20px;
+        }
+        .footer-column {
+            flex: 1;
+            min-width: 180px;  /* ensures columns don’t shrink too small */
+        }
+        .footer-column h4 {
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .footer-column ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .footer-column li {
+            margin-bottom: 6px;
+        }
+        .footer-column a {
+            text-decoration: none;
+            color: black;
+        }
+        .footer-column a:hover {
+            text-decoration: underline;
+        }
+
+        /* Bottom Row */
+        .footer-bottom {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            text-align: center;
+            color: #666666;
+        }
+        .footer-locale {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .footer-locale img {
+            height: 16px;
+            margin-right: 5px;
+        }
+        .footer-note,
+        .footer-copyright {
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        /* Responsive for smaller screens */
+        @media (max-width: 768px) {
+            .footer-column {
+                flex: 1 1 50%;
+            }
+        }
+        @media (max-width: 480px) {
+            .footer-column {
+                flex: 1 1 100%;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+    <div class="top-bar">
+        <img src="assets/icons/bookinglogowhite.png" alt="Booking.com Logo" class="logo" />
+        <div class="user-actions">
+            <a href="#" class="nav-useractions">List your property</a>
+            <a href="#" class="nav-useractions">Register</a>
+            <a href="#" class="nav-useractions">Sign in</a>
+        </div>
+    </div>
+    <div class="nav-links-container">
+        <nav class="nav-links">
+            <button class="nav-btns">
+                <img src="assets/icons/bed.png" style="width: 20px" />
+                <i class="fa-solid fa-bed"></i> Stays
+            </button>
+            <button class="nav-btns">
+                <img src="assets/icons/plane.png" style="width: 20px" />
+                <i class="fa-solid fa-plane"></i> Flights
+            </button>
+            <button class="nav-btns">
+                <img src="assets/icons/car.png" style="width: 20px" />
+                <i class="fa-solid fa-car"></i> Car Rentals
+            </button>
+            <button class="nav-btns">
+                <img src="assets/icons/mountain.png" style="width: 20px" />
+                <i class="fa-solid fa-landmark"></i> Attractions
+            </button>
+        </nav>
+    </div>
+</header>
+
+<!-- Banner -->
+<section class="banner">
+    <h1>Find your next stay</h1>
+    <h2>Search deals on hotels, homes, and much more...</h2>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <!-- 1) Destination -->
+        <div class="search-item">
+            <i class="fa fa-bed"></i>
+            <input type="text" placeholder="Where are you going?" />
+        </div>
+
+        <!-- 2) Dates -->
+        <div class="search-item">
+            <i class="fa fa-calendar"></i>
+            <input type="text" placeholder="Check-in Date — Check-out Date" />
+        </div>
+
+        <!-- 3) Guests -->
+        <div class="search-item">
+            <i class="fa fa-user"></i>
+            <input type="text" placeholder="2 adults · 0 children · 1 room" />
+        </div>
+
+        <!-- 4) Button -->
+        <div class="search-item">
+            <button>Search</button>
+        </div>
+    </div>
+</section>
+
+<section class="after-banner-body">
+    <!--checkbox-->
+    <div class="checkbox">
+        <input type="checkbox" id="cBox" name="cBox" value="home">
+        <label for="cBox"> I'm looking for an entire home or apartment</label><br>
+    </div>
+</section>
+
+<section class="offers-section">
+    <!-- Heading & Subheading -->
+    <h2 style="font-size: 1.8rem;margin-bottom: 5px;">Offers</h2>
+    <p style="font-size: 1rem;color: #666;margin-bottom: 20px;">Promotions, deals, and special offers for you</p>
+
+    <!-- Offer Card -->
+    <div class="offer-card">
+        <!-- Text Section -->
+        <div class="offer-text" style="flex: 1;">
+            <h3 style="margin-top: 0; margin-bottom: 10px; font-size: 1.4rem;">
+                Save on stays worldwide
+            </h3>
+            <p style="margin: 0 0 15px; color: #333;">
+                Start your year with an adventure, saving 15% or more with Early 2025 Deals.
+            </p>
+            <button class="offer-button">
+                Save 15% or more
+            </button>
+        </div>
+
+        <!-- Image Section -->
+        <div class="offer-image" style="flex-shrink: 0;">
+            <img src="assets/images/travel1.jpg" class="offer-img" alt="Travel offer"/>
+        </div>
+    </div>
+</section>
+
+<section class="property-destination">
+    <h2>Browse by property type</h2>
+    <div class="property-grid">
+        <div class="property-item">
+            <img src="assets/images/hotel1.jpg" alt="Hotels">
+            <p>Hotels</p>
+        </div>
+        <div class="property-item">
+            <img src="assets/images/appartement1.jpg" alt="Apartments">
+            <p>Apartments</p>
+        </div>
+        <div class="property-item">
+            <img src="assets/images/resort1.jpg" alt="Resorts">
+            <p>Resorts</p>
+        </div>
+        <div class="property-item">
+            <img src="assets/images/villa1.jpeg" alt="Villas">
+            <p>Villas</p>
+        </div>
+    </div>
+
+    <h2>Trending destinations</h2>
+
+    <div class="destination-grid">
+        <div class="destination-row first-row">
+            <div class="destination-item">
+                <img src="assets/images/kandy.jpg" alt="Kandy">
+                <span class="location-name">Kandy 🇱🇰</span>
+            </div>
+            <div class="destination-item">
+                <img src="assets/images/colombo2.jpg" alt="Colombo">
+                <span class="location-name">Colombo 🇱🇰</span>
+            </div>
+        </div>
+        <div class="destination-row second-row">
+            <div class="destination-item">
+                <img src="assets/images/nuwaraeliya.jpg" alt="Nuwara Eliya">
+                <span class="location-name">Nuwara Eliya 🇱🇰</span>
+            </div>
+            <div class="destination-item">
+                <img src="assets/images/dubai2.jpg" alt="Dubai">
+                <span class="location-name">Dubai 🇦🇪</span>
+            </div>
+            <div class="destination-item">
+                <img src="assets/images/ella.jpg" alt="Ella">
+                <span class="location-name">Ella 🇱🇰</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--why use booking-->
+<section class="why-booking">
+    <div class="container">
+        <h2>Why Use Booking.com?</h2>
+        <div class="features-grid">
+            <div class="feature-box">
+                <i class="fas fa-dollar-sign"></i>
+                <h4>Best Price Guarantee</h4>
+                <p>We offer competitive prices with no hidden fees.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-globe"></i>
+                <h4>Worldwide Availability</h4>
+                <p>Over 2 million properties in 220+ countries.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-lock"></i>
+                <h4>Secure &amp; Reliable</h4>
+                <p>Safe transactions and trusted reviews from real users.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-user-check"></i>
+                <h4>24/7 Customer Support</h4>
+                <p>Get assistance anytime, anywhere.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-handshake"></i>
+                <h4>Flexible Booking Options</h4>
+                <p>Free cancellations and easy modifications.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-star"></i>
+                <h4>Millions of Reviews</h4>
+                <p>Real guest reviews to help you make the best choice.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--youtube video-->
+<section class="youtube-video">
+    <iframe
+            id="autoplay-video"
+            width="100%"
+            height="500"
+            src="https://www.youtube.com/embed/laBjQ9uJDg8?si=RBieS6TLACPTu30J&autoplay=1&mute=1"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+    </iframe>
+</section>
+
+<section class="popular-sri-lanka">
+    <!-- Heading -->
+    <h2>Popular with travelers from Sri Lanka</h2>
+
+    <!-- Tabs -->
+    <nav class="nav-tabs">
+        <ul>
+            <li><a href="#domestic" class="tab-link active">Domestic cities</a></li>
+            <li><a href="#international" class="tab-link">International cities</a></li>
+            <li><a href="#regions" class="tab-link">Regions</a></li>
+            <li><a href="#countries" class="tab-link">Countries</a></li>
+            <li><a href="#places" class="tab-link">Places to stay</a></li>
+        </ul>
+    </nav>
+
+    <!-- DOMESTIC CITIES CONTENT (shown by default) -->
+    <div id="domestic" class="tab-content active">
+        <div class="destinations">
+            <ul>
+                <li><a href="#">Kandy hotels</a></li>
+                <li><a href="#">Anuradhapura</a></li>
+                <li><a href="#">Arugam Bay hotels</a></li>
+                <li><a href="#">Dambulla hotels</a></li>
+                <li><a href="#">Welligama hotels</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Nuwara Eliya hotels</a></li>
+                <li><a href="#">Negombo hotels</a></li>
+                <li><a href="#">Polonnaruwa</a></li>
+                <li><a href="#">Haputale</a></li>
+                <li><a href="#">Ahangama hotels</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Colombo hotels</a></li>
+                <li><a href="#">Trincomalee hotels</a></li>
+                <li><a href="#">Pasikudah</a></li>
+                <li><a href="#">Tangalle</a></li>
+                <li><a href="#">Badulla hotels</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Ella hotels</a></li>
+                <li><a href="#">Sigiriya hotels</a></li>
+                <li><a href="#">Mirissa hotels</a></li>
+                <li><a href="#">Hikkaduwa hotels</a></li>
+                <li><a href="#">Udawalawe hotels</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Tissamaharama hotels</a></li>
+                <li><a href="#">Hambantota</a></li>
+                <li><a href="#">Dickwella</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- INTERNATIONAL CITIES CONTENT -->
+    <div id="international" class="tab-content">
+        <div class="destinations">
+            <ul>
+                <li><a href="#">United Arab Emirates</a></li>
+                <li><a href="#">Bangkok hotels</a></li>
+                <li><a href="#">Auckland hotels</a></li>
+                <li><a href="#">Abu Dhabi hotels</a></li>
+                <li><a href="#">Rome hotels</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Kuala Lumpur hotels</a></li>
+                <li><a href="#">Frankfurt hotels</a></li>
+                <li><a href="#">Germany</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Singapore hotels</a></li>
+                <li><a href="#">Toronto hotels</a></li>
+                <li><a href="#">Hong Kong hotels</a></li>
+                <li><a href="#">China</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Seoul hotels</a></li>
+                <li><a href="#">Muscat hotels</a></li>
+                <li><a href="#">Istanbul hotels</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Ho Chi Minh City hotels</a></li>
+                <li><a href="#">London hotels</a></li>
+                <li><a href="#">Tokyo hotels</a></li>
+                <li><a href="#">New Delhi hotels</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- REGIONS CONTENT -->
+    <div id="regions" class="tab-content">
+        <div class="destinations">
+            <ul>
+                <li><a href="#">Kandy District</a></li>
+                <li><a href="#">Nuwaraeliya District</a></li>
+                <li><a href="#">Badulla District</a></li>
+                <li><a href="#">Phuket Province</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Colombo District</a></li>
+                <li><a href="#">Anuradhapura District</a></li>
+                <li><a href="#">Kurunegala District</a></li>
+                <li><a href="#">Delhi</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Dubai Emirate</a></li>
+                <li><a href="#">Maldives</a></li>
+                <li><a href="#">Toronto hotels</a></li>
+                <li><a href="#">Sinharaja Forest Reserve</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Galle District</a></li>
+                <li><a href="#">Bali</a></li>
+                <li><a href="#">Istanbul hotels</a></li>
+                <li><a href="#">Shanghai Area</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Yala National Park</a></li>
+                <li><a href="#">Trincomalee District</a></li>
+                <li><a href="#">Wilpattu National Park</a></li>
+                <li><a href="#">New Delhi hotels</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- COUNTRIES CONTENT -->
+    <div id="countries" class="tab-content">
+        <div class="destinations">
+            <ul>
+                <li><a href="#">Sri Lanka</a></li>
+                <li><a href="#">Thailand</a></li>
+                <li><a href="#">Canada</a></li>
+                <li><a href="#">Italy</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">United Arab Emirates</a></li>
+                <li><a href="#">Germany</a></li>
+                <li><a href="#">South Africa</a></li>
+                <li><a href="#">Maldives</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">United Kingdom</a></li>
+                <li><a href="#">Singapore</a></li>
+                <li><a href="#">Australia</a></li>
+                <li><a href="#">New Zealand</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Malaysia</a></li>
+                <li><a href="#">France</a></li>
+                <li><a href="#">Vietnam</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Japan</a></li>
+                <li><a href="#">India</a></li>
+                <li><a href="#">United States</a></li>
+                <li><a href="#">Oman</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PLACES CONTENT -->
+    <div id="places" class="tab-content">
+        <div class="destinations">
+            <ul>
+                <li><a href="#">Cheap Hotels</a></li>
+                <li><a href="#">Apartments</a></li>
+                <li><a href="#">Luxury Hotels</a></li>
+                <li><a href="#">4-Star Hotels</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Villas</a></li>
+                <li><a href="#">Resorts</a></li>
+                <li><a href="#">Cottages</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Guest hotels</a></li>
+                <li><a href="#">Hotels with Pools</a></li>
+                <li><a href="#">Romantic hotels</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Hostels</a></li>
+                <li><a href="#">Homestays</a></li>
+                <li><a href="#">Family hotels</a></li>
+            </ul>
+            <ul>
+                <li><a href="#">Beach hotels</a></li>
+                <li><a href="#">5-star hotels</a></li>
+                <li><a href="#">B&Bs</a></li>
+                <li><a href="#">Spa hotels</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer Links -->
+    <div class="footer-links">
+        <p>
+            <a href="#">Countries</a> .
+            <a href="#">Regions</a> .
+            <a href="#">Cities</a> .
+            <a href="#">Districts</a>  .
+            <a href="#">Airports</a> .
+            <a href="#">Hotels</a> .
+            <a href="#">Places of interest</a> .
+            <a href="#">Vacation Homes</a> .
+            <a href="#">Apartments</a> .
+            <a href="#">Resorts</a> .
+            <a href="#">Villas</a> .
+            <a href="#">B&amp;Bs</a> .
+            <a href="#">Guest houses</a> .
+            <a href="#">Unique places to stay</a> .
+            <a href="#">All destinations</a> .
+            <a href="#">All flight destinations</a> .
+            <a href="#">All car rental locations</a> .
+            <a href="#">All vacation destinations</a> .
+            <a href="#">Discover</a>
+        </p>
+    </div>
+</section>
+
+<!--Footer-->
+<footer class="booking-footer">
+    <div class="footer-container">
+        <!-- Top row with 5 columns -->
+        <div class="footer-top">
+            <!-- Column 1: Support -->
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Coronavirus (COVID-19) FAQs</a></li>
+                    <li><a href="#">Manage your trips</a></li>
+                    <li><a href="#">Contact Customer Service</a></li>
+                    <li><a href="#">Safety Resource Center</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 2: Discover -->
+            <div class="footer-column">
+                <h4>Discover</h4>
+                <ul>
+                    <li><a href="#">Genius loyalty program</a></li>
+                    <li><a href="#">Seasonal and holiday deals</a></li>
+                    <li><a href="#">Travel articles</a></li>
+                    <li><a href="#">Booking.com for Business</a></li>
+                    <li><a href="#">Traveller Review Awards</a></li>
+                    <li><a href="#">Car rental</a></li>
+                    <li><a href="#">Flight finder</a></li>
+                    <li><a href="#">Restaurant reservations</a></li>
+                    <li><a href="#">Booking.com for Travel Agents</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Terms and settings -->
+            <div class="footer-column">
+                <h4>Terms and settings</h4>
+                <ul>
+                    <li><a href="#">Privacy &amp; cookies</a></li>
+                    <li><a href="#">Terms &amp; conditions</a></li>
+                    <li><a href="#">Partner dispute</a></li>
+                    <li><a href="#">Modern Slavery Statement</a></li>
+                    <li><a href="#">Human Rights Statement</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Partners -->
+            <div class="footer-column">
+                <h4>Partners</h4>
+                <ul>
+                    <li><a href="#">Add your property</a></li>
+                    <li><a href="#">Partner help</a></li>
+                    <li><a href="#">List your property</a></li>
+                    <li><a href="#">Become an affiliate</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 5: About Booking.com -->
+            <div class="footer-column">
+                <h4>About Booking.com</h4>
+                <ul>
+                    <li><a href="#">How We Work</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                    <li><a href="#">Press center</a></li>
+                    <li><a href="#">Investor relations</a></li>
+                    <li><a href="#">Corporate contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Bottom row -->
+        <div class="footer-bottom">
+            <p class="footer-note">
+                Booking.com is part of Booking Holdings Inc., the world leader in online travel and related services.
+            </p>
+            <p class="footer-copyright">
+                &copy; 1996–2025 Booking.com™. All rights reserved.
+            </p>
+        </div>
+    </div>
+</footer>
+
+
+
+<!-------------------------------------->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let video = document.getElementById("autoplay-video");
+        let videoLoaded = false; // Prevent multiple reloads
+
+        function checkVideoVisibility() {
+            let rect = video.getBoundingClientRect();
+            let windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+            if (rect.top >= 0 && rect.bottom <= windowHeight && !videoLoaded) {
+                videoLoaded = true;
+                video.src += "&autoplay=1&mute=1"; // Autoplay & mute
+            }
+        }
+
+        window.addEventListener("scroll", checkVideoVisibility);
+        checkVideoVisibility(); // Initial check in case the video is already visible
+    });
+</script>
+
+
+<!-- Simple Tab Toggle Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                // Remove 'active' from all links
+                tabLinks.forEach(l => l.classList.remove('active'));
+                // Hide all tab-content sections
+                tabContents.forEach(tc => tc.classList.remove('active'));
+
+                // Mark the clicked link as active
+                link.classList.add('active');
+                // Show the target content
+                const target = document.querySelector(link.getAttribute('href'));
+                target.classList.add('active');
+            });
+        });
+    });
+</script>
+
+
+</body>
+</html>
+
