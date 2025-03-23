@@ -339,6 +339,159 @@
             }
         }
 
+        /* --- Section 1: Deal Section --- */
+        .deal-section {
+            background-color: #fff;
+            padding: 40px 20px;
+            text-align: left;
+        }
+
+        /* Section Heading */
+        .deal-heading {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #343a40; /* Adjust color if needed */
+        }
+
+        /* Box Container */
+        .deal-box {
+            background-color: #f8f9fa; /* Light gray background */
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap; /* For responsiveness */
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Left Side Content */
+        .deal-box-left {
+            flex: 1; /* Takes remaining space if you have a right image */
+            min-width: 240px;
+        }
+
+        .deal-box-left h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .deal-box-left p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        /* Button Container */
+        .deal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Buttons */
+        .btn {
+            cursor: pointer;
+            border: none;
+            outline: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .sign-in-btn {
+            background-color: #0071c2;
+            color: #fff;
+        }
+
+        .sign-in-btn:hover {
+            background-color: #005999;
+        }
+
+        .register-btn {
+            background-color: #fff;
+            border: 2px solid #0071c2;
+            color: #0071c2;
+        }
+
+        .register-btn:hover {
+            background-color: #f0f0f0;
+            color: #005999;
+        }
+
+        /* Right Side (Optional) */
+        .deal-box-right {
+            flex: 0 0 auto;
+            /* Adjust size or styling as needed */
+        }
+        .deal-box-right img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        /* --- Section 2: Feature Highlights --- */
+        .feature-highlights {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 30px 20px;
+            background-color: #fff;
+            text-align: center;
+            flex-wrap: wrap; /* Make columns wrap on smaller screens */
+        }
+
+        /* Each Feature Box */
+        .feature {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            flex: 1 1 30%; /* 3 columns on wide screens */
+            min-width: 200px;
+            padding: 20px;
+            margin: 0 auto;
+        }
+
+        /* Icon in each Feature */
+        .feature img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+        }
+
+        /* Feature Titles */
+        .feature h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        /* Feature Paragraph */
+        .feature p {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* --- Responsive Breakpoints --- */
+        @media (max-width: 768px) {
+            .deal-heading {
+                font-size: 1.5rem;
+            }
+            .deal-box {
+                flex-direction: column; /* Stack content on smaller screens */
+            }
+            .feature-highlights {
+                flex-direction: column;
+                align-items: center;
+            }
+            .feature {
+                flex: 1 1 100%; /* Each feature takes full width */
+                max-width: 400px;
+                margin-bottom: 20px;
+            }
+        }
+
+
         /* --- Footer Links --- */
         .footer-links {
             margin-top: 20px;
@@ -594,6 +747,52 @@
     </div>
 
 </section>
+
+<!-- Travel More, Spend Less Section -->
+<section class="deal-section">
+    <h2 class="deal-heading">Travel more, spend less</h2>
+
+    <div class="deal-box">
+        <div class="deal-box-left">
+            <h3>Sign in, save money</h3>
+            <p>Save 10% on select rental cars – just look for the blue Genius label</p>
+            <div class="deal-buttons">
+                <button class="btn sign-in-btn">Sign in</button>
+                <button class="btn register-btn">Register</button>
+            </div>
+        </div>
+        <!-- Optional right-side illustration or icon if needed
+             <div class="deal-box-right">
+                 <img src="PATH/TO/YOUR/GENIUS-ICON.png" alt="Genius Icon" />
+             </div>
+        -->
+    </div>
+</section>
+
+<!-- Feature Highlights Section -->
+<section class="feature-highlights">
+    <div class="feature">
+        <!-- Replace with your own icon/image -->
+        <img src="https://via.placeholder.com/80" alt="Support Icon" />
+        <h4>We’re here for you</h4>
+        <p>Customer support in over 30 languages</p>
+    </div>
+
+    <div class="feature">
+        <!-- Replace with your own icon/image -->
+        <img src="https://via.placeholder.com/80" alt="Cancellation Icon" />
+        <h4>Free cancellation</h4>
+        <p>Up to 48 hours before pickup, on most bookings</p>
+    </div>
+
+    <div class="feature">
+        <!-- Replace with your own icon/image -->
+        <img src="https://via.placeholder.com/80" alt="Reviews Icon" />
+        <h4>5 million+ reviews</h4>
+        <p>By real, verified customers</p>
+    </div>
+</section>
+
 
 
 <!--Footer-->
