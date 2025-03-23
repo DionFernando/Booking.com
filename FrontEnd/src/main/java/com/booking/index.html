@@ -295,8 +295,12 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 15px 20px;
+            padding: 12px 20px;
             transition: background-color 0.2s;
+        }
+        .nav-btns:first-child{
+            background-color: #005999;
+            border: 1px solid white;
         }
         .nav-btns:hover {
             background-color: #005999;
@@ -1014,6 +1018,51 @@
                 <p>Free cancellations and easy modifications.</p>
             </div>
             <div class="feature-box">
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let video = document.getElementById("autoplay-video");
+        let videoLoaded = false; // Prevent multiple reloads
+
+        function checkVideoVisibility() {
+            let rect = video.getBoundingClientRect();
+            let windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+            if (rect.top >= 0 && rect.bottom <= windowHeight && !videoLoaded) {
+                videoLoaded = true;
+                video.src += "&autoplay=1&mute=1"; // Autoplay & mute
+            }
+        }
+
+        window.addEventListener("scroll", checkVideoVisibility);
+        checkVideoVisibility(); // Initial check in case the video is already visible
+    });
+</script>
+
+<!-- Simple Tab Toggle Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                // Remove 'active' from all links
+                tabLinks.forEach(l => l.classList.remove('active'));
+                // Hide all tab-content sections
+                tabContents.forEach(tc => tc.classList.remove('active'));
+
+                // Mark the clicked link as active
+                link.classList.add('active');
+                // Show the target content
+                const target = document.querySelector(link.getAttribute('href'));
+                target.classList.add('active');
+            });
+        });
+    });
+</script>
                 <i class="fas fa-star"></i>
                 <h4>Millions of Reviews</h4>
                 <p>Real guest reviews to help you make the best choice.</p>

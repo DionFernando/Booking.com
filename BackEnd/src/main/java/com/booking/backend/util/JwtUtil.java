@@ -25,7 +25,6 @@ public class JwtUtil implements Serializable {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    // Retrieve username from JWT token
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
@@ -34,7 +33,6 @@ public class JwtUtil implements Serializable {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
 
-    // Retrieve expiration date from JWT token
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
@@ -44,25 +42,21 @@ public class JwtUtil implements Serializable {
         return claimsResolver.apply(claims);
     }
 
-    // Retrieve any information from token using the secret key
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
 
-    // Check if the token has expired
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
 
-    // Generate token for user
     public String generateToken(RegisterDTO userDTO) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", userDTO.getRole());
         return doGenerateToken(claims, userDTO.getEmail());
     }
 
-    // Create the token with claims, subject, and expiration
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
@@ -73,7 +67,6 @@ public class JwtUtil implements Serializable {
                 .compact();
     }
 
-    // Validate token
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));

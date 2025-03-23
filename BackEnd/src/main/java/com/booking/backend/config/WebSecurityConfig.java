@@ -102,7 +102,6 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // Configure the authentication provider using your renamed register service.
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
