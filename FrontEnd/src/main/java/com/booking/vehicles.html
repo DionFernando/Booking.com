@@ -138,10 +138,10 @@
             border-radius: 10px;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 80%;
-            max-width: 888px;
+            width: 60%;
+            max-width: 600px;
         }
-        /* Each child is a separate "column" with a full-height divider */
+
         .search-item {
             display: flex;
             align-items: center;
@@ -149,26 +149,35 @@
             flex: 1;             /* all columns share space equally */
             position: relative;
         }
+
         /* Full vertical line for all items except the first */
         .search-item:not(:first-child) {
             border-left: 2px solid #FFC72C;
         }
-        /* Icon inside the item (optional) */
+
+        /* Icon styles */
         .search-item i {
             margin-right: 10px;
-            color: #000; /* or #003580 if you want brand color icons */
+            color: #000;
         }
-        /* Text fields */
-        .search-item input {
+
+        /* Combo box (select element) styling */
+        .search-item select {
             border: none;
             outline: none;
             font-size: 1rem;
-            flex: 1;               /* fill remaining space */
-            /*background-color: #f7f7f7;*/
-            border-radius: 4px;
+            flex: 1;
             padding: 10px;
+            appearance: none; /* removes default styling */
+            background-color: transparent;
         }
-        /* Button */
+
+        /* Remove default arrow in some browsers */
+        .search-item select::-ms-expand {
+            display: none;
+        }
+
+        /* Button styling */
         .search-item button {
             border: none;
             outline: none;
@@ -176,18 +185,18 @@
             color: #fff;
             font-size: 1rem;
             cursor: pointer;
-            border-radius: 4px;
             padding: 10px 20px;
+            /* Ensure same height as the select by using padding consistently */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+
         .search-item button:hover {
             background-color: #005999;
         }
 
-        .after-banner-body{
-            margin-top: 80px;
-            margin-left: 50px;
-        }
-
+        /* Responsive adjustments for the search bar */
         @media (max-width: 767px) {
             .search-bar {
                 position: static;
@@ -198,9 +207,10 @@
             }
             .search-item:not(:first-child) {
                 border-left: none;             /* remove vertical line */
-                border-top: 2px solid #FFC72C; /* horizontal line instead */
+                border-top: 2px solid #FFC72C;   /* horizontal line instead */
             }
         }
+
 
         /*--Vehcile Types--*/
         .vehicle-types {
@@ -254,6 +264,37 @@
             margin-left: 50px;
             margin-top: 40px;
             font-size: 1.5rem;
+        }
+
+
+        #view-more{
+            padding: 10px 20px;
+            font-size: 0.8rem!important;
+            background-color: white;
+            color: black;
+            border: none;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        #view-less{
+            padding: 10px 20px;
+            font-size: 0.8rem!important;
+            background-color: white;
+            color: black;
+            border: none;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        #view-more:hover{
+            background-color: #f7f7f7;
+        }
+
+        #view-less:hover{
+            background-color: #f7f7f7;
         }
 
         /* Responsive adjustments */
@@ -419,31 +460,30 @@
 </header>
 
 <!-- Banner -->
+<!-- Banner -->
 <section class="banner">
     <h1>Car rentals for any kind of trip</h1>
     <h2>Great cars at great prices from the biggest rental companies</h2>
 
     <!-- Search Bar -->
     <div class="search-bar">
-        <!-- 1) Destination -->
+        <!-- Combo Box for Vehicle Type -->
         <div class="search-item">
-            <i class="fa fa-bed"></i>
-            <input type="text" placeholder="Where are you going?" />
+            <i class="fa fa-car"></i>
+            <select>
+                <option value="" disabled selected>Select your vehicle type...</option>
+                <option value="car">Car</option>
+                <option value="van">Van</option>
+                <option value="suv">SUV</option>
+                <option value="minivan">Mini Van</option>
+                <option value="lorry">Lorry</option>
+                <option value="exotic">Exotic Cars</option>
+                <option value="truck">Truck</option>
+                <option value="bike">Bike</option>
+            </select>
         </div>
 
-        <!-- 2) Dates -->
-        <div class="search-item">
-            <i class="fa fa-calendar"></i>
-            <input type="text" placeholder="Check-in Date — Check-out Date" />
-        </div>
-
-        <!-- 3) Guests -->
-        <div class="search-item">
-            <i class="fa fa-user"></i>
-            <input type="text" placeholder="2 adults · 0 children · 1 room" />
-        </div>
-
-        <!-- 4) Button -->
+        <!-- Search Button -->
         <div class="search-item">
             <button>Search</button>
         </div>
@@ -484,7 +524,7 @@
         <img src="assets/images/vehicles/lorry.jpeg" alt="Car">
     </div>
     <div class="vehicle-box">
-        <span class="vehicle-name">SuperCar</span>
+        <span class="vehicle-name">Exotic Cars</span>
         <img src="assets/images/vehicles/supercar.jpg" alt="supercar">
     </div>
     <div class="vehicle-box">
@@ -493,8 +533,56 @@
     </div>
     <div class="vehicle-box">
         <span class="vehicle-name">Bike</span>
-        <img src="assets/images/vehicles/bike.jpeg" alt="Van">
+        <img src="assets/images/vehicles/bike.jpg" alt="Van">
     </div>
+
+    <!-- Additional Vehicle Types (Hidden by default) -->
+    <div id="more-vehicles" style="display: none;">
+        <section class="vehicle-types">
+            <div class="vehicle-box">
+                <span class="vehicle-name">Tuk Tuk</span>
+                <img src="assets/images/vehicles/3whl.jpg" alt="tuktuk">
+            </div>
+            <div class="vehicle-box">
+                <span class="vehicle-name">Jeep</span>
+                <img src="assets/images/vehicles/jeep.jpeg" alt="jeep">
+            </div>
+            <div class="vehicle-box">
+                <span class="vehicle-name">Boat</span>
+                <img src="assets/images/vehicles/boat.jpg" alt="boat">
+            </div>
+            <div class="vehicle-box">
+                <span class="vehicle-name">Bus</span>
+                <img src="assets/images/vehicles/bus.jpg" alt="bus">
+            </div>
+            <div class="vehicle-box">
+                <span class="vehicle-name">Convertible</span>
+                <img src="assets/images/vehicles/covertible.jpg" alt="convertible">
+            </div>
+            <div class="vehicle-box">
+                <span class="vehicle-name">Jet Ski</span>
+                <img src="assets/images/vehicles/jetski.jpg" alt="jetski">
+            </div>
+            <div class="vehicle-box">
+                <span class="vehicle-name">Luxurious Cars</span>
+                <img src="assets/images/vehicles/rolls%20royce.jpg" alt="lux cars">
+            </div>
+            <div class="vehicle-box">
+                <span class="vehicle-name">Pickup Truck</span>
+                <img src="assets/images/vehicles/pickup%20truck.jpg" alt="pickup">
+            </div>
+        </section>
+        <!-- View Less Button -->
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="view-less" style="padding: 10px 20px; font-size: 1rem;">View Less</button>
+        </div>
+    </div>
+
+    <!-- View More Button -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button id="view-more" style="padding: 10px 20px; font-size: 1rem;">View More</button>
+    </div>
+
 </section>
 
 
@@ -623,5 +711,19 @@
         });
     });
 </script>
+
+<script>
+    // Toggle the display of additional vehicles
+    document.getElementById('view-more').addEventListener('click', function() {
+        document.getElementById('more-vehicles').style.display = 'block';
+        this.style.display = 'none';  // hide the View More button
+    });
+
+    document.getElementById('view-less').addEventListener('click', function() {
+        document.getElementById('more-vehicles').style.display = 'none';
+        document.getElementById('view-more').style.display = 'block';  // show the View More button again
+    });
+</script>
+
 </body>
 </html>
