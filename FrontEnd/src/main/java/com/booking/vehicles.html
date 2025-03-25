@@ -297,10 +297,14 @@
         }
 
         .vehicle-box img {
-            width: 100%;
+            width: 80%;
             height: auto;
             display: block;
+            margin: 0 auto;
+            padding-top: 30px;
+            padding-bottom: 30px;
         }
+
 
         #vehi-type-select{
             margin-left: 50px;
@@ -341,23 +345,26 @@
 
         /* --- Section 1: Deal Section --- */
         .deal-section {
-            background-color: #fff;
-            padding: 40px 20px;
+            padding: 0 20px;
             text-align: left;
+            margin-left: 50px;
+            margin-right: 50px;
+            margin-bottom: 40px;
         }
 
         /* Section Heading */
         .deal-heading {
             font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 20px;
-            color: #343a40; /* Adjust color if needed */
+            margin-bottom: 10px;
+            color: #343a40;
         }
 
         /* Box Container */
         .deal-box {
-            background-color: #f8f9fa; /* Light gray background */
-            border-radius: 8px;
+            background-color: white;
+            border: 1px solid lightgray;
+            border-radius: 15px;
             padding: 20px;
             display: flex;
             flex-wrap: wrap; /* For responsiveness */
@@ -367,12 +374,12 @@
 
         /* Left Side Content */
         .deal-box-left {
-            flex: 1; /* Takes remaining space if you have a right image */
+            flex: 1;
             min-width: 240px;
         }
 
         .deal-box-left h3 {
-            font-size: 1.4rem;
+            font-size: 1rem;
             margin-bottom: 10px;
             color: #333;
         }
@@ -394,7 +401,7 @@
             border: none;
             outline: none;
             padding: 10px 20px;
-            border-radius: 4px;
+            border-radius: 20px;
             font-size: 1rem;
             transition: background-color 0.2s;
         }
@@ -422,74 +429,76 @@
         /* Right Side (Optional) */
         .deal-box-right {
             flex: 0 0 auto;
-            /* Adjust size or styling as needed */
         }
         .deal-box-right img {
-            max-width: 150px;
+            max-width: 100px;
             height: auto;
         }
 
         /* --- Section 2: Feature Highlights --- */
         .feature-highlights {
-            display: flex;
+            display: flex;               /* display items in a row */
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             gap: 20px;
-            padding: 30px 20px;
-            background-color: #fff;
-            text-align: center;
-            flex-wrap: wrap; /* Make columns wrap on smaller screens */
+            padding: 0 20px;
+            text-align: left;
+            flex-wrap: nowrap;
+            margin-left: 50px;
+            margin-right: 50px;
+            margin-bottom: 50px;
         }
 
-        /* Each Feature Box */
+        /* Individual Feature Box */
         .feature {
+            display: flex;               /* place icon + text side by side */
+            align-items: center;
+            flex: 1 1 auto;              /* allow each feature to size evenly */
+            gap: 15px;                   /* space between icon and text */
             background-color: #f8f9fa;
             border-radius: 8px;
-            flex: 1 1 30%; /* 3 columns on wide screens */
-            min-width: 200px;
             padding: 20px;
-            margin: 0 auto;
         }
 
-        /* Icon in each Feature */
+        /* Feature Icon */
         .feature img {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 15px;
+            width: 60px;
+            height: 60px;
+            margin-bottom: 0; /* remove default bottom margin */
         }
 
-        /* Feature Titles */
-        .feature h4 {
+        /* Text Container within Each Feature */
+        .feature-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* left-align text */
+        }
+
+        /* Feature Heading */
+        .feature-content h4 {
+            margin: 0;               /* remove default heading margin */
             font-size: 1.2rem;
-            margin-bottom: 10px;
             color: #333;
         }
 
-        /* Feature Paragraph */
-        .feature p {
+        /* Feature Description */
+        .feature-content p {
+            margin: 5px 0 0;         /* small top margin after heading */
             color: #555;
             font-size: 0.95rem;
             line-height: 1.4;
         }
 
-        /* --- Responsive Breakpoints --- */
+        /* Optional: Adjust responsiveness if you’d like them to stack on smaller screens */
         @media (max-width: 768px) {
-            .deal-heading {
-                font-size: 1.5rem;
-            }
-            .deal-box {
-                flex-direction: column; /* Stack content on smaller screens */
-            }
             .feature-highlights {
-                flex-direction: column;
-                align-items: center;
+                flex-wrap: wrap; /* allow wrapping on smaller screens */
             }
             .feature {
-                flex: 1 1 100%; /* Each feature takes full width */
-                max-width: 400px;
-                margin-bottom: 20px;
+                flex: 1 1 100%; /* each feature takes full width in a row */
             }
         }
+
 
 
         /* --- Footer Links --- */
@@ -761,37 +770,41 @@
                 <button class="btn register-btn">Register</button>
             </div>
         </div>
-        <!-- Optional right-side illustration or icon if needed
-             <div class="deal-box-right">
-                 <img src="PATH/TO/YOUR/GENIUS-ICON.png" alt="Genius Icon" />
-             </div>
-        -->
+
+         <div class="deal-box-right">
+             <img src="assets/images/genius.png" alt="Genius Icon" />
+         </div>
     </div>
 </section>
 
 <!-- Feature Highlights Section -->
+<!-- Feature Highlights Section -->
 <section class="feature-highlights">
     <div class="feature">
-        <!-- Replace with your own icon/image -->
-        <img src="https://via.placeholder.com/80" alt="Support Icon" />
-        <h4>We’re here for you</h4>
-        <p>Customer support in over 30 languages</p>
+        <img src="assets/images/support.png" alt="Support Icon" />
+        <div class="feature-content">
+            <h4>We’re here for you</h4>
+            <p>Customer support in over 30 languages</p>
+        </div>
     </div>
 
     <div class="feature">
-        <!-- Replace with your own icon/image -->
-        <img src="https://via.placeholder.com/80" alt="Cancellation Icon" />
-        <h4>Free cancellation</h4>
-        <p>Up to 48 hours before pickup, on most bookings</p>
+        <img src="assets/images/cancellation.png" alt="Cancellation Icon" />
+        <div class="feature-content">
+            <h4>Free cancellation</h4>
+            <p>Up to 48 hours before pickup, on most bookings</p>
+        </div>
     </div>
 
     <div class="feature">
-        <!-- Replace with your own icon/image -->
-        <img src="https://via.placeholder.com/80" alt="Reviews Icon" />
-        <h4>5 million+ reviews</h4>
-        <p>By real, verified customers</p>
+        <img src="assets/images/reviews.png" alt="Reviews Icon" />
+        <div class="feature-content">
+            <h4>5 million+ reviews</h4>
+            <p>By real, verified customers</p>
+        </div>
     </div>
 </section>
+
 
 
 
