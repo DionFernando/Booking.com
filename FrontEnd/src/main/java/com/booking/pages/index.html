@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login / Register</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-align: center;
+        }
+
+
+        body::before { /* Add a semi-transparent overlay */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0, 0.2); /* Adjust transparency */
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            width: 90%; /* Responsive width */
+            max-width: 800px;
+            position: relative; /* Ensure container is above overlay */
+            z-index: 1; /* Ensure container is above overlay */
+            margin: 20px; /* add margin to the container*/
+        }
+
+        .left-side {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .left-side img {
+            max-width: 200px;
+            margin-bottom: 1.5rem;
+        }
+
+        .left-side p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 0.8em;
+        }
+
+        .right-side {
+            flex: 1;
+            padding: 2rem;
+            border-left: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right-side h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+            font-size: 0.8em;
+        }
+
+        .form-group input {
+            width: calc(100% - 24px);
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.8em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #0071c2;
+            outline: none;
+        }
+
+        .form-group button {
+            background-color: #0071c2;
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.8em;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-group button:hover {
+            background-color: #005691;
+        }
+
+        .form-switch {
+            text-align: center;
+        }
+
+        .form-switch a {
+            color: #0071c2;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.8em;
+            transition: color 0.3s ease;
+        }
+
+        .form-switch a:hover {
+            text-decoration: underline;
+            color: #005691;
+        }
+
+        .form-hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                width: 95%; /* Adjust width for smaller screens */
+            }
+
+            .left-side, .right-side {
+                width: 100%;
+                border-left: none;
+            }
+        }
+
+        /* Hide form initially */
+        .container {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+        }
+
+        /* Animation to fade in */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+    </style>
+</head>
+<body>
+<video autoplay loop muted playsinline class="background-video">
+    <source src="../assets/videos/beach.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+<div class="container">
+    <div class="left-side">
+        <img src="../assets/icons/Booking.com_Logo.png" alt="Booking.com Logo" />
+        <p>Unlock exclusive deals and manage your bookings with ease. Join our community of travelers and experience seamless travel planning.</p>
+    </div>
+    <div class="right-side">
+        <div class="form-container" id="loginForm">
+            <h2>Login here!</h2>
+            <form>
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" name="loginEmail" required />
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="loginPassword" required />
+                </div>
+                <div class="form-group">
+                    <button type="submit">Login</button>
+                </div>
+            </form>
+            <div class="form-switch">
+                <a href="#" id="showRegister">Create an account</a>
+            </div>
+        </div>
+
+        <div class="form-container form-hidden" id="registerForm">
+            <h2>Register</h2>
+            <form>
+                <div class="form-group">
+                    <label for="registerName">Name</label>
+                    <input type="text" id="registerName" name="registerName" required />
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" name="registerEmail" required />
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" name="registerPassword" required />
+                </div>
+                <div class="form-group">
+                    <label for="registerRePassword">Re-Enter Password</label>
+                    <input type="password" id="registerRePassword" name="registerRePassword" required />
+                </div>
+                <div class="form-group" style="display: flex; align-items: center; gap: 15px;">
+                    <label for="role">Role</label>
+                    <select id="role" name="role" required style="padding: 8px; border-radius: 6px; border: 1px solid #ddd; color: #666666">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+
+                    <!-- Admin Pin field, initially hidden -->
+                    <div id="adminPinField" style="display: none; align-items: center; gap: 10px;">
+                        <label for="adminPin">Admin Pin</label>
+                        <input type="password" id="adminPin" name="adminPin" style="padding: 8px; width: 100px; border-radius: 6px; border: 1px solid #ddd;" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit">Register</button>
+                </div>
+            </form>
+            <div class="form-switch">
+                <a href="#" id="showLogin">Already have an account?</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Show/hide Admin Pin field based on role selection
+    document.getElementById('role').addEventListener('change', function () {
+        let adminPinField = document.getElementById('adminPinField');
+        if (this.value === 'admin') {
+            adminPinField.style.display = 'flex'; // Show the field when 'Admin' is selected
+        } else {
+            adminPinField.style.display = 'none'; // Hide the field when 'User' is selected
+        }
+    });
+
+    document.getElementById('showRegister').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('loginForm').classList.add('form-hidden');
+        document.getElementById('registerForm').classList.remove('form-hidden');
+    });
+
+    document.getElementById('showLogin').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('registerForm').classList.add('form-hidden');
+        document.getElementById('loginForm').classList.remove('form-hidden');
+    });
+
+    // Admin Pin validation on form submit
+    document.querySelector('#registerForm form').addEventListener('submit', function (e) {
+        let role = document.getElementById('role').value;
+        let adminPin = document.getElementById('adminPin')?.value;
+
+        if (role === 'admin' && adminPin !== '123') {
+            e.preventDefault();
+            alert('Invalid Admin Pin!');
+        }
+    });
+</script>
+
+<script>
+    setTimeout(() => {
+        document.querySelector('.container').style.opacity = '1';
+        document.querySelector('.container').style.transform = 'translateY(0)';
+    }, 10);
+</script>
+
+</body>
+</html>

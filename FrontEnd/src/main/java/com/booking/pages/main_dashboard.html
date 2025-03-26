@@ -840,7 +840,7 @@
 <!-- Header -->
 <header class="header">
     <div class="top-bar">
-        <img src="assets/icons/bookinglogowhite.png" alt="Booking.com Logo" class="logo" />
+        <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo" class="logo" />
         <div class="user-actions">
             <a href="#" class="nav-useractions">List your property</a>
             <a href="#" class="nav-useractions">Register</a>
@@ -850,19 +850,19 @@
     <div class="nav-links-container">
         <nav class="nav-links">
             <button class="nav-btns">
-                <img src="assets/icons/bed.png" style="width: 20px" />
+                <img src="../assets/icons/bed.png" style="width: 20px" />
                 <i class="fa-solid fa-bed"></i> Stays
             </button>
             <button class="nav-btns">
-                <img src="assets/icons/plane.png" style="width: 20px" />
+                <img src="../assets/icons/plane.png" style="width: 20px" />
                 <i class="fa-solid fa-plane"></i> Flights
             </button>
             <button class="nav-btns">
-                <img src="assets/icons/car.png" style="width: 20px" />
+                <img src="../assets/icons/car.png" style="width: 20px" />
                 <i class="fa-solid fa-car"></i> Car Rentals
             </button>
             <button class="nav-btns">
-                <img src="assets/icons/mountain.png" style="width: 20px" />
+                <img src="../assets/icons/mountain.png" style="width: 20px" />
                 <i class="fa-solid fa-landmark"></i> Attractions
             </button>
         </nav>
@@ -931,7 +931,7 @@
 
         <!-- Image Section -->
         <div class="offer-image" style="flex-shrink: 0;">
-            <img src="assets/images/travel1.jpg" class="offer-img" alt="Travel offer"/>
+            <img src="../assets/images/travel1.jpg" class="offer-img" alt="Travel offer"/>
         </div>
     </div>
 </section>
@@ -940,19 +940,19 @@
     <h2>Browse by property type</h2>
     <div class="property-grid">
         <div class="property-item">
-            <img src="assets/images/hotel1.jpg" alt="Hotels">
+            <img src="../assets/images/hotel1.jpg" alt="Hotels">
             <p>Hotels</p>
         </div>
         <div class="property-item">
-            <img src="assets/images/appartement1.jpg" alt="Apartments">
+            <img src="../assets/images/appartement1.jpg" alt="Apartments">
             <p>Apartments</p>
         </div>
         <div class="property-item">
-            <img src="assets/images/resort1.jpg" alt="Resorts">
+            <img src="../assets/images/resort1.jpg" alt="Resorts">
             <p>Resorts</p>
         </div>
         <div class="property-item">
-            <img src="assets/images/villa1.jpeg" alt="Villas">
+            <img src="../assets/images/villa1.jpeg" alt="Villas">
             <p>Villas</p>
         </div>
     </div>
@@ -962,25 +962,25 @@
     <div class="destination-grid">
         <div class="destination-row first-row">
             <div class="destination-item">
-                <img src="assets/images/kandy.jpg" alt="Kandy">
+                <img src="../assets/images/kandy.jpg" alt="Kandy">
                 <span class="location-name">Kandy 🇱🇰</span>
             </div>
             <div class="destination-item">
-                <img src="assets/images/colombo2.jpg" alt="Colombo">
+                <img src="../assets/images/colombo2.jpg" alt="Colombo">
                 <span class="location-name">Colombo 🇱🇰</span>
             </div>
         </div>
         <div class="destination-row second-row">
             <div class="destination-item">
-                <img src="assets/images/nuwaraeliya.jpg" alt="Nuwara Eliya">
+                <img src="../assets/images/nuwaraeliya.jpg" alt="Nuwara Eliya">
                 <span class="location-name">Nuwara Eliya 🇱🇰</span>
             </div>
             <div class="destination-item">
-                <img src="assets/images/dubai2.jpg" alt="Dubai">
+                <img src="../assets/images/dubai2.jpg" alt="Dubai">
                 <span class="location-name">Dubai 🇦🇪</span>
             </div>
             <div class="destination-item">
-                <img src="assets/images/ella.jpg" alt="Ella">
+                <img src="../assets/images/ella.jpg" alt="Ella">
                 <span class="location-name">Ella 🇱🇰</span>
             </div>
         </div>
@@ -1020,49 +1020,49 @@
             <div class="feature-box">
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let video = document.getElementById("autoplay-video");
-        let videoLoaded = false; // Prevent multiple reloads
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        let video = document.getElementById("autoplay-video");
+                        let videoLoaded = false; // Prevent multiple reloads
 
-        function checkVideoVisibility() {
-            let rect = video.getBoundingClientRect();
-            let windowHeight = window.innerHeight || document.documentElement.clientHeight;
+                        function checkVideoVisibility() {
+                            let rect = video.getBoundingClientRect();
+                            let windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
-            if (rect.top >= 0 && rect.bottom <= windowHeight && !videoLoaded) {
-                videoLoaded = true;
-                video.src += "&autoplay=1&mute=1"; // Autoplay & mute
-            }
-        }
+                            if (rect.top >= 0 && rect.bottom <= windowHeight && !videoLoaded) {
+                                videoLoaded = true;
+                                video.src += "&autoplay=1&mute=1"; // Autoplay & mute
+                            }
+                        }
 
-        window.addEventListener("scroll", checkVideoVisibility);
-        checkVideoVisibility(); // Initial check in case the video is already visible
-    });
-</script>
+                        window.addEventListener("scroll", checkVideoVisibility);
+                        checkVideoVisibility(); // Initial check in case the video is already visible
+                    });
+                </script>
 
-<!-- Simple Tab Toggle Script -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const tabLinks = document.querySelectorAll('.tab-link');
-        const tabContents = document.querySelectorAll('.tab-content');
+                <!-- Simple Tab Toggle Script -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const tabLinks = document.querySelectorAll('.tab-link');
+                        const tabContents = document.querySelectorAll('.tab-content');
 
-        tabLinks.forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                // Remove 'active' from all links
-                tabLinks.forEach(l => l.classList.remove('active'));
-                // Hide all tab-content sections
-                tabContents.forEach(tc => tc.classList.remove('active'));
+                        tabLinks.forEach(link => {
+                            link.addEventListener('click', e => {
+                                e.preventDefault();
+                                // Remove 'active' from all links
+                                tabLinks.forEach(l => l.classList.remove('active'));
+                                // Hide all tab-content sections
+                                tabContents.forEach(tc => tc.classList.remove('active'));
 
-                // Mark the clicked link as active
-                link.classList.add('active');
-                // Show the target content
-                const target = document.querySelector(link.getAttribute('href'));
-                target.classList.add('active');
-            });
-        });
-    });
-</script>
+                                // Mark the clicked link as active
+                                link.classList.add('active');
+                                // Show the target content
+                                const target = document.querySelector(link.getAttribute('href'));
+                                target.classList.add('active');
+                            });
+                        });
+                    });
+                </script>
                 <i class="fas fa-star"></i>
                 <h4>Millions of Reviews</h4>
                 <p>Real guest reviews to help you make the best choice.</p>
@@ -1431,6 +1431,12 @@
                 target.classList.add('active');
             });
         });
+    });
+</script>
+
+<script>
+    document.querySelector('.nav-btns:nth-child(3)').addEventListener('click', function() {
+        window.location.href = 'vehicles.html';
     });
 </script>
 
