@@ -46,17 +46,25 @@
         .user-actions {
             display: flex;
             align-items: center;
+            margin-right: 50px;
+            gap: 10px;
+            position: relative; /* Added to position the dropdown relative to this */
         }
         /* Profile image and username */
         .user-profile {
             display: flex;
-            align-items: center; /* Keep the profile image and username on the same row */
+            align-items: center;
+            padding: 5px 8px;
+            border-radius: 10px;
+            cursor: pointer;
         }
+
         .user-profile img {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             margin-right: 10px;
+            border: 2px solid #eb8934;
         }
         .user-profile .user-details {
             display: flex;
@@ -99,6 +107,7 @@
             gap: 6px;
             padding: 12px 20px;
             transition: background-color 0.2s;
+
         }
         /* The first button (Stays) default active style */
         .nav-btns:first-child {
@@ -133,6 +142,59 @@
         .nav-links a:hover {
             border: 1px solid #fff;
         }
+
+        /* User Profile Dropdown */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #fff;
+            color: #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 230px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transform: translateY(10px);
+            z-index: 2;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 10px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f4f4f4;
+        }
+
+        .dropdown-item i {
+            font-size: 18px;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            vertical-align: middle; /* Align icon with text */
+        }
+
+
         /* Main Content Container takes full width */
         .content-container {
             margin: 0;
@@ -150,13 +212,31 @@
         <div class="user-actions">
             <a href="#" class="nav-useractions">List your property</a>
             <!-- Profile image on the left, username and genius level below the username -->
-            <div class="user-profile">
+            <div class="user-profile" id="userProfile">
                 <img src="../assets/images/profile/dion.jpg" alt="img" />
                 <div class="user-details">
                     <span class="username">Dion Fernando</span>
                     <div class="genius-level">Genius Level 1</div>
                 </div>
             </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <div class="dropdown-item">
+                    <img src="../assets/icons/profile.png" alt="Profile Icon" class="icon" /> My Account
+                </div>
+                <div class="dropdown-item">
+                    <img src="../assets/icons/suitcase.png" alt="Bookings Icon" class="icon" /> Bookings & Trips
+                </div>
+                <div class="dropdown-item">
+                    <img src="../assets/icons/heart.png" alt="Saved Icon" class="icon" /> Saved
+                </div>
+                <div class="dropdown-item">
+                    <img src="../assets/icons/doc.png" alt="loyalty Icon" class="icon" /> Genius loyalty programme
+                </div>
+                <div class="dropdown-item">
+                    <img src="../assets/icons/logout.png" alt="Logout Icon" class="icon" /> Logout
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="nav-links-container">
@@ -227,6 +307,21 @@
     });
     document.getElementById('attractionsBtn').addEventListener('click', function() {
         loadContent('attractions_dashboard.html', this);
+    });
+
+    // Toggle the dropdown menu when profile is clicked
+    document.getElementById('userProfile').addEventListener('click', function() {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        dropdownMenu.classList.toggle('show');
+    });
+
+    // Close the dropdown if clicked outside
+    document.addEventListener('click', function(event) {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const userProfile = document.getElementById('userProfile');
+        if (!userProfile.contains(event.target)) {
+            dropdownMenu.classList.remove('show');
+        }
     });
 
     // Load default page and mark the staysBtn as active on page load
