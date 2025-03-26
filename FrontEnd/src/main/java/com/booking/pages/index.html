@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login / Register</title>
     <style>
+        /* Your existing styles... */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -15,7 +16,6 @@
             overflow: hidden;
             position: relative;
         }
-
         .background-video {
             position: absolute;
             top: 0;
@@ -25,37 +25,35 @@
             object-fit: cover;
             z-index: -1;
         }
-
         .content {
             position: relative;
             z-index: 1;
             color: white;
             text-align: center;
         }
-
-
-        body::before { /* Add a semi-transparent overlay */
+        body::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0, 0.2); /* Adjust transparency */
+            background-color: rgba(0, 0, 0, 0.2);
         }
-
         .container {
             background-color: white;
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             display: flex;
-            width: 90%; /* Responsive width */
+            width: 90%;
             max-width: 800px;
-            position: relative; /* Ensure container is above overlay */
-            z-index: 1; /* Ensure container is above overlay */
-            margin: 20px; /* add margin to the container*/
+            position: relative;
+            z-index: 1;
+            margin: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.5s ease-out, transform 1.5s ease-out;
         }
-
         .left-side {
             flex: 1;
             padding: 2rem;
@@ -64,18 +62,15 @@
             justify-content: center;
             align-items: flex-start;
         }
-
         .left-side img {
             max-width: 200px;
             margin-bottom: 1.5rem;
         }
-
         .left-side p {
             color: #555;
             line-height: 1.6;
             font-size: 0.8em;
         }
-
         .right-side {
             flex: 1;
             padding: 2rem;
@@ -84,7 +79,6 @@
             flex-direction: column;
             justify-content: center;
         }
-
         .right-side h2 {
             text-align: center;
             margin-bottom: 2rem;
@@ -92,11 +86,9 @@
             font-weight: 600;
             font-size: 1.2em;
         }
-
         .form-group {
             margin-bottom: 1.8rem;
         }
-
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
@@ -104,7 +96,6 @@
             font-weight: 500;
             font-size: 0.8em;
         }
-
         .form-group input {
             width: calc(100% - 24px);
             padding: 8px;
@@ -113,12 +104,10 @@
             font-size: 0.8em;
             transition: border-color 0.3s ease;
         }
-
         .form-group input:focus {
             border-color: #0071c2;
             outline: none;
         }
-
         .form-group button {
             background-color: #0071c2;
             color: white;
@@ -131,15 +120,12 @@
             font-weight: 600;
             transition: background-color 0.3s ease;
         }
-
         .form-group button:hover {
             background-color: #005691;
         }
-
         .form-switch {
             text-align: center;
         }
-
         .form-switch a {
             color: #0071c2;
             text-decoration: none;
@@ -147,47 +133,34 @@
             font-size: 0.8em;
             transition: color 0.3s ease;
         }
-
         .form-switch a:hover {
             text-decoration: underline;
             color: #005691;
         }
-
         .form-hidden {
             display: none;
         }
-
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
-                width: 95%; /* Adjust width for smaller screens */
+                width: 95%;
             }
-
             .left-side, .right-side {
                 width: 100%;
                 border-left: none;
             }
         }
-
-        /* Hide form initially */
-        .container {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+        /* Modern error message styling */
+        .error-message {
+            background-color: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            text-align: center;
         }
-
-        /* Animation to fade in */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
     </style>
 </head>
 <body>
@@ -203,7 +176,6 @@
     <div class="right-side">
         <div class="form-container" id="loginForm">
             <h2>Login here!</h2>
-            <!-- Note: Give your form an id for JavaScript targeting -->
             <form id="loginFormElement">
                 <div class="form-group">
                     <label for="loginEmail">Email</label>
@@ -220,10 +192,9 @@
             <div class="form-switch">
                 <a href="#" id="showRegister">Create an account</a>
             </div>
-            <!-- Container for error messages -->
-            <div id="loginError" style="color: red;"></div>
+            <!-- Updated error message container using the error-message class -->
+            <div id="loginError" class="error-message" style="display: none;"></div>
         </div>
-
         <div class="form-container form-hidden" id="registerForm">
             <h2>Register</h2>
             <form>
@@ -297,22 +268,14 @@
 
     // Login form submission handling using fetch API
     document.getElementById('loginFormElement').addEventListener('submit', function(e) {
-        e.preventDefault();  // Prevent the default form submission
-
+        e.preventDefault();
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
+        const payload = { email: email, password: password };
 
-        const payload = {
-            email: email,
-            password: password
-        };
-
-        // Adjust the URL and port to match your backend settings
         fetch('http://localhost:8080/api/v1/auth/authenticate', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         })
             .then(response => {
@@ -324,18 +287,19 @@
                 return response.json();
             })
             .then(data => {
-                // Check if authentication is successful and the returned role is "user"
                 if (data.data && data.data.role && data.data.role.toLowerCase() === 'user') {
-                    // Optionally store the JWT token in localStorage for later use
                     localStorage.setItem('token', data.data.token);
-                    // Redirect to main_dashboard.html
-                    window.location.href = 'main_dashboard.html';
+                    window.location.href = 'navigation_dashboard.html';
                 } else {
-                    document.getElementById('loginError').textContent = 'Access restricted to user role only.';
+                    const loginError = document.getElementById('loginError');
+                    loginError.textContent = 'Access restricted to user role only.';
+                    loginError.style.display = 'block';
                 }
             })
             .catch(error => {
-                document.getElementById('loginError').textContent = error.message;
+                const loginError = document.getElementById('loginError');
+                loginError.textContent = error.message;
+                loginError.style.display = 'block';
             });
     });
 
@@ -346,6 +310,5 @@
         container.style.transform = 'translateY(0)';
     }, 10);
 </script>
-
 </body>
 </html>
