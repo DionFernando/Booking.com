@@ -203,7 +203,8 @@
     <div class="right-side">
         <div class="form-container" id="loginForm">
             <h2>Login here!</h2>
-            <form>
+            <!-- Note: Give your form an id for JavaScript targeting -->
+            <form id="loginFormElement">
                 <div class="form-group">
                     <label for="loginEmail">Email</label>
                     <input type="email" id="loginEmail" name="loginEmail" required />
@@ -219,6 +220,8 @@
             <div class="form-switch">
                 <a href="#" id="showRegister">Create an account</a>
             </div>
+            <!-- Container for error messages -->
+            <div id="loginError" style="color: red;"></div>
         </div>
 
         <div class="form-container form-hidden" id="registerForm">
@@ -246,14 +249,12 @@
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
                     </select>
-
                     <!-- Admin Pin field, initially hidden -->
                     <div id="adminPinField" style="display: none; align-items: center; gap: 10px;">
                         <label for="adminPin">Admin Pin</label>
                         <input type="password" id="adminPin" name="adminPin" style="padding: 8px; width: 100px; border-radius: 6px; border: 1px solid #ddd;" />
                     </div>
                 </div>
-
                 <div class="form-group">
                     <button type="submit">Register</button>
                 </div>
@@ -264,45 +265,85 @@
         </div>
     </div>
 </div>
+
 <script>
-    // Show/hide Admin Pin field based on role selection
+    // Toggle Admin Pin field based on role selection
     document.getElementById('role').addEventListener('change', function () {
-        let adminPinField = document.getElementById('adminPinField');
-        if (this.value === 'admin') {
-            adminPinField.style.display = 'flex'; // Show the field when 'Admin' is selected
-        } else {
-            adminPinField.style.display = 'none'; // Hide the field when 'User' is selected
-        }
+        const adminPinField = document.getElementById('adminPinField');
+        adminPinField.style.display = (this.value === 'admin') ? 'flex' : 'none';
     });
 
+    // Toggle between Login and Register forms
     document.getElementById('showRegister').addEventListener('click', function(e) {
         e.preventDefault();
         document.getElementById('loginForm').classList.add('form-hidden');
         document.getElementById('registerForm').classList.remove('form-hidden');
     });
-
     document.getElementById('showLogin').addEventListener('click', function(e) {
         e.preventDefault();
         document.getElementById('registerForm').classList.add('form-hidden');
         document.getElementById('loginForm').classList.remove('form-hidden');
     });
 
-    // Admin Pin validation on form submit
+    // Admin Pin validation during registration
     document.querySelector('#registerForm form').addEventListener('submit', function (e) {
-        let role = document.getElementById('role').value;
-        let adminPin = document.getElementById('adminPin')?.value;
-
+        const role = document.getElementById('role').value;
+        const adminPin = document.getElementById('adminPin')?.value;
         if (role === 'admin' && adminPin !== '123') {
             e.preventDefault();
             alert('Invalid Admin Pin!');
         }
     });
-</script>
 
-<script>
+    // Login form submission handling using fetch API
+    document.getElementById('loginFormElement').addEventListener('submit', function(e) {
+        e.preventDefault();  // Prevent the default form submission
+
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        const payload = {
+            email: email,
+            password: password
+        };
+
+        // Adjust the URL and port to match your backend settings
+        fetch('http://localhost:8080/api/v1/auth/authenticate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || 'Authentication failed');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Check if authentication is successful and the returned role is "user"
+                if (data.data && data.data.role && data.data.role.toLowerCase() === 'user') {
+                    // Optionally store the JWT token in localStorage for later use
+                    localStorage.setItem('token', data.data.token);
+                    // Redirect to main_dashboard.html
+                    window.location.href = 'main_dashboard.html';
+                } else {
+                    document.getElementById('loginError').textContent = 'Access restricted to user role only.';
+                }
+            })
+            .catch(error => {
+                document.getElementById('loginError').textContent = error.message;
+            });
+    });
+
+    // Fade in animation for the container
     setTimeout(() => {
-        document.querySelector('.container').style.opacity = '1';
-        document.querySelector('.container').style.transform = 'translateY(0)';
+        const container = document.querySelector('.container');
+        container.style.opacity = '1';
+        container.style.transform = 'translateY(0)';
     }, 10);
 </script>
 
