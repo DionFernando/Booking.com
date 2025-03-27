@@ -289,6 +289,7 @@
             .then(data => {
                 if (data.data && data.data.role && data.data.role.toLowerCase() === 'user') {
                     localStorage.setItem('token', data.data.token);
+                    localStorage.setItem('name', data.data.name); // store the user's name
                     window.location.href = 'navigation_dashboard.html';
                 } else {
                     const loginError = document.getElementById('loginError');
@@ -296,7 +297,7 @@
                     loginError.style.display = 'block';
                 }
             })
-            .catch(error => {
+                .catch(error => {
                 const loginError = document.getElementById('loginError');
                 loginError.textContent = error.message;
                 loginError.style.display = 'block';

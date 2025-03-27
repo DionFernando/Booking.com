@@ -266,6 +266,21 @@
     <!-- Default content is loaded here -->
 </div>
 
+
+<script>
+    // Update the displayed username using localStorage
+    document.addEventListener('DOMContentLoaded', function() {
+        const storedName = localStorage.getItem('name');
+        if (storedName) {
+            // Change the username in the header
+            const usernameElements = document.querySelectorAll('.username');
+            usernameElements.forEach(el => {
+                el.textContent = storedName;
+            });
+        }
+    });
+</script>
+
 <script>
     // Utility to update active state on nav buttons
     function setActiveButton(clickedBtn) {
@@ -330,5 +345,8 @@
         loadContent('user_dashboard.html', document.getElementById('staysBtn'));
     });
 </script>
+
+
+
 </body>
 </html>

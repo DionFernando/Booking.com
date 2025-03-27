@@ -13,4 +13,5 @@ public class AuthDTO {
     private String email;
     private String token;
     private String role;
+    private String name; // Added field for user's name
 }

@@ -47,14 +47,12 @@ public class AuthController {
                     .body(new ResponseDTO(VarList.Conflict, "Authorization Failure! Please Try Again", null));
         }
 
-        // Generate JWT token with user role
         String token = jwtUtil.generateToken(loadedUser);
         if (token == null || token.isEmpty()) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(new ResponseDTO(VarList.Conflict, "Authorization Failure! Please Try Again", null));
         }
 
-        // Optionally, enforce login only for role "user"
         if (!"user".equalsIgnoreCase(loadedUser.getRole())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body(new ResponseDTO(VarList.Forbidden, "Access restricted to user role only", null));
@@ -64,6 +62,7 @@ public class AuthController {
         authDTO.setEmail(loadedUser.getEmail());
         authDTO.setToken(token);
         authDTO.setRole(loadedUser.getRole());
+        authDTO.setName(loadedUser.getName());  // Set the user's name
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new ResponseDTO(VarList.Created, "Success", authDTO));
