@@ -344,6 +344,18 @@
         setActiveButton(document.getElementById('staysBtn'));
         loadContent('user_dashboard.html', document.getElementById('staysBtn'));
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select the "My Account" dropdown item (first dropdown-item)
+        const myAccountBtn = document.querySelector('#dropdownMenu .dropdown-item:first-child');
+        if (myAccountBtn) {
+            myAccountBtn.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent dropdown from closing immediately
+                window.location.href = 'my_account.html'; // Redirect to my_account.html
+            });
+        }
+    });
+
 </script>
 
 
