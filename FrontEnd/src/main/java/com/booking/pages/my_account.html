@@ -221,6 +221,132 @@
         .details-link:hover {
             text-decoration: underline;
         }
+
+        /* Personal Details Section */
+        .personal-details {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 50px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .details-header {
+            margin-bottom: 20px;
+        }
+
+        .details-title {
+            font-size: 1.5rem;
+            color: #003580;
+            margin-bottom: 10px;
+        }
+
+        .details-description {
+            color: #666;
+        }
+
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .details-row {
+            border-bottom: 1px solid #eee;
+        }
+
+        .details-row:last-child {
+            border-bottom: none;
+        }
+
+        .details-label {
+            padding: 15px 0;
+            width: 25%;
+            color: #333;
+            vertical-align: top;
+        }
+
+        .details-value {
+            padding: 15px 0;
+            color: #333;
+        }
+
+        .details-action {
+            padding: 15px 0;
+            text-align: right;
+        }
+
+        .edit-link {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .edit-link:hover {
+            text-decoration: underline;
+        }
+
+        .verified-badge {
+            color: #008009;
+            font-weight: bold;
+        }
+
+        .edit-form {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .required-star {
+            color: #d50000;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .cancel-btn {
+            background: none;
+            border: none;
+            color: #0066cc;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 8px 16px;
+        }
+
+        .save-btn {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #002a60;
+        }
     </style>
 </head>
 <body>
@@ -312,6 +438,180 @@
     </div>
 </div>
 
+<!-- Personal Details Section -->
+<div class="personal-details">
+    <div class="details-header">
+        <h2 class="details-title">Personal details</h2>
+        <p class="details-description">Update your information and find out how it's used.</p>
+    </div>
+
+    <table class="details-table">
+        <!-- Name Row -->
+        <tr class="details-row">
+            <td class="details-label">Name</td>
+            <td class="details-value" id="name-value">Dion Fernando</td>
+            <td class="details-action">
+                <a class="edit-link" onclick="showEditForm('name')">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div id="name-edit-form" class="edit-form">
+                    <div class="form-group">
+                        <label class="form-label">First name(s) <span class="required-star">*</span></label>
+                        <input type="text" class="form-input" id="first-name" value="Dion">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last name(s) <span class="required-star">*</span></label>
+                        <input type="text" class="form-input" id="last-name" value="Fernando">
+                    </div>
+                    <div class="form-actions">
+                        <button class="cancel-btn" onclick="hideEditForm('name')">Cancel</button>
+                        <button class="save-btn" onclick="saveName()">Save</button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+        <!-- Display Name Row -->
+        <tr class="details-row">
+            <td class="details-label">Display name</td>
+            <td class="details-value" id="display-name-value">Choose a display name</td>
+            <td class="details-action">
+                <a class="edit-link" onclick="showEditForm('display-name')">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div id="display-name-edit-form" class="edit-form">
+                    <div class="form-group">
+                        <label class="form-label">Display name</label>
+                        <input type="text" class="form-input" id="display-name-input" placeholder="Choose a display name">
+                    </div>
+                    <div class="form-actions">
+                        <button class="cancel-btn" onclick="hideEditForm('display-name')">Cancel</button>
+                        <button class="save-btn" onclick="saveDisplayName()">Save</button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+        <!-- Email Address Row -->
+        <tr class="details-row">
+            <td class="details-label">Email address</td>
+            <td class="details-value">
+                dionfernando2003@gmail.com<br>
+                <small style="color: #666;">This is the email address you use to sign in. It's also where we send your booking confirmations.</small>
+            </td>
+            <td class="details-action">
+                <span class="verified-badge">Verified</span>
+            </td>
+        </tr>
+
+        <!-- Phone Number Row -->
+        <tr class="details-row">
+            <td class="details-label">Phone number</td>
+            <td class="details-value" id="phone-value">Add your phone number</td>
+            <td class="details-action">
+                <a class="edit-link" onclick="showEditForm('phone')">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div id="phone-edit-form" class="edit-form">
+                    <div class="form-group">
+                        <label class="form-label">Phone number</label>
+                        <input type="tel" class="form-input" id="phone-input" placeholder="Add your phone number">
+                    </div>
+                    <div class="form-group">
+                        <small style="color: #666;">Properties or attractions you book will use this number if they need to contact you.</small>
+                    </div>
+                    <div class="form-actions">
+                        <button class="cancel-btn" onclick="hideEditForm('phone')">Cancel</button>
+                        <button class="save-btn" onclick="savePhone()">Save</button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+        <!-- Address Row -->
+        <tr class="details-row">
+            <td class="details-label">Address</td>
+            <td class="details-value" id="address-value">Add your address</td>
+            <td class="details-action">
+                <a class="edit-link" onclick="showEditForm('address')">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div id="address-edit-form" class="edit-form">
+                    <div class="form-group">
+                        <label class="form-label">Address</label>
+                        <textarea class="form-input" id="address-input" rows="3" placeholder="Add your address"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="cancel-btn" onclick="hideEditForm('address')">Cancel</button>
+                        <button class="save-btn" onclick="saveAddress()">Save</button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+        <!-- Date of Birth Row -->
+        <tr class="details-row">
+            <td class="details-label">Date of birth</td>
+            <td class="details-value" id="dob-value">Add your date of birth</td>
+            <td class="details-action">
+                <a class="edit-link" onclick="showEditForm('dob')">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div id="dob-edit-form" class="edit-form">
+                    <div class="form-group">
+                        <label class="form-label">Date of birth</label>
+                        <input type="date" class="form-input" id="dob-input">
+                    </div>
+                    <div class="form-actions">
+                        <button class="cancel-btn" onclick="hideEditForm('dob')">Cancel</button>
+                        <button class="save-btn" onclick="saveDob()">Save</button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+        <!-- Nationality Row -->
+        <tr class="details-row">
+            <td class="details-label">Nationality</td>
+            <td class="details-value" id="nationality-value">Select the country/region you're from</td>
+            <td class="details-action">
+                <a class="edit-link" onclick="showEditForm('nationality')">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div id="nationality-edit-form" class="edit-form">
+                    <div class="form-group">
+                        <label class="form-label">Nationality</label>
+                        <select class="form-input" id="nationality-input">
+                            <option value="">Select country/region</option>
+                            <option value="US">United States</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="CA">Canada</option>
+                            <option value="AU">Australia</option>
+                            <!-- Add more countries as needed -->
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button class="cancel-btn" onclick="hideEditForm('nationality')">Cancel</button>
+                        <button class="save-btn" onclick="saveNationality()">Save</button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const storedName = localStorage.getItem('name') || "Dion";
@@ -319,6 +619,81 @@
         const greetingName = document.getElementById('greetingName');
         if (greetingName) greetingName.textContent = storedName;
     });
+
+    // Show edit form
+    function showEditForm(field) {
+        document.getElementById(field + '-edit-form').style.display = 'block';
+    }
+
+    // Hide edit form
+    function hideEditForm(field) {
+        document.getElementById(field + '-edit-form').style.display = 'none';
+    }
+
+    // Save name
+    function saveName() {
+        const firstName = document.getElementById('first-name').value;
+        const lastName = document.getElementById('last-name').value;
+
+        if (firstName && lastName) {
+            const fullName = firstName + ' ' + lastName;
+            document.getElementById('name-value').textContent = fullName;
+            localStorage.setItem('name', firstName);
+            document.querySelectorAll('.username').forEach(el => el.textContent = firstName);
+            document.getElementById('greetingName').textContent = firstName;
+            hideEditForm('name');
+        } else {
+            alert('Please fill in both first and last names');
+        }
+    }
+
+    // Save display name
+    function saveDisplayName() {
+        const displayName = document.getElementById('display-name-input').value;
+        if (displayName) {
+            document.getElementById('display-name-value').textContent = displayName;
+            hideEditForm('display-name');
+        }
+    }
+
+    // Save phone
+    function savePhone() {
+        const phone = document.getElementById('phone-input').value;
+        document.getElementById('phone-value').textContent = phone || 'Add your phone number';
+        hideEditForm('phone');
+    }
+
+    // Save address
+    function saveAddress() {
+        const address = document.getElementById('address-input').value;
+        document.getElementById('address-value').textContent = address || 'Add your address';
+        hideEditForm('address');
+    }
+
+    // Save date of birth
+    function saveDob() {
+        const dob = document.getElementById('dob-input').value;
+        if (dob) {
+            const formattedDob = new Date(dob).toLocaleDateString();
+            document.getElementById('dob-value').textContent = formattedDob;
+        } else {
+            document.getElementById('dob-value').textContent = 'Add your date of birth';
+        }
+        hideEditForm('dob');
+    }
+
+    // Save nationality
+    function saveNationality() {
+        const nationality = document.getElementById('nationality-input').value;
+        const nationalityText = document.getElementById('nationality-input').options[document.getElementById('nationality-input').selectedIndex].text;
+
+        if (nationality) {
+            document.getElementById('nationality-value').textContent = nationalityText;
+        } else {
+            document.getElementById('nationality-value').textContent = 'Select the country/region you\'re from';
+        }
+        hideEditForm('nationality');
+    }
 </script>
 </body>
 </html>
