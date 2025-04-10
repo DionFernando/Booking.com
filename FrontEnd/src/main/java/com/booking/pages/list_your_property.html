@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List Your Apartment, Hotel, Vacation Home or Vehicle | Booking.com</title>
+    <style>
+        /* Reset default margins/padding */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        *, *::before, *::after {
+            box-sizing: inherit;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
+        /* Header + Top Bar */
+        .header {
+            background-color: #003580;
+            color: #fff;
+            padding-bottom: 10px;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .logo {
+            height: 60px;
+            margin-left: 50px;
+        }
+        .user-actions {
+            display: flex;
+            align-items: center;
+            margin-right: 50px;
+            gap: 10px;
+            position: relative; /* Added to position the dropdown relative to this */
+        }
+        /* Profile image and username */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            padding: 5px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #eb8934;
+        }
+        .user-profile .user-details {
+            display: flex;
+            flex-direction: column; /* Stack username and Genius level vertically */
+        }
+        .user-profile .username {
+            font-size: 0.95rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .user-profile .genius-level {
+            font-size: 0.8rem;
+            color: #eb8934;
+            font-weight: 400;
+        }
+
+        /* User Profile Dropdown */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #fff;
+            color: #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 230px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transform: translateY(10px);
+            z-index: 2;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 10px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f4f4f4;
+        }
+
+        .dropdown-item i {
+            font-size: 18px;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            vertical-align: middle; /* Align icon with text */
+        }
+
+        .user-profile:hover{
+            background-color: #005999;
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="top-bar">
+        <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo" class="logo" />
+        <div class="user-actions">
+            <div class="user-profile" id="userProfile">
+                <img src="../assets/images/profile/dion.jpg" alt="img" />
+                <div class="user-details">
+                    <span class="username">Dion Fernando</span>
+                    <div class="genius-level">Genius Level 1</div>
+                </div>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <div class="dropdown-item">
+                    <img src="../assets/icons/profile.png" alt="Profile Icon" class="icon" /> My Account
+                </div>
+                <div class="dropdown-item">
+                    <img src="../assets/icons/suitcase.png" alt="Bookings Icon" class="icon" /> Bookings & Trips
+                </div>
+                <div class="dropdown-item">
+                    <img src="../assets/icons/heart.png" alt="Saved Icon" class="icon" /> Saved
+                </div>
+                <div class="dropdown-item">
+                    <img src="../assets/icons/doc.png" alt="loyalty Icon" class="icon" /> Genius loyalty programme
+                </div>
+                <div class="dropdown-item">
+                    <img src="../assets/icons/logout.png" alt="Logout Icon" class="icon" /> Logout
+                </div>
+            </div>
+
+        </div>
+    </div>
+</header>
+
+
+<script>
+    // Update the displayed username using localStorage
+    document.addEventListener('DOMContentLoaded', function() {
+        const storedName = localStorage.getItem('name');
+        if (storedName) {
+            // Change the username in the header
+            const usernameElements = document.querySelectorAll('.username');
+            usernameElements.forEach(el => {
+                el.textContent = storedName;
+            });
+        }
+    });
+</script>
+
+<script>
+    // Toggle the dropdown menu when profile is clicked
+    document.getElementById('userProfile').addEventListener('click', function() {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        dropdownMenu.classList.toggle('show');
+    });
+
+    // Close the dropdown if clicked outside
+    document.addEventListener('click', function(event) {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const userProfile = document.getElementById('userProfile');
+        if (!userProfile.contains(event.target)) {
+            dropdownMenu.classList.remove('show');
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select the "My Account" dropdown item (first dropdown-item)
+        const myAccountBtn = document.querySelector('#dropdownMenu .dropdown-item:first-child');
+        if (myAccountBtn) {
+            myAccountBtn.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent dropdown from closing immediately
+                window.location.href = 'my_account.html'; // Redirect to my_account.html
+            });
+        }
+    });
+
+</script>
+
+</body>
+</html>
