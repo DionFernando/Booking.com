@@ -12,7 +12,6 @@
             referrerpolicy="no-referrer"
     />
     <style>
-        /* Reset default margins/padding */
         html, body {
             margin: 0;
             padding: 0;
@@ -27,7 +26,7 @@
             font-family: Arial, sans-serif;
             background-color: #f7f7f7;
         }
-        /* Header + Top Bar */
+
         .header {
             background-color: #003580;
             color: #fff;
@@ -48,9 +47,9 @@
             align-items: center;
             margin-right: 50px;
             gap: 10px;
-            position: relative; /* Added to position the dropdown relative to this */
+            position: relative;
         }
-        /* Profile image and username */
+
         .user-profile {
             display: flex;
             align-items: center;
@@ -68,20 +67,19 @@
         }
         .user-profile .user-details {
             display: flex;
-            flex-direction: column; /* Stack username and Genius level vertically */
+            flex-direction: column;
         }
         .user-profile .username {
             font-size: 0.95rem;
             color: #fff;
             font-weight: 600;
         }
-
         .user-profile .genius-level {
             font-size: 0.8rem;
             color: #eb8934;
             font-weight: 400;
         }
-        /* Navigation Links */
+
         .nav-links-container {
             background-color: #003580;
             display: flex;
@@ -94,7 +92,7 @@
             padding: 10px 0;
             margin-left: 50px;
         }
-        /* Default nav button styles */
+
         .nav-btns {
             background-color: transparent;
             color: #fff;
@@ -107,43 +105,28 @@
             gap: 6px;
             padding: 12px 20px;
             transition: background-color 0.2s;
-
         }
-        /* The first button (Stays) default active style */
+
         .nav-btns:first-child {
             background-color: #005999;
             border: 1px solid white;
         }
-        /* Hover style */
+
         .nav-btns:hover {
             background-color: #005999;
             border-radius: 40px;
         }
-        /* Active state: Remove border and background from inactive buttons */
+
         .nav-btns.active {
             background-color: #005999;
             border: 1px solid white;
         }
-        /* When a button is not active, no extra background or border */
+
         .nav-btns:not(.active) {
             background-color: transparent;
             border: none;
         }
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: border 0.2s;
-        }
-        .nav-links a:hover {
-            border: 1px solid #fff;
-        }
 
-        /* User Profile Dropdown */
         .dropdown-menu {
             display: none;
             position: absolute;
@@ -191,31 +174,43 @@
             width: 20px;
             height: 20px;
             margin-right: 10px;
-            vertical-align: middle; /* Align icon with text */
+            vertical-align: middle;
         }
 
-
-        /* Main Content Container takes full width */
         .content-container {
             margin: 0;
             padding: 0;
             width: 100%;
-            min-height: calc(100vh - 140px); /* Adjust if header changes */
+            min-height: calc(100vh - 140px);
         }
 
-        .user-profile:hover{
+        .user-profile:hover {
+            background-color: #005999;
+        }
+
+        .nav-useractions {
+            color: #fff;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .nav-useractions:hover {
             background-color: #005999;
         }
     </style>
 </head>
 <body>
+
 <!-- Header -->
 <header class="header">
     <div class="top-bar">
         <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo" class="logo" />
         <div class="user-actions">
-            <a href="#" class="nav-useractions">List your property</a>
-            <!-- Profile image on the left, username and genius level below the username -->
+            <a href="#" id="listPropertyLink" class="nav-useractions">List your property</a>
+
             <div class="user-profile" id="userProfile">
                 <img src="../assets/images/profile/dion.jpg" alt="img" />
                 <div class="user-details">
@@ -223,6 +218,7 @@
                     <div class="genius-level">Genius Level 1</div>
                 </div>
             </div>
+
             <div class="dropdown-menu" id="dropdownMenu">
                 <div class="dropdown-item">
                     <img src="../assets/icons/profile.png" alt="Profile Icon" class="icon" /> My Account
@@ -240,9 +236,9 @@
                     <img src="../assets/icons/logout.png" alt="Logout Icon" class="icon" /> Logout
                 </div>
             </div>
-
         </div>
     </div>
+
     <div class="nav-links-container">
         <nav class="nav-links">
             <button class="nav-btns" id="staysBtn">
@@ -265,42 +261,79 @@
     </div>
 </header>
 
-<!-- Main content container where external pages are loaded -->
-<div class="content-container" id="contentContainer">
-    <!-- Default content is loaded here -->
-</div>
+<!-- Main content container -->
+<div class="content-container" id="contentContainer"></div>
 
-
+<!-- Scripts -->
 <script>
-    // Update the displayed username using localStorage
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const storedName = localStorage.getItem('name');
         if (storedName) {
-            // Change the username in the header
-            const usernameElements = document.querySelectorAll('.username');
-            usernameElements.forEach(el => {
+            document.querySelectorAll('.username').forEach(el => {
                 el.textContent = storedName;
             });
         }
-    });
-</script>
 
-<script>
-    // Utility to update active state on nav buttons
+        // Handle "List your property" click
+        document.getElementById('listPropertyLink').addEventListener('click', function(e) {
+            // Redirect to full page instead of loading in content
+            window.location.href = 'list_your_property.html';
+        });
+
+
+        const myAccountBtn = document.querySelector('#dropdownMenu .dropdown-item:first-child');
+        if (myAccountBtn) {
+            myAccountBtn.addEventListener('click', function(event) {
+                event.stopPropagation();
+                window.location.href = 'my_account.html';
+            });
+        }
+
+        // Dropdown toggle
+        document.getElementById('userProfile').addEventListener('click', function() {
+            document.getElementById('dropdownMenu').classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(event) {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const userProfile = document.getElementById('userProfile');
+            if (!userProfile.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+
+        // Button event listeners
+        document.getElementById('staysBtn').addEventListener('click', function () {
+            loadContent('user_dashboard.html', this);
+        });
+        document.getElementById('flightsBtn').addEventListener('click', function () {
+            loadContent('flights_dashboard.html', this);
+        });
+        document.getElementById('carRentalsBtn').addEventListener('click', function () {
+            loadContent('vehicles_dashboard.html', this);
+        });
+        document.getElementById('attractionsBtn').addEventListener('click', function () {
+            loadContent('attractions_dashboard.html', this);
+        });
+
+        // Load default
+        setActiveButton(document.getElementById('staysBtn'));
+        loadContent('user_dashboard.html', document.getElementById('staysBtn'));
+    });
+
     function setActiveButton(clickedBtn) {
         const navButtons = document.querySelectorAll('.nav-btns');
         navButtons.forEach(btn => btn.classList.remove('active'));
-        clickedBtn.classList.add('active');
+        if (clickedBtn) {
+            clickedBtn.classList.add('active');
+        }
     }
 
-    // Function to load content via fetch
     function loadContent(pageUrl, clickedBtn) {
         setActiveButton(clickedBtn);
         fetch(pageUrl)
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+                if (!response.ok) throw new Error('Network response was not ok');
                 return response.text();
             })
             .then(html => {
@@ -313,55 +346,7 @@
                     '<p style="color: red; text-align: center;">Failed to load content. Please try again later.</p>';
             });
     }
-
-    // Event listeners for navigation buttons
-    document.getElementById('staysBtn').addEventListener('click', function() {
-        loadContent('user_dashboard.html', this);
-    });
-    document.getElementById('flightsBtn').addEventListener('click', function() {
-        loadContent('flights_dashboard.html', this);
-    });
-    document.getElementById('carRentalsBtn').addEventListener('click', function() {
-        loadContent('vehicles_dashboard.html', this);
-    });
-    document.getElementById('attractionsBtn').addEventListener('click', function() {
-        loadContent('attractions_dashboard.html', this);
-    });
-
-    // Toggle the dropdown menu when profile is clicked
-    document.getElementById('userProfile').addEventListener('click', function() {
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        dropdownMenu.classList.toggle('show');
-    });
-
-    // Close the dropdown if clicked outside
-    document.addEventListener('click', function(event) {
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        const userProfile = document.getElementById('userProfile');
-        if (!userProfile.contains(event.target)) {
-            dropdownMenu.classList.remove('show');
-        }
-    });
-
-    // Load default page and mark the staysBtn as active on page load
-    window.addEventListener('DOMContentLoaded', function() {
-        setActiveButton(document.getElementById('staysBtn'));
-        loadContent('user_dashboard.html', document.getElementById('staysBtn'));
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Select the "My Account" dropdown item (first dropdown-item)
-        const myAccountBtn = document.querySelector('#dropdownMenu .dropdown-item:first-child');
-        if (myAccountBtn) {
-            myAccountBtn.addEventListener('click', function(event) {
-                event.stopPropagation(); // Prevent dropdown from closing immediately
-                window.location.href = 'my_account.html'; // Redirect to my_account.html
-            });
-        }
-    });
-
 </script>
-
 
 </body>
 </html>
