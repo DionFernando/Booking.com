@@ -9,9 +9,8 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
+            height: auto; /* Changed to auto to accommodate new content */
             box-sizing: border-box;
-            background-color: #eeeeee;
         }
         *, *::before, *::after {
             box-sizing: inherit;
@@ -253,6 +252,152 @@
             border-bottom-right-radius: 20px;
         }
 
+        .footer {
+            background-color: #003580;
+            color: white;
+            padding: 40px 20px;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        .footer-sections {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .footer-section {
+            margin-bottom: 20px;
+
+        }
+
+        .footer-section h4 {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .footer-section a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-divider {
+            margin: 30px auto;
+            width: 95%;
+            border: 0.5px solid #ffffff30;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 10px;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-copy a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* New Section Styling */
+        .list-peace-of-mind-section {
+            margin-top: 50px;
+            padding: 40px 20px;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        .list-peace-of-mind-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .peace-of-mind-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .peace-of-mind-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 10px;
+        }
+
+        .peace-of-mind-item svg {
+            width: 24px;
+            height: 24px;
+            color: #007bff;
+            flex-shrink: 0;
+        }
+
+        .peace-of-mind-item h3 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #003580;
+            font-weight: bold;
+        }
+
+        .peace-of-mind-item p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #555;
+        }
+
+        .list-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .list-button-container {
+            padding: 20px;
+            background-color: #f7f7f7;
+            text-align: left; /* Align buttons to the left */
+        }
+
+        .list-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            margin-right: 10px; /* Add some space between buttons */
+        }
+
+        .list-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -300,7 +445,6 @@
         <p>Whether hosting is your side passion or full-time job, list your home today and quickly start earning more income.</p>
     </div>
     <div class="image-placeholder">
-        <!-- Placeholder for an image -->
         <img src="../assets/images/hotel.jpg" alt="Property placeholder">
     </div>
 </main>
@@ -318,6 +462,100 @@
         </div>
     </div>
 </section>
+
+<section class="list-peace-of-mind-section">
+    <div class="list-peace-of-mind-container">
+        <h2 class="list-title">List with peace of mind</h2>
+        <ul class="peace-of-mind-list">
+            <li class="peace-of-mind-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                    <h3>Damage payments</h3>
+                    <p>Our damage program covers your property in case of damages.</p>
+                </div>
+            </li>
+            <li class="peace-of-mind-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                    <h3>Protection from liability claims</h3>
+                    <p>Receive protection against liability claims from guests and neighbors of up to €/£/$1,000,000 for each reservation.</p>
+                </div>
+            </li>
+            <li class="peace-of-mind-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                    <h3>Your own house rules</h3>
+                    <p>Communicate your house rules to potential guests who must agree in order to book.</p>
+                </div>
+            </li>
+            <li class="peace-of-mind-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                    <h3>Get paid and secure your finances</h3>
+                    <p>Get guaranteed payouts and fraud protection through <a href="https://www.booking.com/content/payments.en-gb.html" style="color: #007bff; text-decoration: none;">Payments by Booking.com</a>.</p>
+                </div>
+            </li>
+            <li class="peace-of-mind-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                    <h3>Choose how you prefer to receive bookings</h3>
+                    <p>Either by letting guests book instantly or by <a href="https://join.booking.com/en-gb/help/reservations/booking-request" style="color: #007bff; text-decoration: none;">reviewing booking requests</a> before accepting them.</p>
+                </div>
+            </li>
+            <li class="peace-of-mind-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                    <h3>Verified guests</h3>
+                    <p>We verify guests’ email addresses and credit cards for partners on Payments by Booking.com.</p>
+                </div>
+            </li>
+            <li class="peace-of-mind-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                    <h3>Robust support</h3>
+                    <p>Access support in 45 languages and manage your property through Pulse, our <a href="https://join.booking.com/en-gb/help/mobile-apps/pulse-bookingcom-partners" style="color: #007bff; text-decoration: none;">app for partners</a> like you.</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="list-button-container">
+        <button class="list-button" onclick="location.href='property_register.html'">List your property</button>
+        <button class="list-button" onclick="location.href='vehicle_register.html'">List your vehicle</button>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-sections">
+        <div class="footer-section">
+            <h4>Discover</h4>
+            <a href="#">Trust &amp; Safety</a>
+        </div>
+        <div class="footer-section">
+            <h4>Useful links</h4>
+            <a href="#">Extranet</a>
+            <a href="#">Pulse for Android</a>
+            <a href="#">Pulse for iOS</a>
+        </div>
+        <div class="footer-section">
+            <h4>Help and communities</h4>
+            <a href="#">Partner Help</a>
+            <a href="#">Partner Community</a>
+            <a href="#">How-to videos</a>
+        </div>
+    </div>
+    <hr class="footer-divider" />
+    <div class="footer-bottom">
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <span>|</span>
+            <a href="#">Privacy &amp; Cookie Statement</a>
+        </div>
+        <div class="footer-copy">
+            &copy; Copyright <a href="#">Booking.com</a> 2025
+        </div>
+    </div>
+</footer>
+
 
 
 
