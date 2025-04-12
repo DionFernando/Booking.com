@@ -35,7 +35,8 @@ public class AuthController {
     public ResponseEntity<ResponseDTO> authenticate(@RequestBody LoginDTO loginDto) {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
+                    new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword())
+            );
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new ResponseDTO(VarList.Unauthorized, "Invalid Credentials", e.getMessage()));
@@ -53,11 +54,7 @@ public class AuthController {
                     .body(new ResponseDTO(VarList.Conflict, "Authorization Failure! Please Try Again", null));
         }
 
-        if (!"user".equalsIgnoreCase(loadedUser.getRole())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(new ResponseDTO(VarList.Forbidden, "Access restricted to user role only", null));
-        }
-
+        // Removed the role check so that all valid logins are allowed.
         AuthDTO authDTO = new AuthDTO();
         authDTO.setEmail(loadedUser.getEmail());
         authDTO.setToken(token);
@@ -67,4 +64,5 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new ResponseDTO(VarList.Created, "Success", authDTO));
     }
+
 }

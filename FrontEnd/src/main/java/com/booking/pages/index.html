@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login / Register</title>
     <style>
-        /* Your existing styles... */
+        /* Base styles for your page, forms, etc. */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -24,21 +24,6 @@
             height: 100%;
             object-fit: cover;
             z-index: -1;
-        }
-        .content {
-            position: relative;
-            z-index: 1;
-            color: white;
-            text-align: center;
-        }
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.2);
         }
         .container {
             background-color: white;
@@ -96,7 +81,7 @@
             font-weight: 500;
             font-size: 0.8em;
         }
-        .form-group input {
+        .form-group input, .form-group select {
             width: calc(100% - 24px);
             padding: 8px;
             border: 1px solid #ddd;
@@ -104,7 +89,7 @@
             font-size: 0.8em;
             transition: border-color 0.3s ease;
         }
-        .form-group input:focus {
+        .form-group input:focus, .form-group select:focus {
             border-color: #0071c2;
             outline: none;
         }
@@ -140,6 +125,18 @@
         .form-hidden {
             display: none;
         }
+        /* Modern error message container styling for login errors */
+        .error-message {
+            background-color: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            text-align: center;
+        }
+        /* Responsive adjustments */
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
@@ -150,16 +147,51 @@
                 border-left: none;
             }
         }
-        /* Modern error message styling */
-        .error-message {
-            background-color: #f8d7da;
-            color: #842029;
-            border: 1px solid #f5c2c7;
+
+        /* Toast Notification Styles */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .toast {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 250px;
+            margin-bottom: 10px;
+            padding: 15px 20px;
             border-radius: 6px;
-            padding: 10px;
-            margin-top: 10px;
+            color: #fff;
             font-size: 0.9em;
-            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateX(100%);
+            animation: slideIn 0.5s forwards, fadeOut 0.5s forwards 3.5s;
+        }
+        .toast.success {
+            background-color: #4caf50;
+        }
+        .toast.error {
+            background-color: #f44336;
+        }
+        .toast .close-button {
+            margin-left: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
         }
     </style>
 </head>
@@ -174,6 +206,7 @@
         <p>Unlock exclusive deals and manage your bookings with ease. Join our community of travelers and experience seamless travel planning.</p>
     </div>
     <div class="right-side">
+        <!-- Login Form -->
         <div class="form-container" id="loginForm">
             <h2>Login here!</h2>
             <form id="loginFormElement">
@@ -192,9 +225,10 @@
             <div class="form-switch">
                 <a href="#" id="showRegister">Create an account</a>
             </div>
-            <!-- Updated error message container using the error-message class -->
+            <!-- Error Message Container -->
             <div id="loginError" class="error-message" style="display: none;"></div>
         </div>
+        <!-- Registration Form -->
         <div class="form-container form-hidden" id="registerForm">
             <h2>Register</h2>
             <form>
@@ -237,7 +271,32 @@
     </div>
 </div>
 
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
 <script>
+    // Function to show custom toast notifications
+    function showToast(message, type) {
+        const toastContainer = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `
+          <span>${message}</span>
+          <span class="close-button">&times;</span>
+      `;
+        // Remove the toast on clicking close
+        toast.querySelector('.close-button').addEventListener('click', () => {
+            toastContainer.removeChild(toast);
+        });
+        toastContainer.appendChild(toast);
+        // Auto-remove toast after 4 seconds (including fade-out duration)
+        setTimeout(() => {
+            if (toastContainer.contains(toast)) {
+                toastContainer.removeChild(toast);
+            }
+        }, 4000);
+    }
+
     // Toggle Admin Pin field based on role selection
     document.getElementById('role').addEventListener('change', function () {
         const adminPinField = document.getElementById('adminPinField');
@@ -256,14 +315,54 @@
         document.getElementById('loginForm').classList.remove('form-hidden');
     });
 
-    // Admin Pin validation during registration
+    // Registration form submission using fetch API
     document.querySelector('#registerForm form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Get input values
+        const name = document.getElementById('registerName').value;
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+        const rePassword = document.getElementById('registerRePassword').value;
         const role = document.getElementById('role').value;
         const adminPin = document.getElementById('adminPin')?.value;
-        if (role === 'admin' && adminPin !== '123') {
-            e.preventDefault();
-            alert('Invalid Admin Pin!');
+
+        // Basic client-side validations
+        if (password !== rePassword) {
+            showToast("Passwords do not match!", "error");
+            return;
         }
+        if (role === 'admin' && adminPin !== '123') {
+            showToast("Invalid admin pin!", "error");
+            return;
+        }
+
+        // Create the payload; backend expects "name", "email", "password", "role"
+        const payload = { name, email, password, role };
+
+        // Call the registration endpoint
+        fetch('http://localhost:8080/api/v1/user/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || 'Registration failed');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                showToast("Registration successful!", "success");
+                // Switch back to login form after registration
+                document.getElementById('registerForm').classList.add('form-hidden');
+                document.getElementById('loginForm').classList.remove('form-hidden');
+            })
+            .catch(error => {
+                showToast(error.message, "error");
+            });
     });
 
     // Login form submission handling using fetch API
@@ -271,7 +370,7 @@
         e.preventDefault();
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
-        const payload = { email: email, password: password };
+        const payload = { email, password };
 
         fetch('http://localhost:8080/api/v1/auth/authenticate', {
             method: 'POST',
@@ -287,20 +386,27 @@
                 return response.json();
             })
             .then(data => {
-                if (data.data && data.data.role && data.data.role.toLowerCase() === 'user') {
+                if (data.data && data.data.role) {
                     localStorage.setItem('token', data.data.token);
-                    localStorage.setItem('name', data.data.name); // store the user's name
-                    window.location.href = 'navigation_dashboard.html';
+                    localStorage.setItem('name', data.data.name);
+                    // Redirect based on user role
+                    const role = data.data.role.toLowerCase();
+                    if (role === 'admin') {
+                        window.location.href = 'admin_dashboard.html';
+                    } else if (role === 'user') {
+                        window.location.href = 'navigation_dashboard.html';
+                    } else {
+                        showToast("User role not recognized.", "error");
+                    }
                 } else {
-                    const loginError = document.getElementById('loginError');
-                    loginError.textContent = 'Access restricted to user role only.';
-                    loginError.style.display = 'block';
+                    document.getElementById('loginError').textContent = "Invalid login response.";
+                    document.getElementById('loginError').style.display = 'block';
                 }
             })
-                .catch(error => {
-                const loginError = document.getElementById('loginError');
-                loginError.textContent = error.message;
-                loginError.style.display = 'block';
+            .catch(error => {
+                document.getElementById('loginError').textContent = error.message;
+                document.getElementById('loginError').style.display = 'block';
+                showToast(error.message, "error");
             });
     });
 
