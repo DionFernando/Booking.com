@@ -20,12 +20,13 @@
     />
 
 
-  <!--<style>
+  <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: #f7f7f7;
     }
+
 
     /* Banner */
     .banner {
@@ -47,7 +48,7 @@
       margin-left: 50px;
     }
 
-    /* -&#45;&#45; Search Bar Container -&#45;&#45; */
+    /* --- Search Bar Container --- */
     .search-bar {
       position: absolute;
       left: 50%;
@@ -65,7 +66,7 @@
       color: black;
     }
 
-    /* -&#45;&#45; Search Item Common Styles -&#45;&#45; */
+    /* --- Search Item Common Styles --- */
     .search-item {
       display: flex;
       align-items: center;
@@ -90,7 +91,7 @@
       color: #000;
     }
 
-    /* -&#45;&#45; Custom Combo Box Input -&#45;&#45; */
+    /* --- Custom Combo Box Input --- */
     #vehicleInput {
       border: none;
       outline: none;
@@ -164,13 +165,95 @@
         border-top: 2px solid #FFC72C;
       }
     }
-  </style>-->
+
+
+    .blue-header {
+        background-color: #003580;
+    }
+
+    .top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 50px;
+    }
+
+    .logo {
+        height: 60px;
+    }
+
+    /* User Actions */
+    .user-actions {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .user-actions a {
+        color: white;
+        text-decoration: none;
+        font-size: 0.95rem;
+    }
+
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .profile-img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        border: 2px solid #fbb034;
+    }
+
+    .user-details {
+        color: white;
+    }
+
+    .username {
+        font-weight: bold;
+    }
+
+    .genius-level {
+        color: #fbb034;
+        font-size: 0.9rem;
+    }
+
+
+    .vehicle-type{
+        font-size: 1.5rem;
+        margin-left: 70px;
+        margin-top: 80px;
+        color: #003580;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+        width: 90%;
+    }
+  </style>
 
 </head>
 <body>
 
+<div class="blue-header">
+    <!-- Top Navigation Bar -->
+    <div class="top-bar">
+        <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo" class="logo">
+        <div class="user-actions">
+            <a href="#">List your property</a>
+            <div class="user-profile">
+                <img src="../assets/images/profile/dion.jpg" alt="Profile" class="profile-img">
+                <div class="user-details">
+                    <div class="username">User</div>
+                    <div class="genius-level">Genius Level 1</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
- Banner
+<!-- Banner -->
 <section class="banner">
   <h1>Car rentals for any kind of trip</h1>
   <h2>Great cars at great prices from the biggest rental companies</h2>
@@ -205,13 +288,32 @@
 
 
 <script>
-  document.querySelector('.nav-btns:nth-child(1)').addEventListener('click', function() {
-    window.location.href = 'main_dashboard.html';
-  });
-  document.querySelector('.nav-btns:nth-child(3)').addEventListener('click', function() {
-    window.location.href = 'vehicles.html';
-  });
+    document.addEventListener('DOMContentLoaded', function () {
+        const storedName = localStorage.getItem('name') || "Dion";
+        document.querySelectorAll('.username').forEach(el => el.textContent = storedName);
+        const greetingName = document.getElementById('greetingName');
+        if (greetingName) greetingName.textContent = storedName;
+    });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the URL search parameters
+        const queryParams = new URLSearchParams(window.location.search);
+        const vehicleType = queryParams.get('vehicle');  // e.g., "Car"
+
+        // If there is a vehicle parameter, update the header text
+        if (vehicleType) {
+            const vehicleTypeHeader = document.querySelector('.vehicle-type');
+            if (vehicleTypeHeader) {
+                vehicleTypeHeader.textContent = vehicleType;
+            }
+        }
+    });
+</script>
+
+
+
 
 
 </body>
