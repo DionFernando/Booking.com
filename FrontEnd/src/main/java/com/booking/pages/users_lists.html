@@ -311,6 +311,7 @@
                     imgDiv.className = "list-card-img";
 
                     const imgEl = document.createElement("img");
+                    imgEl.src = "http://localhost:8080" + vehicle.image;
                     // If the image field stores a Base64 string, adjust the src accordingly:
                     // imgEl.src = "data:image/jpeg;base64," + vehicle.image;
                     // If the image field stores a URL or file path, use it directly:

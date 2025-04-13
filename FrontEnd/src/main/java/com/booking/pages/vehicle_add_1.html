@@ -644,23 +644,35 @@
     // Form Submission - Updated to send data to the backend
     form.addEventListener('submit', function(event) {
         event.preventDefault();
-        if (validateAllSteps()) {
-            collectFormData();
-            // Convert formData to JSON. Note: if you need to handle file uploads, you'll have to use FormData.
-            const payload = JSON.stringify(formData);
-            console.log("payload", payload);
 
-            // Optionally, get the JWT token from localStorage or another store:
+        if (validateAllSteps()) {
+            // Create a FormData object
+            const formData = new FormData();
+            // Append all fields from your form
+            requiredFields.forEach(fieldId => {
+                const element = document.getElementById(fieldId);
+                if (element) {
+                    // For the file field, append the file (not the name)
+                    if (element.type === 'file') {
+                        if (element.files.length > 0) {
+                            formData.append("imageFile", element.files[0]);
+                        }
+                    } else {
+                        formData.append(fieldId, element.value);
+                    }
+                }
+            });
+
+            // Get token from localStorage
             const token = localStorage.getItem('token');
-            console.log("token", token);
 
             fetch('http://localhost:8080/vehicles/save', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
+                    // Note: Do NOT set 'Content-Type' when sending FormData; the browser sets it automatically.
                 },
-                body: payload
+                body: formData
             })
                 .then(response => {
                     if (!response.ok) {
@@ -685,6 +697,7 @@
                 });
         }
     });
+
 </script>
 </body>
 </html>

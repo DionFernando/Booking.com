@@ -351,8 +351,15 @@
                 return response.text();
             })
             .then(html => {
-                document.getElementById('contentContainer').innerHTML = html;
+                const container = document.getElementById('contentContainer');
+                container.innerHTML = html;
                 window.scrollTo(0, 0);
+
+                // If the vehicles dashboard was loaded, run its initialization
+                if (pageUrl === 'vehicles_dashboard.html') {
+                    initVehiclesDashboard();
+                }
+                // Similarly, call other initialization functions for other pages if needed
             })
             .catch(error => {
                 console.error('Error loading content:', error);
@@ -360,6 +367,87 @@
                     '<p style="color: red; text-align: center;">Failed to load content. Please try again later.</p>';
             });
     }
+    function initVehiclesDashboard() {
+        // Define your vehicle master list (using the correct variable name)
+        const vehicles = [
+            "Car", "Van", "SUV", "Mini Van", "Lorry", "Exotic Cars", "Truck",
+            "Tuk Tuk", "Jeep", "Boat", "Bus", "Convertible", "Jet Ski", "Luxurious Cars", "Pickup Truck"
+        ];
+
+        const vehicleInput = document.getElementById('vehicleInput');
+        const vehicleDropdown = document.getElementById('vehicleDropdown');
+        const vehicleDropdownList = vehicleDropdown.querySelector('ul');
+        const searchBtn = document.getElementById('searchBtn');
+
+        // Bind the vehicle input events
+        vehicleInput.addEventListener('input', () => {
+            const inputValue = vehicleInput.value.toLowerCase();
+            let filtered = vehicles.filter(v => v.toLowerCase().includes(inputValue));
+            filtered = filtered.slice(0, 7);
+
+            if (!inputValue || filtered.length === 0) {
+                vehicleDropdown.style.display = 'none';
+                return;
+            }
+
+            vehicleDropdownList.innerHTML = '';
+            filtered.forEach(vehicle => {
+                const li = document.createElement('li');
+                li.textContent = vehicle;
+                li.addEventListener('click', () => {
+                    vehicleInput.value = vehicle;
+                    vehicleDropdown.style.display = 'none';
+                });
+                vehicleDropdownList.appendChild(li);
+            });
+            vehicleDropdown.style.display = 'block';
+        });
+
+        document.addEventListener('click', e => {
+            if (!vehicleDropdown.contains(e.target) && !vehicleInput.contains(e.target)) {
+                vehicleDropdown.style.display = 'none';
+            }
+        });
+
+        // Redirect function, setting up navigation
+        function goToVehicleList(vehicleType) {
+            window.location.href = 'vehicle_list.html?vehicle=' + encodeURIComponent(vehicleType);
+        }
+
+        // Validate input and navigate on Search button click
+        searchBtn.addEventListener('click', () => {
+            const typedValue = vehicleInput.value.trim();
+            if (!vehicles.includes(typedValue)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Vehicle Type',
+                    text: 'Please select a valid vehicle type from the list.'
+                });
+            } else {
+                goToVehicleList(typedValue);
+            }
+        });
+
+        // Bind click events on vehicle boxes (for redirection)
+        document.querySelectorAll('.vehicle-box').forEach(box => {
+            box.addEventListener('click', function() {
+                const vehicleType = this.querySelector('.vehicle-name').textContent;
+                vehicleInput.value = vehicleType;
+                goToVehicleList(vehicleType);
+            });
+        });
+
+        // Toggle the View More / View Less functionality
+        document.getElementById('view-more').addEventListener('click', function() {
+            document.getElementById('more-vehicles').style.display = 'block';
+            this.style.display = 'none';
+        });
+        document.getElementById('view-less').addEventListener('click', function() {
+            document.getElementById('more-vehicles').style.display = 'none';
+            document.getElementById('view-more').style.display = 'block';
+        });
+    }
+
 </script>
 
 </body>
