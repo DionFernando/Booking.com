@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>List Your Vehicle - Booking.com</title>
     <style>
         /* Basic Reset */
@@ -27,7 +27,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .logo {
@@ -119,7 +119,7 @@
             background: white;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .form-step {
@@ -229,7 +229,7 @@
         .btn:hover {
             background-color: #0056b3;
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .btn:disabled {
@@ -288,9 +288,8 @@
     </style>
 </head>
 <body>
-
 <div class="header">
-    <img src="../../assets/icons/bookinglogowhite.png" alt="Booking.com Logo" class="logo">
+    <img src="../../assets/icons/bookinglogowhite.png" alt="Booking.com Logo" class="logo" />
 </div>
 
 <div class="container">
@@ -310,11 +309,12 @@
     </div>
 
     <form class="vehicle-form" id="vehicleForm">
+        <!-- Step 1: Vehicle Type -->
         <div class="form-step active" id="step1">
             <h2>1. Vehicle Type</h2>
             <div class="form-group">
-                <label for="vehicleType">Select Vehicle Type</label>
-                <select id="vehicleType" required>
+                <label for="type">Select Vehicle Type</label>
+                <select id="type" required>
                     <option value="" disabled selected>Select Vehicle Type</option>
                     <option value="car">Car</option>
                     <option value="van">Van</option>
@@ -332,19 +332,20 @@
                     <option value="lux-cars">Luxurious Cars</option>
                     <option value="pickup-truck">Pickup Truck</option>
                 </select>
-                <div id="vehicleTypeError" class="error-message">Please select a vehicle type</div>
+                <div id="typeError" class="error-message">Please select a vehicle type</div>
             </div>
             <div class="button-container">
                 <button type="button" class="btn" onclick="nextStep()">Next</button>
             </div>
         </div>
 
+        <!-- Step 2: Vehicle Brand -->
         <div class="form-step" id="step2">
             <h2>2. Vehicle Brand</h2>
             <div class="form-group">
-                <label for="vehicleBrand">Brand Name</label>
-                <input type="text" id="vehicleBrand" name="vehicleBrand" placeholder="e.g. Toyota, BMW, Honda" required>
-                <div id="vehicleBrandError" class="error-message">Please enter the vehicle brand</div>
+                <label for="brand">Brand Name</label>
+                <input type="text" id="brand" name="brand" placeholder="e.g. Toyota, BMW, Honda" required>
+                <div id="brandError" class="error-message">Please enter the vehicle brand</div>
             </div>
             <div class="button-container">
                 <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
@@ -352,12 +353,13 @@
             </div>
         </div>
 
+        <!-- Step 3: Number of Seats -->
         <div class="form-step" id="step3">
             <h2>3. Number of Seats</h2>
             <div class="form-group">
-                <label for="seatsCount">Seats Count</label>
-                <input type="number" id="seatsCount" name="seatsCount" min="1" placeholder="e.g. 4" required>
-                <div id="seatsCountError" class="error-message">Please enter a valid number of seats</div>
+                <label for="seats">Seats Count</label>
+                <input type="number" id="seats" name="seats" min="1" placeholder="e.g. 4" required>
+                <div id="seatsError" class="error-message">Please enter a valid number of seats</div>
             </div>
             <div class="button-container">
                 <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
@@ -365,12 +367,13 @@
             </div>
         </div>
 
+        <!-- Step 4: Vehicle Color -->
         <div class="form-step" id="step4">
             <h2>4. Vehicle Color</h2>
             <div class="form-group">
-                <label for="vehicleColor">Color</label>
-                <input type="text" id="vehicleColor" name="vehicleColor" placeholder="e.g. Red, Blue, Black" required>
-                <div id="vehicleColorError" class="error-message">Please enter the vehicle color</div>
+                <label for="color">Color</label>
+                <input type="text" id="color" name="color" placeholder="e.g. Red, Blue, Black" required>
+                <div id="colorError" class="error-message">Please enter the vehicle color</div>
             </div>
             <div class="button-container">
                 <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
@@ -378,6 +381,7 @@
             </div>
         </div>
 
+        <!-- Step 5: Description -->
         <div class="form-step" id="step5">
             <h2>5. Description</h2>
             <div class="form-group">
@@ -392,6 +396,7 @@
             </div>
         </div>
 
+        <!-- Step 6: Upload Image -->
         <div class="form-step" id="step6">
             <h2>6. Upload Image</h2>
             <div class="form-group">
@@ -410,12 +415,13 @@
             </div>
         </div>
 
+        <!-- Step 7: Price for 3 Days -->
         <div class="form-step" id="step7">
             <h2>7. Price for 3 Days</h2>
             <div class="form-group">
-                <label for="price">Price ($)</label>
-                <input type="number" id="price" name="price" min="1" placeholder="e.g. 150" required>
-                <div id="priceError" class="error-message">Please enter a valid price</div>
+                <label for="priceFor3Days">Price (LKR)</label>
+                <input type="number" id="priceFor3Days" name="priceFor3Days" min="1" placeholder="e.g. 150" required>
+                <div id="priceFor3DaysError" class="error-message">Please enter a valid price</div>
             </div>
             <div class="button-container">
                 <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
@@ -423,6 +429,7 @@
             </div>
         </div>
 
+        <!-- Submit Container -->
         <div class="submit-container">
             <button type="submit" id="submitButton" class="btn" disabled>Publish Listing</button>
         </div>
@@ -440,14 +447,15 @@
     // Form state
     let currentStep = 0;
     const formData = {};
+    // Updated required fields to match the DTO
     const requiredFields = [
-        'vehicleType',
-        'vehicleBrand',
-        'seatsCount',
-        'vehicleColor',
+        'type',
+        'brand',
+        'seats',
+        'color',
         'description',
         'image',
-        'price'
+        'priceFor3Days'
     ];
     const fieldValidations = {};
 
@@ -461,7 +469,7 @@
 
     // Event Listeners
     function setupEventListeners() {
-        // Real-time validation for all required fields
+        // Real-time validation for required fields
         requiredFields.forEach(fieldId => {
             const element = document.getElementById(fieldId);
             if (element) {
@@ -479,8 +487,7 @@
             updateStepIndicators();
             checkFormCompletion();
             if (this.files.length > 0) {
-                document.querySelector('.file-input-container p').textContent =
-                    `${this.files.length} file(s) selected`;
+                document.querySelector('.file-input-container p').textContent = `${this.files.length} file(s) selected`;
             }
         });
     }
@@ -489,13 +496,11 @@
     function validateField(fieldId) {
         const element = document.getElementById(fieldId);
         const errorElement = document.getElementById(fieldId + 'Error');
-
         if (!element) return true;
-
         let isValid = true;
         let value = element.value;
 
-        // For file inputs, check if files are selected
+        // File input validation
         if (element.type === 'file') {
             value = element.files.length > 0 ? 'file' : '';
         }
@@ -504,22 +509,18 @@
             isValid = false;
             showError(errorElement, 'This field is required');
         } else {
-            // Special validation for certain fields
-            if (fieldId === 'seatsCount' && (isNaN(value) || parseInt(value) < 1)) {
+            if (fieldId === 'seats' && (isNaN(value) || parseInt(value) < 1)) {
                 isValid = false;
                 showError(errorElement, 'Please enter a valid number');
             }
-
-            if (fieldId === 'price' && (isNaN(value) || parseFloat(value) <= 0)) {
+            if (fieldId === 'priceFor3Days' && (isNaN(value) || parseFloat(value) <= 0)) {
                 isValid = false;
                 showError(errorElement, 'Price must be greater than 0');
             }
-
             if (isValid) {
                 hideError(errorElement);
             }
         }
-
         fieldValidations[fieldId] = isValid;
         return isValid;
     }
@@ -540,24 +541,13 @@
     function validateCurrentStep() {
         let isValid = true;
         const currentStepId = formSteps[currentStep].id;
-
-        // Check which fields are in the current step
-        if (currentStepId === 'step1') {
-            isValid = validateField('vehicleType');
-        } else if (currentStepId === 'step2') {
-            isValid = validateField('vehicleBrand');
-        } else if (currentStepId === 'step3') {
-            isValid = validateField('seatsCount');
-        } else if (currentStepId === 'step4') {
-            isValid = validateField('vehicleColor');
-        } else if (currentStepId === 'step5') {
-            isValid = validateField('description');
-        } else if (currentStepId === 'step6') {
-            isValid = validateField('image');
-        } else if (currentStepId === 'step7') {
-            isValid = validateField('price');
-        }
-
+        if (currentStepId === 'step1') isValid = validateField('type');
+        else if (currentStepId === 'step2') isValid = validateField('brand');
+        else if (currentStepId === 'step3') isValid = validateField('seats');
+        else if (currentStepId === 'step4') isValid = validateField('color');
+        else if (currentStepId === 'step5') isValid = validateField('description');
+        else if (currentStepId === 'step6') isValid = validateField('image');
+        else if (currentStepId === 'step7') isValid = validateField('priceFor3Days');
         return isValid;
     }
 
@@ -583,37 +573,20 @@
 
     function updateStepIndicators() {
         stepIndicators.forEach((indicator, index) => {
-            // Reset all classes
             indicator.classList.remove('active', 'completed', 'invalid');
-
-            // Set current step
             if (index === currentStep) {
                 indicator.classList.add('active');
-            }
-            // Set completed steps
-            else if (index < currentStep) {
+            } else if (index < currentStep) {
                 indicator.classList.add('completed');
             }
-
-            // Check if previous steps are valid
             if (index <= currentStep) {
                 let stepValid = true;
-
-                // Check which fields belong to this step
-                if (index === 0) {
-                    stepValid = fieldValidations['vehicleType'] !== false;
-                } else if (index === 1) {
-                    stepValid = fieldValidations['vehicleBrand'] !== false;
-                } else if (index === 2) {
-                    stepValid = fieldValidations['seatsCount'] !== false;
-                } else if (index === 3) {
-                    stepValid = fieldValidations['vehicleColor'] !== false;
-                } else if (index === 4) {
-                    stepValid = fieldValidations['description'] !== false;
-                } else if (index === 5) {
-                    stepValid = fieldValidations['image'] !== false;
-                }
-
+                if (index === 0) stepValid = fieldValidations['type'] !== false;
+                else if (index === 1) stepValid = fieldValidations['brand'] !== false;
+                else if (index === 2) stepValid = fieldValidations['seats'] !== false;
+                else if (index === 3) stepValid = fieldValidations['color'] !== false;
+                else if (index === 4) stepValid = fieldValidations['description'] !== false;
+                else if (index === 5) stepValid = fieldValidations['image'] !== false;
                 if (!stepValid && index < currentStep) {
                     indicator.classList.add('invalid');
                     indicator.classList.remove('completed');
@@ -650,7 +623,6 @@
             collectFormData();
             alert('Your vehicle listing is ready to be published!');
         } else {
-            // Highlight all invalid steps
             updateStepIndicators();
         }
     }
@@ -669,33 +641,50 @@
         });
     }
 
-    // Form Submission
+    // Form Submission - Updated to send data to the backend
     form.addEventListener('submit', function(event) {
         event.preventDefault();
-
         if (validateAllSteps()) {
             collectFormData();
+            // Convert formData to JSON. Note: if you need to handle file uploads, you'll have to use FormData.
+            const payload = JSON.stringify(formData);
+            console.log("payload", payload);
 
-            // In a real application, you would send the data to your server here
-            console.log('Form submitted:', formData);
+            // Optionally, get the JWT token from localStorage or another store:
+            const token = localStorage.getItem('token');
+            console.log("token", token);
 
-            // Show success message
-            alert('Your vehicle has been listed successfully!');
-
-            // Reset form (in a real app, you might redirect instead)
-            form.reset();
-            currentStep = 0;
-            showStep(currentStep);
-            submitButton.disabled = true;
-
-            // Reset validation states
-            requiredFields.forEach(fieldId => {
-                fieldValidations[fieldId] = false;
-            });
-            updateStepIndicators();
+            fetch('http://localhost:8080/vehicles/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: payload
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not OK');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Your vehicle has been listed successfully!');
+                    form.reset();
+                    currentStep = 0;
+                    showStep(currentStep);
+                    submitButton.disabled = true;
+                    requiredFields.forEach(fieldId => {
+                        fieldValidations[fieldId] = false;
+                    });
+                    updateStepIndicators();
+                })
+                .catch(error => {
+                    console.error('Error saving the vehicle:', error);
+                    alert('There was an error saving your vehicle. Please try again.');
+                });
         }
     });
 </script>
-
 </body>
 </html>

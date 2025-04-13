@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.repo;
 
 import com.booking.backend.entity.SavedVehicle;
@@ -11,3 +12,4 @@ public interface SavedVehicleRepository extends JpaRepository<SavedVehicle, UUID
     List<SavedVehicle> findByUserId(String userId);
     Optional<SavedVehicle> findByUserIdAndVehicleId(String userId, UUID vehicleId);
 }
+*/

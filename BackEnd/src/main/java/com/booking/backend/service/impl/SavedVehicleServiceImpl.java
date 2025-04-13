@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.service.impl;
 
 import com.booking.backend.dto.VehicleDTO;
@@ -64,3 +65,4 @@ public class SavedVehicleServiceImpl implements SavedVehicleService {
                 .collect(Collectors.toList());
     }
 }
+*/

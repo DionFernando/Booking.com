@@ -18,4 +18,5 @@ public class VehicleDTO {
     private String description;
     private String image;
     private Double priceFor3Days;
+    private String ownerEmail;
 }

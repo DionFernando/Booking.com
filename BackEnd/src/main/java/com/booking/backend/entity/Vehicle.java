@@ -31,4 +31,6 @@ public class Vehicle {
     private String image;
 
     private Double priceFor3Days;
+
+    private String ownerEmail;
 }

@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.entity;
 
 import jakarta.persistence.*;
@@ -24,3 +25,4 @@ public class SavedVehicle {
     @JoinColumn(name = "vehicle_id", nullable = false)
     private Vehicle vehicle;
 }
+*/

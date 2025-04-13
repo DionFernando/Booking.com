@@ -20,7 +20,7 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public VehicleDTO createVehicle(VehicleDTO vehicleDTO) {
+    public VehicleDTO createVehicle(VehicleDTO vehicleDTO, String ownerEmail) {
         Vehicle vehicle = new Vehicle(
                 null,
                 vehicleDTO.getType(),
@@ -29,11 +29,14 @@ public class VehicleServiceImpl implements VehicleService {
                 vehicleDTO.getColor(),
                 vehicleDTO.getDescription(),
                 vehicleDTO.getImage(),
-                vehicleDTO.getPriceFor3Days()
+                vehicleDTO.getPriceFor3Days(),
+                ownerEmail  // set the owner email here
         );
         vehicle = vehicleRepository.save(vehicle);
         return convertToDTO(vehicle);
     }
+
+    // Other methods remain unchanged
 
     @Override
     public VehicleDTO getVehicleById(UUID id) {
@@ -61,6 +64,7 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setDescription(vehicleDTO.getDescription());
         vehicle.setImage(vehicleDTO.getImage());
         vehicle.setPriceFor3Days(vehicleDTO.getPriceFor3Days());
+        // Optionally update ownerEmail if you want to allow changing the owner (often not permitted)
         vehicle = vehicleRepository.save(vehicle);
         return convertToDTO(vehicle);
     }
@@ -81,7 +85,9 @@ public class VehicleServiceImpl implements VehicleService {
                 vehicle.getColor(),
                 vehicle.getDescription(),
                 vehicle.getImage(),
-                vehicle.getPriceFor3Days()
+                vehicle.getPriceFor3Days(),
+                vehicle.getOwnerEmail()
         );
     }
 }
+

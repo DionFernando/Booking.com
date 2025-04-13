@@ -2,10 +2,128 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | Booking.com</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #0073e6;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .container {
+            display: flex;
+            height: calc(100vh - 50px);
+        }
+        .sidebar {
+            width: 250px;
+            background: #333;
+            color: #fff;
+            padding: 20px;
+        }
+        .sidebar h2 {
+            margin-top: 0;
+        }
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .sidebar a:hover {
+            background: #444;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background: #fff;
+            overflow-y: auto;
+        }
+        .card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .card h3 {
+            margin-top: 0;
+        }
+        .card .stat {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
+<header>
+    <h1>Admin Dashboard</h1>
+    <nav>
+        <a href="#">Profile</a>
+        <a href="#">Settings</a>
+        <a href="#">Logout</a>
+    </nav>
+</header>
+
+<div class="container">
+    <aside class="sidebar">
+        <h2>Menu</h2>
+        <a href="#">Dashboard</a>
+        <a href="#">Bookings</a>
+        <a href="#">Users</a>
+        <a href="#">Reports</a>
+        <a href="#">Settings</a>
+    </aside>
+
+    <main class="main-content">
+        <h2>Overview</h2>
+        <div class="card">
+            <h3>Total Bookings</h3>
+            <div class="stat">150</div>
+        </div>
+        <div class="card">
+            <h3>New Users</h3>
+            <div class="stat">25</div>
+        </div>
+        <div class="card">
+            <h3>Revenue</h3>
+            <div class="stat">$5,000</div>
+        </div>
+        <div class="card">
+            <h3>Pending Requests</h3>
+            <div class="stat">10</div>
+        </div>
+    </main>
+</div>
 
 </body>
 </html>
