@@ -3,20 +3,16 @@ package com.booking.backend.controller;
 import com.booking.backend.dto.VehicleDTO;
 import com.booking.backend.service.VehicleService;
 import com.booking.backend.util.JwtUtil;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
-
 import java.util.List;
 import java.util.UUID;
 
-//@CrossOrigin(origins = "http://localhost:63342")
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/vehicles")
-
 public class VehicleController {
 
     private final VehicleService vehicleService;
@@ -29,9 +25,7 @@ public class VehicleController {
 
     @PostMapping("/save")
     public ResponseEntity<VehicleDTO> createVehicle(@RequestBody VehicleDTO vehicleDTO, HttpServletRequest request) {
-//        String email = (String) request.getAttribute("email");
-        var email = jwtUtil.getUsernameFromToken(request.getHeader("Authorization").substring(7));
-        // Optionally check if email is null and handle unauthorized access
+        String email = jwtUtil.getUsernameFromToken(request.getHeader("Authorization").substring(7));
         if (email == null) {
             return ResponseEntity.status(401).build();
         }
@@ -46,6 +40,18 @@ public class VehicleController {
     @GetMapping
     public ResponseEntity<List<VehicleDTO>> getAllVehicles() {
         return ResponseEntity.ok(vehicleService.getAllVehicles());
+    }
+
+    // New endpoint: Get vehicles for the current user
+    @GetMapping("/user")
+    public ResponseEntity<List<VehicleDTO>> getVehiclesForUser(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token == null || !token.startsWith("Bearer ")) {
+            return ResponseEntity.status(401).build();
+        }
+        String email = jwtUtil.getUsernameFromToken(token.substring(7));
+        List<VehicleDTO> vehicles = vehicleService.getVehiclesByOwner(email);
+        return ResponseEntity.ok(vehicles);
     }
 
     @PutMapping("/{id}")

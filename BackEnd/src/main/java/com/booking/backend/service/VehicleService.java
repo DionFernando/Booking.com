@@ -10,5 +10,7 @@ public interface VehicleService {
     List<VehicleDTO> getAllVehicles();
     VehicleDTO updateVehicle(UUID id, VehicleDTO vehicleDTO);
     void deleteVehicle(UUID id);
+
+    List<VehicleDTO> getVehiclesByOwner(String ownerEmail);
 }
 

@@ -30,13 +30,21 @@ public class VehicleServiceImpl implements VehicleService {
                 vehicleDTO.getDescription(),
                 vehicleDTO.getImage(),
                 vehicleDTO.getPriceFor3Days(),
-                ownerEmail  // set the owner email here
+                ownerEmail  // Set the owner email from the token
         );
         vehicle = vehicleRepository.save(vehicle);
         return convertToDTO(vehicle);
     }
 
-    // Other methods remain unchanged
+    // Other methods remain unchanged…
+
+    @Override
+    public List<VehicleDTO> getVehiclesByOwner(String ownerEmail) {
+        return vehicleRepository.findByOwnerEmail(ownerEmail)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public VehicleDTO getVehicleById(UUID id) {
@@ -64,7 +72,6 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setDescription(vehicleDTO.getDescription());
         vehicle.setImage(vehicleDTO.getImage());
         vehicle.setPriceFor3Days(vehicleDTO.getPriceFor3Days());
-        // Optionally update ownerEmail if you want to allow changing the owner (often not permitted)
         vehicle = vehicleRepository.save(vehicle);
         return convertToDTO(vehicle);
     }
@@ -90,4 +97,3 @@ public class VehicleServiceImpl implements VehicleService {
         );
     }
 }
-

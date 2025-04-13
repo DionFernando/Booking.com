@@ -259,5 +259,114 @@
     </section>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Assuming your JWT token is stored in localStorage with key 'token'
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.error("No token found. Please log in.");
+            return;
+        }
+
+        // URL of your backend endpoint – adjust the host/port if needed
+        const endpoint = "http://localhost:8080/vehicles/user";
+
+        fetch(endpoint, {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch vehicles');
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayVehicles(data);
+            })
+            .catch(error => {
+                console.error('Error fetching vehicles:', error);
+            });
+
+        function displayVehicles(vehicles) {
+            const vehiclesListDiv = document.getElementById('vehiclesList');
+            const noVehiclesMessageDiv = document.getElementById('noVehiclesMessage');
+
+            // Clear any existing content in the vehicles list container
+            vehiclesListDiv.innerHTML = "";
+
+            if (vehicles.length === 0) {
+                noVehiclesMessageDiv.style.display = "block";
+            } else {
+                noVehiclesMessageDiv.style.display = "none";
+
+                vehicles.forEach(vehicle => {
+                    // Create the outer card div
+                    const cardDiv = document.createElement("div");
+                    cardDiv.className = "list-card";
+
+                    // Left image container
+                    const imgDiv = document.createElement("div");
+                    imgDiv.className = "list-card-img";
+
+                    const imgEl = document.createElement("img");
+                    // If the image field stores a Base64 string, adjust the src accordingly:
+                    // imgEl.src = "data:image/jpeg;base64," + vehicle.image;
+                    // If the image field stores a URL or file path, use it directly:
+                    imgEl.src = vehicle.image;
+                    imgEl.alt = vehicle.brand;
+                    imgDiv.appendChild(imgEl);
+
+                    // Right details container
+                    const detailsDiv = document.createElement("div");
+                    detailsDiv.className = "list-card-details";
+
+                    // Create and add the brand as a heading
+                    const heading = document.createElement("h3");
+                    heading.textContent = vehicle.brand;
+                    detailsDiv.appendChild(heading);
+
+                    // Description paragraph
+                    const descriptionPara = document.createElement("p");
+                    descriptionPara.innerHTML = `<strong>Description:</strong> ${vehicle.description}`;
+                    detailsDiv.appendChild(descriptionPara);
+
+                    // Seats count paragraph
+                    const seatsPara = document.createElement("p");
+                    seatsPara.innerHTML = `<strong>Seats Count:</strong> ${vehicle.seats}`;
+                    detailsDiv.appendChild(seatsPara);
+
+                    // Color paragraph
+                    const colorPara = document.createElement("p");
+                    colorPara.innerHTML = `<strong>Color:</strong> ${vehicle.color}`;
+                    detailsDiv.appendChild(colorPara);
+
+                    // Price paragraph
+                    const pricePara = document.createElement("p");
+                    pricePara.innerHTML = `<strong>Price for 3 Days:</strong> LKR ${vehicle.priceFor3Days}`;
+                    detailsDiv.appendChild(pricePara);
+
+                    // Edit button
+                    const editButton = document.createElement("a");
+                    editButton.className = "edit-button";
+                    // Pass the vehicle id as a query parameter for editing
+                    editButton.href = "edit_vehicle.html?id=" + vehicle.id;
+                    editButton.textContent = "Edit";
+                    detailsDiv.appendChild(editButton);
+
+                    // Combine image and details
+                    cardDiv.appendChild(imgDiv);
+                    cardDiv.appendChild(detailsDiv);
+
+                    // Add the card to the vehiclesList container
+                    vehiclesListDiv.appendChild(cardDiv);
+                });
+            }
+        }
+    });
+</script>
+
+
 </body>
 </html>
