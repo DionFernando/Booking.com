@@ -227,7 +227,13 @@
                     <img src="../assets/icons/suitcase.png" alt="Bookings Icon" class="icon" /> Bookings & Trips
                 </div>
                 <div class="dropdown-item">
+                    <img src="../assets/icons/lists.png" alt="List Icon" class="icon" /> Your Lists
+                </div>
+                <div class="dropdown-item">
                     <img src="../assets/icons/heart.png" alt="Saved Icon" class="icon" /> Saved
+                </div>
+                <div class="dropdown-item">
+                    <img src="../assets/icons/wallet.png" alt="Wallet Icon" class="icon" /> Wallet
                 </div>
                 <div class="dropdown-item">
                     <img src="../assets/icons/doc.png" alt="loyalty Icon" class="icon" /> Genius loyalty programme
@@ -286,6 +292,14 @@
             myAccountBtn.addEventListener('click', function(event) {
                 event.stopPropagation();
                 window.location.href = 'my_account.html';
+            });
+        }
+
+        const myLists = document.querySelector('#dropdownMenu .dropdown-item:nth-child(3)');
+        if (myLists){
+            myLists.addEventListener('click', function(event) {
+                event.stopPropagation();
+                window.location.href = 'users_lists.html';
             });
         }
 
