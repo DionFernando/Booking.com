@@ -10,6 +10,9 @@ public class PropertiesDTO {
     private int bedCount;
     private double price;  // per day
 
+    // New field for the user's email
+    private String userEmail;
+
     // Getters and Setters
 
     public String getType() {
@@ -59,5 +62,11 @@ public class PropertiesDTO {
     }
     public void setPrice(double price) {
         this.price = price;
+    }
+    public String getUserEmail() {
+        return userEmail;
+    }
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 }

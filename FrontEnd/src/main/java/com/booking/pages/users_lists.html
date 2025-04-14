@@ -19,7 +19,6 @@
             text-decoration: none;
             color: inherit;
         }
-
         /* Header */
         header {
             background-color: #003580;
@@ -38,7 +37,6 @@
             margin-left: 15px;
             opacity: 0.9;
         }
-
         /* After Header Section */
         .after-header {
             border: 1px solid #003580;
@@ -55,14 +53,12 @@
             font-size: 0.9rem;
             margin-bottom: 20px;
         }
-
         /* Main Content Container */
         .container {
             max-width: 1200px;
             margin: 20px auto;
             padding: 0 20px;
         }
-
         /* Section Titles */
         .section-title {
             font-size: 1.5rem;
@@ -77,7 +73,6 @@
             width: 30px;
             margin-right: 10px;
         }
-
         /* List Card Layout */
         .list-card {
             display: flex;
@@ -125,7 +120,6 @@
         .edit-button:hover {
             background-color: #005999;
         }
-
         /* Placeholder Message */
         .placeholder {
             text-align: center;
@@ -133,7 +127,6 @@
             color: #777;
             font-size: 0.9rem;
         }
-
         /* Call-to-Action Button */
         .cta-button {
             display: inline-block;
@@ -150,7 +143,6 @@
         .cta-button:hover {
             background-color: #005999;
         }
-
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             header {
@@ -198,24 +190,7 @@
         </div>
         <!-- Listings Container: Sample List Card for a Vehicle -->
         <div id="vehiclesList">
-            <!-- If there are listings, they will be injected here. Below is a sample card markup. -->
-            <!--
-            <div class="list-card">
-                <div class="list-card-img">
-                    <img src="https://source.unsplash.com/featured/?car" alt="Vehicle">
-                </div>
-                <div class="list-card-details">
-                    <div>
-                        <h3>Toyota Camry</h3>
-                        <p><strong>Description:</strong> Well-maintained car with a sleek design.</p>
-                        <p><strong>Seats Count:</strong> 5</p>
-                        <p><strong>Color:</strong> Red</p>
-                        <p><strong>Price for 3 Days:</strong> LKR 15,000</p>
-                    </div>
-                    <a class="edit-button" href="edit_vehicle.html?id=VEHICLE_ID">Edit</a>
-                </div>
-            </div>
-            -->
+            <!-- Vehicles cards will be injected here -->
         </div>
         <!-- Placeholder if no vehicles are listed -->
         <div class="placeholder" id="noVehiclesMessage">
@@ -232,24 +207,7 @@
         </div>
         <!-- Listings Container: Sample List Card for a Property -->
         <div id="propertiesList">
-            <!-- If there are listings, they will be injected here. Below is a sample card markup. -->
-            <!--
-            <div class="list-card">
-                <div class="list-card-img">
-                    <img src="https://source.unsplash.com/featured/?house" alt="Property">
-                </div>
-                <div class="list-card-details">
-                    <div>
-                        <h3>Modern Apartment</h3>
-                        <p><strong>Description:</strong> Spacious and well-located apartment.</p>
-                        <p><strong>Seats Count:</strong> N/A</p>
-                        <p><strong>Color:</strong> N/A</p>
-                        <p><strong>Price for 3 Days:</strong> LKR 20,000</p>
-                    </div>
-                    <a class="edit-button" href="edit_property.html?id=PROPERTY_ID">Edit</a>
-                </div>
-            </div>
-            -->
+            <!-- Properties cards will be injected here -->
         </div>
         <!-- Placeholder if no properties are listed -->
         <div class="placeholder" id="noPropertiesMessage">
@@ -261,17 +219,16 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Assuming your JWT token is stored in localStorage with key 'token'
+        // Retrieve the JWT token from localStorage
         const token = localStorage.getItem('token');
         if (!token) {
             console.error("No token found. Please log in.");
             return;
         }
 
-        // URL of your backend endpoint – adjust the host/port if needed
-        const endpoint = "http://localhost:8080/vehicles/user";
-
-        fetch(endpoint, {
+        // Fetch vehicles listed by the user
+        const vehiclesEndpoint = "http://localhost:8080/vehicles/user";
+        fetch(vehiclesEndpoint, {
             headers: {
                 'Authorization': 'Bearer ' + token
             }
@@ -289,6 +246,27 @@
                 console.error('Error fetching vehicles:', error);
             });
 
+        // Fetch properties listed by the user
+        const propertiesEndpoint = "http://localhost:8080/api/v1/properties/user";
+        fetch(propertiesEndpoint, {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch properties');
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayProperties(data);
+            })
+            .catch(error => {
+                console.error('Error fetching properties:', error);
+            });
+
+        // Function to display vehicles
         function displayVehicles(vehicles) {
             const vehiclesListDiv = document.getElementById('vehiclesList');
             const noVehiclesMessageDiv = document.getElementById('noVehiclesMessage');
@@ -302,19 +280,15 @@
                 noVehiclesMessageDiv.style.display = "none";
 
                 vehicles.forEach(vehicle => {
-                    // Create the outer card div
+                    // Create the outer card div for vehicle
                     const cardDiv = document.createElement("div");
                     cardDiv.className = "list-card";
 
                     // Left image container
                     const imgDiv = document.createElement("div");
                     imgDiv.className = "list-card-img";
-
                     const imgEl = document.createElement("img");
-                    imgEl.src = "http://localhost:8080" + vehicle.image;
-                    // If the image field stores a Base64 string, adjust the src accordingly:
-                    // imgEl.src = "data:image/jpeg;base64," + vehicle.image;
-                    // If the image field stores a URL or file path, use it directly:
+                    // Adjust the source if your image is a Base64 string or URL
                     imgEl.src = vehicle.image;
                     imgEl.alt = vehicle.brand;
                     imgDiv.appendChild(imgEl);
@@ -323,7 +297,7 @@
                     const detailsDiv = document.createElement("div");
                     detailsDiv.className = "list-card-details";
 
-                    // Create and add the brand as a heading
+                    // Create and add the vehicle brand as a heading
                     const heading = document.createElement("h3");
                     heading.textContent = vehicle.brand;
                     detailsDiv.appendChild(heading);
@@ -348,26 +322,88 @@
                     pricePara.innerHTML = `<strong>Price for 3 Days:</strong> LKR ${vehicle.priceFor3Days}`;
                     detailsDiv.appendChild(pricePara);
 
-                    // Edit button
+                    // Edit button for vehicle
                     const editButton = document.createElement("a");
                     editButton.className = "edit-button";
-                    // Pass the vehicle id as a query parameter for editing
                     editButton.href = "edit_vehicle.html?id=" + vehicle.id;
                     editButton.textContent = "Edit";
                     detailsDiv.appendChild(editButton);
 
-                    // Combine image and details
+                    // Combine image and details into card and add to the container
                     cardDiv.appendChild(imgDiv);
                     cardDiv.appendChild(detailsDiv);
-
-                    // Add the card to the vehiclesList container
                     vehiclesListDiv.appendChild(cardDiv);
+                });
+            }
+        }
+
+        // Function to display properties
+        function displayProperties(properties) {
+            const propertiesListDiv = document.getElementById('propertiesList');
+            const noPropertiesMessageDiv = document.getElementById('noPropertiesMessage');
+
+            // Clear any existing content in the properties list container
+            propertiesListDiv.innerHTML = "";
+
+            if (properties.length === 0) {
+                noPropertiesMessageDiv.style.display = "block";
+            } else {
+                noPropertiesMessageDiv.style.display = "none";
+
+                properties.forEach(property => {
+                    // Create the outer card div for property
+                    const cardDiv = document.createElement("div");
+                    cardDiv.className = "list-card";
+
+                    // Left image container
+                    const imgDiv = document.createElement("div");
+                    imgDiv.className = "list-card-img";
+                    const imgEl = document.createElement("img");
+                    // Adjust the source if the image is returned as Base64 or direct URL
+                    imgEl.src = property.image;
+                    imgEl.alt = property.name;
+                    imgDiv.appendChild(imgEl);
+
+                    // Right details container
+                    const detailsDiv = document.createElement("div");
+                    detailsDiv.className = "list-card-details";
+
+                    // Create and add the property name as a heading
+                    const heading = document.createElement("h3");
+                    heading.textContent = property.name;
+                    detailsDiv.appendChild(heading);
+
+                    // Description paragraph
+                    const descriptionPara = document.createElement("p");
+                    descriptionPara.innerHTML = `<strong>Description:</strong> ${property.description}`;
+                    detailsDiv.appendChild(descriptionPara);
+
+                    // Address paragraph
+                    const addressPara = document.createElement("p");
+                    addressPara.innerHTML = `<strong>Address:</strong> ${property.address}`;
+                    detailsDiv.appendChild(addressPara);
+
+                    // Price paragraph
+                    const pricePara = document.createElement("p");
+                    pricePara.innerHTML = `<strong>Price (Per Day):</strong> LKR ${property.price}`;
+                    detailsDiv.appendChild(pricePara);
+
+                    // Edit button for property
+                    const editButton = document.createElement("a");
+                    editButton.className = "edit-button";
+                    editButton.href = "edit_property.html?id=" + property.id;
+                    editButton.textContent = "Edit";
+                    detailsDiv.appendChild(editButton);
+
+                    // Combine image and details into card and add to the container
+                    cardDiv.appendChild(imgDiv);
+                    cardDiv.appendChild(detailsDiv);
+                    propertiesListDiv.appendChild(cardDiv);
                 });
             }
         }
     });
 </script>
-
 
 </body>
 </html>

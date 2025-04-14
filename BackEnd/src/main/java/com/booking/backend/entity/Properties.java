@@ -25,6 +25,9 @@ public class Properties {
     @Lob
     private byte[] image;
 
+    // New field to store the email of the user who added the property
+    private String userEmail;
+
     // Getters and Setters
 
     public Long getId() {
@@ -86,5 +89,12 @@ public class Properties {
     }
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 }

@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PropertiesServiceImpl implements PropertiesService {
 
@@ -26,14 +29,36 @@ public class PropertiesServiceImpl implements PropertiesService {
             property.setDescription(propertiesDTO.getDescription());
             property.setBedCount(propertiesDTO.getBedCount());
             property.setPrice(propertiesDTO.getPrice());
+            property.setUserEmail(propertiesDTO.getUserEmail()); // Save the user's email
+
             if (imageFile != null && !imageFile.isEmpty()) {
                 property.setImage(imageFile.getBytes());
             }
             Properties saved = propertiesRepository.save(property);
-            // Optionally transform saved entity to DTO if needed
+            // Optionally, map saved to a new DTO for response
             return propertiesDTO;
         } catch (Exception e) {
             throw new RuntimeException("Failed to save property", e);
         }
+    }
+
+    @Override
+    public List<PropertiesDTO> getPropertiesByUser(String email) {
+        List<Properties> propertiesList = propertiesRepository.findByUserEmail(email);
+        // Map entity list to DTO list (manual mapping below):
+        return propertiesList.stream().map(property -> {
+            PropertiesDTO dto = new PropertiesDTO();
+            dto.setType(property.getType());
+            dto.setName(property.getName());
+            dto.setCountry(property.getCountry());
+            dto.setCity(property.getCity());
+            dto.setAddress(property.getAddress());
+            dto.setDescription(property.getDescription());
+            dto.setBedCount(property.getBedCount());
+            dto.setPrice(property.getPrice());
+            dto.setUserEmail(property.getUserEmail());
+            // Omit image mapping if not needed or handle as required.
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

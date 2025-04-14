@@ -399,6 +399,9 @@
                 // If the vehicles dashboard was loaded, run its initialization
                 if (pageUrl === 'vehicles_dashboard.html') {
                     initVehiclesDashboard();
+                }else if (pageUrl === 'user_dashboard.html') {
+                    // For example, if your user_dashboard requires initialization
+                    initUserDashboard();
                 }
                 // Similarly, call other initialization functions for other pages if needed
             })
@@ -408,6 +411,31 @@
                     '<p style="color: red; text-align: center;">Failed to load content. Please try again later.</p>';
             });
     }
+    function initUserDashboard() {
+        // 1) Attach a click listener to each property-item (Hotels, Apartments, Resorts, Villas).
+        const propertyItems = document.querySelectorAll('.property-item');
+        propertyItems.forEach(item => {
+            item.style.cursor = 'pointer'; // Show pointer on hover
+            item.addEventListener('click', () => {
+                // Navigate to properties dashboard
+                window.location.href = 'properties_dashboard.html';
+            });
+        });
+
+        // 2) Attach a click listener to each destination-item (e.g., Kandy, Colombo, etc.).
+        const destinationItems = document.querySelectorAll('.destination-item');
+        destinationItems.forEach(item => {
+            item.style.cursor = 'pointer'; // Show pointer on hover
+            item.addEventListener('click', () => {
+                // Navigate to properties dashboard
+                window.location.href = 'properties_dashboard.html';
+            });
+        });
+    }
+
+
+
+
     function initVehiclesDashboard() {
         // Define your vehicle master list (using the correct variable name)
         const vehicles = [

@@ -2,10 +2,13 @@ package com.booking.backend.controller;
 
 import com.booking.backend.dto.PropertiesDTO;
 import com.booking.backend.service.PropertiesService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/properties")
@@ -24,7 +27,8 @@ public class PropertiesController {
             @RequestParam("description") String description,
             @RequestParam("bedCount") int bedCount,
             @RequestParam("price") double price,
-            @RequestParam("image") MultipartFile imageFile) {
+            @RequestParam("image") MultipartFile imageFile,
+            HttpServletRequest request) {
 
         PropertiesDTO propertiesDTO = new PropertiesDTO();
         propertiesDTO.setType(type);
@@ -36,7 +40,24 @@ public class PropertiesController {
         propertiesDTO.setBedCount(bedCount);
         propertiesDTO.setPrice(price);
 
+        // Retrieve the email set by the JwtFilter (or via SecurityContextHolder)
+        String email = (String) request.getAttribute("email");
+        propertiesDTO.setUserEmail(email);
+
         PropertiesDTO savedProperty = propertiesService.saveProperty(propertiesDTO, imageFile);
         return ResponseEntity.ok(savedProperty);
+    }
+
+    // New endpoint to get properties for the logged-in user
+    @GetMapping("/user")
+    public ResponseEntity<?> getUserProperties(HttpServletRequest request) {
+        // Retrieve the email from the request attribute
+        String email = (String) request.getAttribute("email");
+        if (email == null) {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
+
+        List<PropertiesDTO> userProperties = propertiesService.getPropertiesByUser(email);
+        return ResponseEntity.ok(userProperties);
     }
 }
