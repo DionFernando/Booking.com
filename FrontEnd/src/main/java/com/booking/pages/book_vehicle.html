@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book the Vehicle | Booking.com</title>
+    <!-- Font Awesome for star icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+        }
+        /* Header styling */
+        .header {
+            background-color: #003580;
+            padding: 10px 20px;
+        }
+        .header img {
+            height: 50px;
+        }
+        /* Main container styling */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            display: flex;
+            gap: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .vehicle-image {
+            flex: 1;
+        }
+        .vehicle-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .vehicle-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .vehicle-details h2 {
+            font-size: 1.8rem;
+            color: #003580;
+        }
+        .vehicle-details p {
+            font-size: 1rem;
+            color: #333;
+        }
+        /* Ratings and reviews */
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .rating .stars {
+            color: #fbb034;
+        }
+        /* Book button styling */
+        .book-button {
+            padding: 12px 20px;
+            background-color: #0071c2;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: fit-content;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .book-button:hover {
+            background-color: #005999;
+        }
+        /* Modern Booking Form styling */
+        .booking-form {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        .booking-form h3 {
+            color: #003580;
+            margin-bottom: 20px;
+        }
+        .booking-form .date-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .booking-form .field {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+        .booking-form label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        /* Custom styled input to mimic modern datepickers */
+        .booking-form input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            background: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 0h1V1H3V0zm7 0h1v1h-1V0zM2 2h10a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 10h10V6H2v6z' fill='%23999'/%3E%3C/svg%3E") no-repeat right 10px center;
+            background-size: 14px 14px;
+            -webkit-appearance: none;
+        }
+        .booking-form input[type="text"]:focus {
+            outline: none;
+            border-color: #003580;
+        }
+        .booking-form .total-price {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #333;
+        }
+        .booking-form button {
+            padding: 12px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .booking-form button:hover:not(:disabled) {
+            background-color: #218838;
+        }
+        .booking-form button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .error {
+            color: red;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        /* Increase Flatpickr calendar height for a more spacious look */
+        .flatpickr-calendar {
+            font-size: 1.1rem;
+            padding: 10px;
+            min-height: 350px;
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<div class="header">
+    <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo">
+</div>
+
+<!-- Main container with vehicle details -->
+<div class="container">
+    <div class="vehicle-image">
+        <img id="vehicle-img" src="https://via.placeholder.com/400x300.png?text=Vehicle+Image" alt="Vehicle Image">
+    </div>
+    <div class="vehicle-details">
+        <h2 id="vehicle-name">Vehicle Name</h2>
+        <p id="vehicle-description">Description goes here.</p>
+        <p id="vehicle-color"><strong>Color:</strong> Color here</p>
+        <p id="vehicle-seats"><strong>Seats:</strong> Count here</p>
+        <p id="vehicle-price"><strong>Price for 3 Days:</strong> LKR 0</p>
+        <!-- Ratings -->
+        <div class="rating">
+            <div class="stars" id="rating-stars"></div>
+            <div class="review-count" id="review-count"></div>
+        </div>
+        <button class="book-button" id="open-booking-form">Proceed to Booking</button>
+    </div>
+</div>
+
+<!-- Booking form container -->
+<div id="booking-form-container"></div>
+
+<script>
+    // Generate a random rating (between 3.0 and 5.0) with one decimal place
+    function generateRating() {
+        return (Math.random() * 2 + 3).toFixed(1);
+    }
+    // Generate a random review count (between 10 and 500)
+    function generateReviewCount() {
+        return Math.floor(Math.random() * 491) + 10;
+    }
+    // Render star icons based on the rating
+    function renderStars(rating) {
+        const fullStars = Math.floor(rating);
+        const halfStar = rating - fullStars >= 0.5;
+        let starsHTML = '';
+        for (let i = 0; i < fullStars; i++) {
+            starsHTML += '<i class="fas fa-star"></i>';
+        }
+        if (halfStar) {
+            starsHTML += '<i class="fas fa-star-half-alt"></i>';
+        }
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+        for (let i = 0; i < emptyStars; i++) {
+            starsHTML += '<i class="far fa-star"></i>';
+        }
+        return starsHTML;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Retrieve stored vehicle details from localStorage.
+        const vehicleData = localStorage.getItem('selectedVehicle');
+        let vehicle = {};
+        if (vehicleData) {
+            vehicle = JSON.parse(vehicleData);
+            document.getElementById('vehicle-name').textContent = vehicle.brand || 'Vehicle Name';
+            document.getElementById('vehicle-description').textContent = vehicle.description || 'No description available.';
+            document.getElementById('vehicle-color').innerHTML = `<strong>Color:</strong> ${vehicle.color || 'N/A'}`;
+            document.getElementById('vehicle-seats').innerHTML = `<strong>Seats:</strong> ${vehicle.seats || 'N/A'}`;
+            document.getElementById('vehicle-price').innerHTML = `<strong>Price for 3 Days:</strong> LKR ${vehicle.priceFor3Days || 'N/A'}`;
+            document.getElementById('vehicle-img').src = vehicle.image || 'https://via.placeholder.com/400x300.png?text=Vehicle+Image';
+        } else {
+            document.querySelector('.container').innerHTML = "<p>No vehicle selected.</p>";
+        }
+
+        const rating = generateRating();
+        const reviewCount = generateReviewCount();
+        document.getElementById('rating-stars').innerHTML = renderStars(rating) + ' (' + rating + ')';
+        document.getElementById('review-count').textContent = reviewCount + ' reviews';
+
+        // Add click event to create the booking form
+        document.getElementById('open-booking-form').addEventListener('click', () => {
+            if (document.getElementById('booking-form')) {
+                document.getElementById('booking-form').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            const formContainer = document.getElementById('booking-form-container');
+            formContainer.innerHTML = `
+                <div class="booking-form" id="booking-form">
+                    <h3>Booking Details</h3>
+                    <div class="date-row">
+                        <div class="field">
+                            <label for="start-date">Start Date</label>
+                            <input type="text" id="start-date" placeholder="Select start date">
+                        </div>
+                        <div class="field">
+                            <label for="end-date">End Date</label>
+                            <input type="text" id="end-date" placeholder="Select end date">
+                        </div>
+                    </div>
+                    <p id="days-count">No of days: 0</p>
+                    <p class="error" id="date-error" style="display:none;"></p>
+                    <p class="total-price" id="total-price">Total Price: LKR 0</p>
+                    <button id="book-now" disabled>Book Now</button>
+                </div>
+            `;
+
+            // Auto scroll to the form
+            document.getElementById('booking-form').scrollIntoView({ behavior: 'smooth' });
+
+            // Initialize Flatpickr on both inputs
+            const startPicker = flatpickr("#start-date", {
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                onChange: function(selectedDates, dateStr) {
+                    const minEnd = new Date(selectedDates[0]);
+                    minEnd.setDate(minEnd.getDate() + 2); // Minimum 3-day booking: start date +2 days gives inclusive 3 days.
+                    endPicker.set('minDate', minEnd);
+                    document.getElementById('end-date').value = ''; // Clear previous end date selection
+                    document.getElementById('book-now').disabled = true;
+                    calculatePrice();
+                }
+            });
+
+            const endPicker = flatpickr("#end-date", {
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                onChange: function(selectedDates, dateStr) {
+                    calculatePrice();
+                }
+            });
+
+            // Price calculation logic - now counting inclusive days
+            function calculatePrice() {
+                const basePrice = parseFloat(vehicle.priceFor3Days);
+                const start = document.getElementById('start-date').value;
+                const end = document.getElementById('end-date').value;
+
+                if (!start || !end) {
+                    document.getElementById('days-count').textContent = "No of days: 0";
+                    return;
+                }
+
+                const startDate = new Date(start);
+                const endDate = new Date(end);
+                // Calculate inclusive difference: add 1 to the difference
+                const diffTime = endDate - startDate;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+                const errorElem = document.getElementById('date-error');
+                const totalPriceElem = document.getElementById('total-price');
+                const bookBtn = document.getElementById('book-now');
+                // Update days count
+                document.getElementById('days-count').textContent = "No of days: " + diffDays;
+
+                if (diffDays < 3) {
+                    errorElem.style.display = 'block';
+                    errorElem.textContent = "Booking must be for at least 3 days.";
+                    totalPriceElem.textContent = "Total Price: LKR 0";
+                    bookBtn.disabled = true;
+                    return;
+                }
+
+                const extraDays = diffDays - 3;
+                const dailyRate = basePrice / 3;
+                const extraCost = dailyRate * extraDays * 0.9;
+                const totalPrice = basePrice + extraCost;
+
+                errorElem.style.display = 'none';
+                totalPriceElem.textContent = `Total Price: LKR ${totalPrice.toFixed(2)}`;
+                bookBtn.disabled = false;
+            }
+
+            // Book now button event
+            document.getElementById('book-now').addEventListener('click', () => {
+                const total = document.getElementById('total-price').textContent;
+                if (total.includes("0")) {
+                    alert("Please select valid dates (at least 3 days).");
+                    return;
+                }
+                alert(`Booking confirmed!\n${total}`);
+            });
+        });
+    });
+</script>
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</body>
+</html>
