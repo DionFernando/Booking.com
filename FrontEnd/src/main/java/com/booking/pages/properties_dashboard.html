@@ -116,6 +116,51 @@
                 flex-direction: column;
             }
         }
+
+
+
+        /*---------------------*/
+
+
+        .properties-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .property-card {
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .property-card:hover {
+            transform: scale(1.02);
+        }
+
+        .property-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .property-card .card-content {
+            padding: 15px;
+        }
+
+        .property-card .card-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .property-card .card-content p {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
     </style>
 </head>
 <body>
@@ -169,6 +214,11 @@
         </div>
     </section>
 
+    <!-- Container for Property Cards -->
+    <section id="properties-container" class="properties-container">
+        <!-- Property cards will be dynamically generated here -->
+    </section>
+
 </main>
 
 <script>
@@ -180,6 +230,54 @@
         if(propType) {
             document.getElementById('propertyTypeFilter').value = propType;
         }
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Replace with your API endpoint. If you require user authentication, ensure you send the token.
+        const apiEndpoint = 'http://localhost:8080/api/v1/properties/all';
+
+
+        fetch(apiEndpoint, {
+            method: 'GET',
+            // If authentication is required, include the Authorization header (token typically stored in local storage)
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network error or unauthorized');
+                }
+                return response.json();
+            })
+            .then(properties => {
+                const propertiesContainer = document.getElementById('properties-container');
+                // Ensure properties is an array
+                properties.forEach(property => {
+                    const card = document.createElement('div');
+                    card.classList.add('property-card');
+
+                    // Construct image source using data URL if image property is returned as a Base64 string.
+                    const imgSrc = property.image ? `data:image/jpeg;base64,${property.image}` : 'placeholder.jpg';
+
+                    // Build the card HTML
+                    card.innerHTML = `
+                <img src="${imgSrc}" alt="${property.name} Image">
+                <div class="card-content">
+                    <h3>${property.name}</h3>
+                    <p><strong>Bed Count:</strong> ${property.bedCount}</p>
+                    <p><strong>Price:</strong> $${property.price}</p>
+                </div>
+            `;
+                    propertiesContainer.appendChild(card);
+                });
+            })
+            .catch(error => console.error('Error fetching properties:', error));
     });
 </script>
 

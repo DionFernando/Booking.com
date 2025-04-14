@@ -7,6 +7,8 @@ import com.booking.backend.service.PropertiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.Base64;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,8 +58,34 @@ public class PropertiesServiceImpl implements PropertiesService {
             dto.setDescription(property.getDescription());
             dto.setBedCount(property.getBedCount());
             dto.setPrice(property.getPrice());
+// Convert the image byte array to a Base64 string so it can be used on the frontend.
+            if (property.getImage() != null) {
+            dto.setImage(Base64.getEncoder().encodeToString(property.getImage()));
+            }
+            dto.setPrice(property.getPrice());
             dto.setUserEmail(property.getUserEmail());
             // Omit image mapping if not needed or handle as required.
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PropertiesDTO> getAllProperties() {
+        List<Properties> propertiesList = propertiesRepository.findAll();
+        // Map entity list to DTO list (manual mapping below):
+        return propertiesList.stream().map(property -> {
+            PropertiesDTO dto = new PropertiesDTO();
+            dto.setType(property.getType());
+            dto.setName(property.getName());
+            dto.setCountry(property.getCountry());
+            dto.setCity(property.getCity());
+            dto.setAddress(property.getAddress());
+            dto.setDescription(property.getDescription());
+            dto.setBedCount(property.getBedCount());
+            dto.setPrice(property.getPrice());
+            if (property.getImage() != null) {
+                dto.setImage(Base64.getEncoder().encodeToString(property.getImage()));
+            }
             return dto;
         }).collect(Collectors.toList());
     }

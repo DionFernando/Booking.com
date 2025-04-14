@@ -9,4 +9,6 @@ public interface PropertiesService {
 
     // New method to get properties for a given user email
     List<PropertiesDTO> getPropertiesByUser(String email);
+
+    List<PropertiesDTO> getAllProperties();
 }

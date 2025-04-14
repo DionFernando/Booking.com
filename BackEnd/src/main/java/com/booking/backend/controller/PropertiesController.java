@@ -17,6 +17,12 @@ public class PropertiesController {
     @Autowired
     private PropertiesService propertiesService;
 
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllProperties() {
+        List<PropertiesDTO> properties = propertiesService.getAllProperties(); // ensure you implement this method
+        return ResponseEntity.ok(properties);
+    }
+
     @PostMapping("/save")
     public ResponseEntity<?> saveProperty(
             @RequestParam("type") String type,

@@ -10,6 +10,8 @@ public class PropertiesDTO {
     private int bedCount;
     private double price;  // per day
 
+    private String image;
+
     // New field for the user's email
     private String userEmail;
 
@@ -62,6 +64,13 @@ public class PropertiesDTO {
     }
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getImage() {
+        return image;
+    }
+    public void setImage(String image) {
+        this.image = image;
     }
     public String getUserEmail() {
         return userEmail;
