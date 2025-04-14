@@ -95,7 +95,7 @@ public class VehicleController {
     private final JwtUtil jwtUtil;
 
     // Target folder where images will be stored
-    private final String imageUploadDir = "/home/dion/Documents/GDSE69/10. AAD/Final CourseWork/Images";
+    private final String imageUploadDir = "/home/dion/Desktop/images";
 
     public VehicleController(VehicleService vehicleService, JwtUtil jwtUtil) {
         this.vehicleService = vehicleService;

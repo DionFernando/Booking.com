@@ -347,6 +347,27 @@
         .save-btn:hover {
             background: #002a60;
         }
+
+        .form-input-inline {
+            padding: 5px 8px;
+            font-size: 0.95rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 80%;
+            margin-right: 10px;
+        }
+        .save-btn-inline {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .save-btn-inline:hover {
+            background-color: #002a60;
+        }
     </style>
 </head>
 <body>
@@ -446,169 +467,47 @@
     </div>
 
     <table class="details-table">
-        <!-- Name Row -->
         <tr class="details-row">
             <td class="details-label">Name</td>
             <td class="details-value" id="name-value">Dion Fernando</td>
             <td class="details-action">
-                <a class="edit-link" onclick="showEditForm('name')">Edit</a>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <div id="name-edit-form" class="edit-form">
-                    <div class="form-group">
-                        <label class="form-label">First name(s) <span class="required-star">*</span></label>
-                        <input type="text" class="form-input" id="first-name" value="Dion">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Last name(s) <span class="required-star">*</span></label>
-                        <input type="text" class="form-input" id="last-name" value="Fernando">
-                    </div>
-                    <div class="form-actions">
-                        <button class="cancel-btn" onclick="hideEditForm('name')">Cancel</button>
-                        <button class="save-btn" onclick="saveName()">Save</button>
-                    </div>
-                </div>
+                <a class="edit-link" id="name-edit-link" onclick="toggleInlineEdit('name')">Edit</a>
             </td>
         </tr>
 
-        <!-- Display Name Row -->
-        <tr class="details-row">
-            <td class="details-label">Display name</td>
-            <td class="details-value" id="display-name-value">Choose a display name</td>
-            <td class="details-action">
-                <a class="edit-link" onclick="showEditForm('display-name')">Edit</a>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <div id="display-name-edit-form" class="edit-form">
-                    <div class="form-group">
-                        <label class="form-label">Display name</label>
-                        <input type="text" class="form-input" id="display-name-input" placeholder="Choose a display name">
-                    </div>
-                    <div class="form-actions">
-                        <button class="cancel-btn" onclick="hideEditForm('display-name')">Cancel</button>
-                        <button class="save-btn" onclick="saveDisplayName()">Save</button>
-                    </div>
-                </div>
-            </td>
-        </tr>
-
-        <!-- Email Address Row -->
         <tr class="details-row">
             <td class="details-label">Email address</td>
-            <td class="details-value">
-                dionfernando2003@gmail.com<br>
-                <small style="color: #666;">This is the email address you use to sign in. It's also where we send your booking confirmations.</small>
-            </td>
+            <td class="details-value" id="email-value">dionfernando2003@gmail.com</td>
             <td class="details-action">
-                <span class="verified-badge">Verified</span>
+                <a class="edit-link" id="email-edit-link" onclick="toggleInlineEdit('email')">Edit</a>
             </td>
         </tr>
 
-        <!-- Phone Number Row -->
         <tr class="details-row">
             <td class="details-label">Phone number</td>
             <td class="details-value" id="phone-value">Add your phone number</td>
             <td class="details-action">
-                <a class="edit-link" onclick="showEditForm('phone')">Edit</a>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <div id="phone-edit-form" class="edit-form">
-                    <div class="form-group">
-                        <label class="form-label">Phone number</label>
-                        <input type="tel" class="form-input" id="phone-input" placeholder="Add your phone number">
-                    </div>
-                    <div class="form-group">
-                        <small style="color: #666;">Properties or attractions you book will use this number if they need to contact you.</small>
-                    </div>
-                    <div class="form-actions">
-                        <button class="cancel-btn" onclick="hideEditForm('phone')">Cancel</button>
-                        <button class="save-btn" onclick="savePhone()">Save</button>
-                    </div>
-                </div>
+                <a class="edit-link" onclick="toggleInlineEdit('phone')">Edit</a>
             </td>
         </tr>
 
-        <!-- Address Row -->
         <tr class="details-row">
             <td class="details-label">Address</td>
-            <td class="details-value" id="address-value">Add your address</td>
+            <td class="details-value" id="address">Add your address</td>
             <td class="details-action">
-                <a class="edit-link" onclick="showEditForm('address')">Edit</a>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <div id="address-edit-form" class="edit-form">
-                    <div class="form-group">
-                        <label class="form-label">Address</label>
-                        <textarea class="form-input" id="address-input" rows="3" placeholder="Add your address"></textarea>
-                    </div>
-                    <div class="form-actions">
-                        <button class="cancel-btn" onclick="hideEditForm('address')">Cancel</button>
-                        <button class="save-btn" onclick="saveAddress()">Save</button>
-                    </div>
-                </div>
+                <a class="edit-link" onclick="toggleInlineEdit('phone')">Edit</a>
             </td>
         </tr>
 
-        <!-- Date of Birth Row -->
-        <tr class="details-row">
-            <td class="details-label">Date of birth</td>
-            <td class="details-value" id="dob-value">Add your date of birth</td>
-            <td class="details-action">
-                <a class="edit-link" onclick="showEditForm('dob')">Edit</a>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <div id="dob-edit-form" class="edit-form">
-                    <div class="form-group">
-                        <label class="form-label">Date of birth</label>
-                        <input type="date" class="form-input" id="dob-input">
-                    </div>
-                    <div class="form-actions">
-                        <button class="cancel-btn" onclick="hideEditForm('dob')">Cancel</button>
-                        <button class="save-btn" onclick="saveDob()">Save</button>
-                    </div>
-                </div>
-            </td>
-        </tr>
-
-        <!-- Nationality Row -->
         <tr class="details-row">
             <td class="details-label">Nationality</td>
-            <td class="details-value" id="nationality-value">Select the country/region you're from</td>
+            <td class="details-value" id="nationality">Add your nationality</td>
             <td class="details-action">
-                <a class="edit-link" onclick="showEditForm('nationality')">Edit</a>
+                <a class="edit-link" onclick="toggleInlineEdit('phone')">Edit</a>
             </td>
         </tr>
-        <tr>
-            <td colspan="3">
-                <div id="nationality-edit-form" class="edit-form">
-                    <div class="form-group">
-                        <label class="form-label">Nationality</label>
-                        <select class="form-input" id="nationality-input">
-                            <option value="">Select country/region</option>
-                            <option value="US">United States</option>
-                            <option value="UK">United Kingdom</option>
-                            <option value="CA">Canada</option>
-                            <option value="AU">Australia</option>
-                            <!-- Add more countries as needed -->
-                        </select>
-                    </div>
-                    <div class="form-actions">
-                        <button class="cancel-btn" onclick="hideEditForm('nationality')">Cancel</button>
-                        <button class="save-btn" onclick="saveNationality()">Save</button>
-                    </div>
-                </div>
-            </td>
-        </tr>
+
+
     </table>
 </div>
 
@@ -695,5 +594,78 @@
         hideEditForm('nationality');
     }
 </script>
+
+
+<script>
+    /**
+     * Global object to store original values (in case user cancels editing)
+     */
+    const originalValues = {
+        name: document.getElementById('name-value').innerText,
+        email: document.getElementById('email-value').innerText,
+        phone: document.getElementById('phone-value').innerText
+        // Add more fields here if needed
+    };
+
+    /**
+     * Toggle inline editing mode for a given field.
+     * field: a string that should match the id prefix for both the cell (e.g., "name-value")
+     * and the link (e.g., "name-edit-link").
+     */
+    function toggleInlineEdit(field) {
+        const cell = document.getElementById(field + '-value');
+        const editLink = document.getElementById(field + '-edit-link');
+
+        // Check if already in edit mode by looking for an input inside the cell.
+        if (cell.querySelector('input')) {
+            // Cancel editing: restore the original value.
+            cell.innerText = originalValues[field];
+            editLink.innerText = "Edit";
+        } else {
+            // Enter editing mode: replace the cell content with an input and a Save button.
+            const currentValue = cell.innerText;
+            // Create an input element for inline editing
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentValue;
+            input.className = 'form-input-inline';
+            // Save button (we don't include a separate cancel button because the Edit link toggles to Cancel)
+            const saveBtn = document.createElement('button');
+            saveBtn.innerText = 'Save';
+            saveBtn.className = 'save-btn-inline';
+            saveBtn.onclick = function () {
+                saveInlineEdit(field);
+            };
+            // Clear the cell and append the input and save button.
+            cell.innerHTML = "";
+            cell.appendChild(input);
+            cell.appendChild(saveBtn);
+            // Change the edit link text to "Cancel"
+            editLink.innerText = "Cancel";
+        }
+    }
+
+    /**
+     * Save the inline edited value for a given field.
+     */
+    function saveInlineEdit(field) {
+        const cell = document.getElementById(field + '-value');
+        const editLink = document.getElementById(field + '-edit-link');
+        // Get the input field inside the cell.
+        const input = cell.querySelector('input');
+        if (!input) return; // No editing happening
+
+        const newValue = input.value;
+        // Optionally, you can add validation here.
+        // Save the new value back to originalValues (or update on backend if needed).
+        originalValues[field] = newValue;
+        // Replace the cell content with the new value.
+        cell.innerText = newValue;
+        // Toggle the edit link text back to "Edit"
+        editLink.innerText = "Edit";
+    }
+</script>
+
+
 </body>
 </html>

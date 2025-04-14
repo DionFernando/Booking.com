@@ -56,6 +56,11 @@ public class RegisterServiceImpl implements UserDetailsService, RegisterService 
     }
 
     @Override
+    public Object getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
     public int saveUser(RegisterDTO userDTO) {
         if (userRepository.existsByEmail(userDTO.getEmail())) {
             return VarList.Not_Acceptable;

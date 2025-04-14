@@ -2,9 +2,194 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Users | Admin Panel | Booking.com</title>
+    <style>
+        /* Styles for the content loaded into mainContent */
+        h2 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #333;
+        }
+        #totalUsers {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #003580;
+        }
+        .search-container {
+            display: flex;
+            margin-bottom: 20px;
+            max-width: 400px;
+        }
+        .search-container input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+            outline: none;
+        }
+        .search-container button {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-left: none;
+            background-color: #003580;
+            color: #fff;
+            font-size: 1rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .search-container button:hover {
+            background-color: #002a65;
+        }
+        /* Heading for Current Users Section */
+        .section-heading {
+            margin-top: 40px;
+            font-size: 1.5rem;
+            color: #333;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+        .user-card {
+            background-color: #fff;
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .user-info span {
+            margin-bottom: 4px;
+            font-size: 0.95rem;
+            color: #333;
+        }
+        .status-btn {
+            background-color: #d9534f;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .status-btn:hover {
+            background-color: #c9302c;
+        }
+    </style>
 </head>
 <body>
+<h2>Users</h2>
+<div id="totalUsers">Total Users: 0</div>
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search users by email">
+    <button id="searchBtn">Search</button>
+</div>
+<!-- Section heading for the list -->
+<div class="section-heading">Current Users</div>
+<div id="usersList"></div>
+
+<script>
+    // Function to fetch all users from the backend using the correct endpoint
+    function fetchUsers() {
+        fetch('/api/v1/user/all', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token') // Assumes token is stored after login
+            }
+        })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Response from /api/v1/user/all:', result);
+                const users = result.data;
+                if(users) {
+                    document.getElementById('totalUsers').innerText = "Total Users: " + users.length;
+                    displayUsers(users);
+                } else {
+                    console.log('No users found in response', result);
+                }
+            })
+
+    }
+
+    // Display each user in the list with a toggle button for status
+    function displayUsers(users) {
+        const usersList = document.getElementById('usersList');
+        usersList.innerHTML = "";
+        users.forEach(user => {
+            const card = document.createElement('div');
+            card.classList.add('user-card');
+            card.innerHTML = `
+              <div class="user-info">
+                <span><strong>Name:</strong> ${user.name}</span>
+                <span><strong>Email:</strong> ${user.email}</span>
+                <span><strong>Role:</strong> ${user.role}</span>
+              </div>
+              <button class="status-btn" onclick="toggleStatus(this)">Active</button>
+            `;
+            usersList.appendChild(card);
+        });
+    }
+
+    // Function to search users by email. If the search input is empty, load all users.
+    function searchUser() {
+        const query = document.getElementById('searchInput').value.trim();
+        if (query === '') {
+            fetchUsers();
+            return;
+        }
+        fetch('/api/v1/user/search?email=' + encodeURIComponent(query), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+            .then(response => response.json())
+            .then(result => {
+                // Extract users from the returned ResponseDTO structure
+                const users = result.data;
+                if (Array.isArray(users)) {
+                    document.getElementById('totalUsers').innerText = "Search Results: " + users.length;
+                    displayUsers(users);
+                } else if (users) {
+                    document.getElementById('totalUsers').innerText = "Search Results: 1";
+                    displayUsers([users]);
+                } else {
+                    document.getElementById('usersList').innerHTML = "<p>No user found.</p>";
+                }
+            })
+            .catch(error => {
+                console.error('Error searching users:', error);
+            });
+    }
+
+    // Toggle the status button text between "Active" and "Deactivate"
+    function toggleStatus(btn) {
+        if (btn.innerText === "Active") {
+            btn.innerText = "Deactivate";
+            btn.style.backgroundColor = "#5cb85c"; // Change button color to indicate new status
+        } else {
+            btn.innerText = "Active";
+            btn.style.backgroundColor = "#d9534f"; // Reset to original color
+        }
+    }
+
+    // Attach event listener for the search button
+    document.getElementById('searchBtn').addEventListener('click', searchUser);
+
+    // Load users on page load
+    fetchUsers();
+</script>
 
 </body>
 </html>

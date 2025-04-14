@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment | Booking.com</title>
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+        /* Left Panel: Vehicle Details */
+        .left-panel, .right-panel {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .left-panel {
+            flex: 1;
+            max-width: 40%;
+        }
+        .left-panel img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .left-panel p {
+            margin: 8px 0;
+            color: #333;
+        }
+        .left-panel h2 {
+            color: #003580;
+            margin-bottom: 10px;
+        }
+        /* Right Panel: Payment Details and Form */
+        .right-panel {
+            flex: 1;
+            max-width: 60%;
+        }
+        .right-panel h2 {
+            color: #003580;
+            margin-bottom: 10px;
+        }
+        .right-panel p {
+            margin: 8px 0;
+            color: #333;
+        }
+        /* Payment Form */
+        form {
+            margin-top: 20px;
+        }
+        .payment-btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .payment-btn:hover {
+            background-color: #218838;
+        }
+        input[type="hidden"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Left Panel: Vehicle Details -->
+    <div class="left-panel">
+        <h2>Vehicle Details</h2>
+        <img id="vehicle-img" src="https://via.placeholder.com/400x300?text=Vehicle+Image" alt="Vehicle Image">
+        <p id="vehicle-brand">Brand: N/A</p>
+        <p id="vehicle-description">Description: N/A</p>
+        <p id="vehicle-color">Color: N/A</p>
+        <p id="vehicle-owner">Owner Email: N/A</p>
+    </div>
+    <!-- Right Panel: Payment Details and Integration -->
+    <div class="right-panel">
+        <h2>Payment Details</h2>
+        <p>Start Date: <span id="start-date">N/A</span></p>
+        <p>End Date: <span id="end-date">N/A</span></p>
+        <p>Total Days: <span id="total-days">N/A</span></p>
+        <p>Total Price: <span id="total-price">N/A</span></p>
+
+        <!-- Payment form that posts directly to PayHere Sandbox -->
+        <form id="payhere-form" action="https://sandbox.payhere.lk/checkout" method="post">
+            <!-- PayHere required fields (replace with your sandbox credentials & URLs) -->
+            <input type="hidden" name="merchant_id" value="1230128">
+            <input type="hidden" name="return_url" value="http://localhost:8080/api/payment-success.html">
+            <input type="hidden" name="cancel_url" value="http://localhost:8080/api/payment-cancel.html">
+            <input type="hidden" name="notify_url" value="http://localhost:8080/api/payment/notify">
+
+
+            <!-- Order and transaction details -->
+            <input type="hidden" name="order_id" id="order_id" value="">
+            <input type="hidden" name="items" value="Vehicle Booking Payment">
+            <input type="hidden" name="currency" value="LKR">
+            <input type="hidden" name="amount" id="amount" value="">
+
+            <!-- Customer details (example static values or dynamically fill if available) -->
+            <input type="hidden" name="first_name" value="John">
+            <input type="hidden" name="last_name" value="Doe">
+            <input type="hidden" name="email" value="john.doe@example.com">
+            <input type="hidden" name="phone" value="0770000000">
+
+            <!-- Submit Button -->
+            <button type="submit" class="payment-btn">Pay with PayHere</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Retrieve booking data from sessionStorage and vehicle data from localStorage
+    const bookingData = JSON.parse(sessionStorage.getItem('bookingData') || '{}');
+    const vehicleData = JSON.parse(localStorage.getItem('selectedVehicle') || '{}');
+
+    // Populate left panel with vehicle details
+    if (vehicleData) {
+        document.getElementById('vehicle-img').src = vehicleData.image || "https://via.placeholder.com/400x300?text=Vehicle+Image";
+        document.getElementById('vehicle-brand').textContent = "Brand: " + (vehicleData.brand || "N/A");
+        document.getElementById('vehicle-description').textContent = "Description: " + (vehicleData.description || "N/A");
+        document.getElementById('vehicle-color').textContent = "Color: " + (vehicleData.color || "N/A");
+        document.getElementById('vehicle-owner').textContent = "Owner Email: " + (vehicleData.owner_email || "N/A");
+    }
+
+    // Populate right panel with booking details from bookingData
+    if (bookingData) {
+        document.getElementById('start-date').textContent = bookingData.start_date || "N/A";
+        document.getElementById('end-date').textContent = bookingData.end_date || "N/A";
+
+        let totalDays = "N/A";
+        if (bookingData.start_date && bookingData.end_date) {
+            const start = new Date(bookingData.start_date);
+            const end = new Date(bookingData.end_date);
+            const diffTime = Math.abs(end - start);
+            totalDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        }
+        document.getElementById('total-days').textContent = totalDays;
+        document.getElementById('total-price').textContent = bookingData.total_price ? "LKR " + bookingData.total_price.toFixed(2) : "N/A";
+
+        // Set hidden form fields dynamically
+        document.getElementById('amount').value = bookingData.total_price || "0.00";
+        // Generate a simple order ID (or use one from your system)
+        const orderId = "ORD" + Date.now();
+        document.getElementById('order_id').value = orderId;
+    }
+</script>
+</body>
+</html>

@@ -251,23 +251,23 @@
 
             const formContainer = document.getElementById('booking-form-container');
             formContainer.innerHTML = `
-                <div class="booking-form" id="booking-form">
-                    <h3>Booking Details</h3>
-                    <div class="date-row">
-                        <div class="field">
-                            <label for="start-date">Start Date</label>
-                            <input type="text" id="start-date" placeholder="Select start date">
-                        </div>
-                        <div class="field">
-                            <label for="end-date">End Date</label>
-                            <input type="text" id="end-date" placeholder="Select end date">
-                        </div>
-                    </div>
-                    <p id="days-count">No of days: 0</p>
-                    <p class="error" id="date-error" style="display:none;"></p>
-                    <p class="total-price" id="total-price">Total Price: LKR 0</p>
-                    <button id="book-now" disabled>Book Now</button>
-                </div>
+          <div class="booking-form" id="booking-form">
+              <h3>Booking Details</h3>
+              <div class="date-row">
+                  <div class="field">
+                      <label for="start-date">Start Date</label>
+                      <input type="text" id="start-date" placeholder="Select start date">
+                  </div>
+                  <div class="field">
+                      <label for="end-date">End Date</label>
+                      <input type="text" id="end-date" placeholder="Select end date">
+                  </div>
+              </div>
+              <p id="days-count">No of days: 0</p>
+              <p class="error" id="date-error" style="display:none;"></p>
+              <p class="total-price" id="total-price">Total Price: LKR 0</p>
+              <button id="book-now" disabled>Book Now</button>
+          </div>
             `;
 
             // Auto scroll to the form
@@ -279,7 +279,7 @@
                 minDate: "today",
                 onChange: function(selectedDates, dateStr) {
                     const minEnd = new Date(selectedDates[0]);
-                    minEnd.setDate(minEnd.getDate() + 2); // Minimum 3-day booking: start + 2 days gives inclusive 3 days.
+                    minEnd.setDate(minEnd.getDate() + 2); // Minimum 3-day booking
                     endPicker.set('minDate', minEnd);
                     document.getElementById('end-date').value = ''; // Clear previous end date selection
                     document.getElementById('book-now').disabled = true;
@@ -308,7 +308,7 @@
 
                 const startDate = new Date(start);
                 const endDate = new Date(end);
-                // Calculate inclusive difference: add 1 to the difference in days
+                // Calculate inclusive difference
                 const diffTime = endDate - startDate;
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
@@ -336,55 +336,36 @@
                 bookBtn.disabled = false;
             }
 
-            // Book now button event
-            document.getElementById('book-now').addEventListener('click', async () => {
+            // Book now button event: Save booking data and open payment.html in a new tab.
+            document.getElementById('book-now').addEventListener('click', () => {
                 const totalText = document.getElementById('total-price').textContent;
-                const totalPrice = parseFloat(totalText.replace(/[^\d.]/g, '')); // Strip "LKR" and commas
+                const totalPrice = parseFloat(totalText.replace(/[^\d.]/g, '')); // Strip non-numeric characters
                 const startDate = document.getElementById('start-date').value;
                 const endDate = document.getElementById('end-date').value;
 
                 if (!startDate || !endDate || isNaN(totalPrice) || totalPrice <= 0) {
-                    alert("Please select valid dates (at least 3 days).");
                     return;
                 }
 
                 const vehicleData = JSON.parse(localStorage.getItem('selectedVehicle') || '{}');
                 if (!vehicleData.id) {
-                    alert("Vehicle data is missing.");
                     return;
                 }
 
-                // Prepare booking payload
+                // Prepare the booking data object
                 const bookingData = {
                     vehicle_id: vehicleData.id,
-                    owner_email: vehicleData.owner_email,
                     start_date: startDate,
                     end_date: endDate,
                     total_price: totalPrice
                 };
 
-                try {
-                    const response = await fetch('http://localhost:8080/vehicle-bookings/book', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(bookingData)
-                    });
+                // Store the data in sessionStorage so payment.html can retrieve it
+                sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
 
-                    if (!response.ok) {
-                        throw new Error("Failed to create booking");
-                    }
-
-                    const result = await response.json();
-                    alert(`Booking confirmed!\nTotal Price: LKR ${totalPrice.toFixed(2)}\nReference ID: ${result.booking_id || 'N/A'}`);
-                    // Optionally reset form or redirect
-                } catch (error) {
-                    console.error("Error during booking:", error);
-                    alert("Something went wrong while booking. Please try again.");
-                }
+                // Open payment.html in a new tab
+                window.open('payment.html', '_blank');
             });
-
         });
     });
 </script>

@@ -295,11 +295,52 @@
             });
         }
 
+        const userBookings = document.querySelector('#dropdownMenu .dropdown-item:nth-child(2)');
+        if (userBookings) {
+            userBookings.addEventListener('click', function(event) {
+                event.stopPropagation();
+                window.location.href = 'user_bookings.html';
+            });
+        }
+
         const myLists = document.querySelector('#dropdownMenu .dropdown-item:nth-child(3)');
         if (myLists){
             myLists.addEventListener('click', function(event) {
                 event.stopPropagation();
                 window.location.href = 'users_lists.html';
+            });
+        }
+
+        const saved = document.querySelector('#dropdownMenu .dropdown-item:nth-child(4)');
+        if (saved){
+            saved.addEventListener('click', function(event) {
+                event.stopPropagation();
+                window.location.href = 'user_saved.html';
+            });
+        }
+
+        const wallet = document.querySelector('#dropdownMenu .dropdown-item:nth-child(5)');
+        if (wallet){
+            wallet.addEventListener('click', function(event) {
+                event.stopPropagation();
+                window.location.href = 'user_wallet.html';
+            });
+        }
+
+        const glp = document.querySelector('#dropdownMenu .dropdown-item:nth-child(6)');
+        if (glp){
+            glp.addEventListener('click', function(event) {
+                event.stopPropagation();
+                window.open('https://www.booking.com/genius.html', '_blank');
+            });
+        }
+
+
+        const logout = document.querySelector('#dropdownMenu .dropdown-item:nth-child(7)');
+        if (logout){
+            logout.addEventListener('click', function(event) {
+                event.stopPropagation();
+                window.location.href = 'index.html';
             });
         }
 

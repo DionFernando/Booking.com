@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("api/v1/user")
@@ -45,6 +47,33 @@ public class RegisterController {
                 }
             }
         } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
+
+    /*get all users*/
+   /* @GetMapping(value = "/all")
+    public ResponseEntity<ResponseDTO> getAllUsers() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDTO(VarList.Ok, "Success", userService.getAllUsers()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }*/
+
+    @GetMapping(value = "/all")
+    public ResponseEntity<ResponseDTO> getAllUsers() {
+        System.out.println("getAllUsers endpoint hit");
+        try {
+            Object users = userService.getAllUsers();
+            System.out.println("User count: " + ((List<?>) users).size());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDTO(VarList.Ok, "Success", users));
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
