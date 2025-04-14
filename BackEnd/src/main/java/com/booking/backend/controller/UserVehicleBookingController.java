@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.controller;
 
 import com.booking.backend.dto.VehicleBookingDTO;
@@ -37,3 +38,4 @@ public class UserVehicleBookingController {
         return ResponseEntity.ok("Booking cancelled successfully.");
     }
 }
+*/

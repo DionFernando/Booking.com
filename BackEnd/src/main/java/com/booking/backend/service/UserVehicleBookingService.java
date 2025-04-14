@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.service;
 
 import com.booking.backend.dto.VehicleBookingDTO;
@@ -9,3 +10,4 @@ public interface UserVehicleBookingService {
     List<VehicleBookingDTO> getPastBookings(String userId);
     void cancelBooking(String userId, UUID bookingId);
 }
+*/
