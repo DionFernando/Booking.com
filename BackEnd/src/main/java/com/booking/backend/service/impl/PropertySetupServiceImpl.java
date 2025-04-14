@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.service.impl;
 
 import com.booking.backend.entity.PropertyImage;
@@ -46,3 +47,4 @@ public class PropertySetupServiceImpl implements PropertySetupService {
         return "Images uploaded successfully!";
     }
 }
+*/

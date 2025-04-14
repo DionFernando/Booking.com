@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.service;
 
 import com.booking.backend.dto.PropertyDTO;
@@ -11,3 +12,4 @@ public interface PropertyService {
     PropertyDTO updateProperty(UUID id, PropertyDTO propertyDTO);
     void deleteProperty(UUID id);
 }
+*/

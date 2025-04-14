@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.repo;
 
 import com.booking.backend.entity.PropertyImage;
@@ -9,3 +10,4 @@ import java.util.UUID;
 @Repository
 public interface PropertyImageRepository extends JpaRepository<PropertyImage, UUID> {
 }
+*/

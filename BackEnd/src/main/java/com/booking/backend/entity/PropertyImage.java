@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.entity;
 
 import jakarta.persistence.*;
@@ -25,3 +26,4 @@ public class PropertyImage {
     @JoinColumn(name = "property_id", nullable = false)
     private PropertySetup propertySetup;
 }
+*/

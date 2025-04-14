@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.controller;
 
 import com.booking.backend.service.PropertySetupService;
@@ -29,3 +30,4 @@ public class PropertySetupController {
         }
     }
 }
+*/

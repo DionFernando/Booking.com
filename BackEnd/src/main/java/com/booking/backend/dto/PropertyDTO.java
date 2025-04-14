@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.dto;
 
 import lombok.AllArgsConstructor;
@@ -18,3 +19,4 @@ public class PropertyDTO {
     private String address;
     private String description;
 }
+*/

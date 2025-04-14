@@ -30,10 +30,9 @@ public class PropertiesServiceImpl implements PropertiesService {
                 property.setImage(imageFile.getBytes());
             }
             Properties saved = propertiesRepository.save(property);
-            // Optionally convert saved entity to DTO (if needed)
+            // Optionally transform saved entity to DTO if needed
             return propertiesDTO;
         } catch (Exception e) {
-            // log and rethrow as needed
             throw new RuntimeException("Failed to save property", e);
         }
     }

@@ -132,7 +132,7 @@ public class WebSecurityConfig {
                     return config;
                 }))
                 .authorizeHttpRequests(auth -> auth
-                        // Permit GET on /vehicles without authentication
+                        .requestMatchers(HttpMethod.POST, "/api/v1/properties/save").permitAll()
                         .requestMatchers(HttpMethod.GET, "/vehicles").permitAll()
                         .requestMatchers("/api/v1/auth/**", "/api/v1/user/register").permitAll()
                         .anyRequest().authenticated()
@@ -143,6 +143,7 @@ public class WebSecurityConfig {
 
         return http.build();
     }
+
 
 }
 

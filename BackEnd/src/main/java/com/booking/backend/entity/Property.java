@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.entity;
 
 import jakarta.persistence.*;
@@ -26,3 +27,4 @@ public class Property {
     private String address;
     private String description;
 }
+*/

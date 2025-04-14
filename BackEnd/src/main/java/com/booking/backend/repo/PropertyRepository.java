@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.repo;
 
 import com.booking.backend.entity.Property;
@@ -9,3 +10,4 @@ import java.util.UUID;
 public interface PropertyRepository extends JpaRepository<Property, UUID> {
     Optional<Property> findByType(String type);
 }
+*/

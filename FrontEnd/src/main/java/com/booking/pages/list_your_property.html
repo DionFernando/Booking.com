@@ -1,586 +1,622 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>List Your Property - Booking.com</title>
+    <meta charset="UTF-8">
+    <title>List Your Apartment, Hotel, Vacation Home or Vehicle | Booking.com</title>
     <style>
-        /* Basic Reset */
-        body, h1, h2, form, label, input, select, textarea, button, div {
+        /* Reset default margins/padding */
+        html, body {
             margin: 0;
             padding: 0;
+            width: 100%;
+            height: auto; /* Changed to auto to accommodate new content */
             box-sizing: border-box;
-            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        *, *::before, *::after {
+            box-sizing: inherit;
         }
         body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
+            font-family: Arial, sans-serif;
         }
-        /* Header Styles */
+        /* Header + Top Bar */
         .header {
             background-color: #003580;
             color: #fff;
-            padding: 15px 20px;
+            padding-bottom: 10px;
+        }
+        .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .logo {
-            height: 40px;
+            height: 60px;
         }
-        /* Main Container */
-        .container {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-        .form-title {
-            text-align: center;
-            color: #003580;
-            margin: 30px 0;
-            font-size: 2.2rem;
-            font-weight: 700;
-        }
-        /* Progress Bar */
-        .progress-container {
-            margin: 30px 0;
-        }
-        .progress-steps {
+        .user-actions {
             display: flex;
-            justify-content: space-between;
-            position: relative;
-            margin-bottom: 20px;
+            align-items: center;
+            gap: 10px;
+            position: relative; /* Added to position the dropdown relative to this */
         }
-        .progress-steps::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background-color: #e0e0e0;
-            z-index: 1;
-            transform: translateY(-50%);
+        /* Profile image and username */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            padding: 5px 8px;
+            border-radius: 10px;
+            cursor: pointer;
         }
-        .progress-bar {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            height: 4px;
-            background-color: #007bff;
-            z-index: 2;
-            transform: translateY(-50%);
-            transition: width 0.3s ease-in-out;
-        }
-        .step {
+
+        .user-profile img {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: #e0e0e0;
-            color: #999;
+            margin-right: 10px;
+            border: 2px solid #eb8934;
+        }
+        .user-profile .user-details {
+            display: flex;
+            flex-direction: column; /* Stack username and Genius level vertically */
+        }
+        .user-profile .username {
+            font-size: 0.95rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .user-profile .genius-level {
+            font-size: 0.8rem;
+            color: #eb8934;
+            font-weight: 400;
+        }
+
+        /* User Profile Dropdown */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #fff;
+            color: #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 230px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transform: translateY(10px);
+            z-index: 2;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 10px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f4f4f4;
+        }
+
+        .dropdown-item i {
+            font-size: 18px;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            vertical-align: middle; /* Align icon with text */
+        }
+
+        .user-profile:hover{
+            background-color: #005999;
+        }
+
+        /* Main content styles */
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px;
+            max-width: 100%;
+            margin: 0 auto;
+            color: white;
+            background-color: #003580 ;
+        }
+
+        .text-content {
+            flex: 1;
+            padding-right: 50px;
+        }
+
+        .text-content h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .text-content h1 span {
+            color: #fff;
+            transition: opacity 0.5s ease-in-out;
+            font-weight: bold;
+        }
+
+
+        .text-content p {
+            font-size: 1.2rem;
+            color: #fff;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        #rotating-text {
+            color: #007bff;
+        }
+
+        .image-placeholder {
+            flex: 1;
+            background-color: #fff;
+            height: 400px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            z-index: 3;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-        .step.active {
-            background-color: #007bff;
-            color: white;
-        }
-        .step.completed {
-            background-color: #28a745;
-            color: white;
-        }
-        .step.invalid {
-            background-color: #dc3545;
-            color: white;
-        }
-        /* Form Styles */
-        .property-form {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-        .form-step {
-            display: none;
-            min-height: 300px;
-        }
-        .form-step.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .form-group {
-            margin-bottom: 1.8rem;
-            max-width: 500px;
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: #444;
-            font-size: 0.95rem;
-        }
-        .input-hint {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 4px;
-        }
-        input[type="text"],
-        input[type="number"],
-        textarea {
+
+        .image-placeholder img {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            height: 100%;
+            object-fit: cover;
         }
-        input:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+
+        .break-line {
+            display: block;
         }
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-        /* Special Property Type Button Group */
-        .type-group {
-            display: flex;
-            gap: 15px;
-            max-width: 500px;
-        }
-        .type-option {
-            flex: 1;
-            padding: 15px;
-            text-align: center;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
+
+        /* Listing Options Section */
+        .listing-options {
+            padding: 40px 20px;
             background-color: #fff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            color: #333;
+            text-align: center;
         }
-        .type-option.active {
-            background-color: #007bff;
-            border-color: #007bff;
-            color: #fff;
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #003580;
+            font-weight: bold;
         }
-        /* Button Styles */
+
         .button-container {
             display: flex;
-            gap: 15px;
-            margin-top: 40px;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
         }
-        .btn {
+
+        .listing-button {
+            width: 300px;
+            height: 200px;
+            border-radius: 20px;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .listing-button:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 53, 128, 0.7);
+        }
+
+        .listing-button img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .listing-button span {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 8px 10px;
+            background: rgba(0, 0, 0, 0.3); /* semi-transparent background */
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .footer {
+            background-color: #003580;
+            color: white;
+            padding: 40px 20px;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        .footer-sections {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .footer-section {
+            margin-bottom: 20px;
+
+        }
+
+        .footer-section h4 {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .footer-section a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-divider {
+            margin: 30px auto;
+            width: 95%;
+            border: 0.5px solid #ffffff30;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 10px;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-copy a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* New Section Styling */
+        .list-peace-of-mind-section {
+            margin-top: 50px;
+            padding: 40px 20px;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        .list-peace-of-mind-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .peace-of-mind-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .peace-of-mind-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 10px;
+        }
+
+        .peace-of-mind-item svg {
+            width: 24px;
+            height: 24px;
+            color: #007bff;
+            flex-shrink: 0;
+        }
+
+        .peace-of-mind-item h3 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #003580;
+            font-weight: bold;
+        }
+
+        .peace-of-mind-item p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #555;
+        }
+
+        .list-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .list-button-container {
+            padding: 20px;
+            background-color: #f7f7f7;
+            text-align: left; /* Align buttons to the left */
+        }
+
+        .list-button {
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 6px;
+            padding: 10px 20px;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease;
+            margin-right: 10px; /* Add some space between buttons */
         }
-        .btn:hover {
+
+        .list-button:hover {
             background-color: #0056b3;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .btn:disabled {
-            background-color: #e0e0e0;
-            color: #999;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-        /* Image Preview Styles */
-        .preview-container {
-            text-align: center;
-        }
-        #imagePreview {
-            display: none;
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-top: 15px;
-        }
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 15px;
-            }
-            .property-form {
-                padding: 25px;
-            }
-            .form-title {
-                font-size: 1.8rem;
-            }
-            .button-container {
-                flex-direction: column;
-            }
-            .btn {
-                width: 100%;
-            }
-            .type-group {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
 <body>
-<div class="header">
-    <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo" class="logo" />
-</div>
 
-<div class="container">
-    <h1 class="form-title">List Your Property</h1>
-
-    <div class="progress-container">
-        <div class="progress-steps">
-            <!-- Step indicators for 9 steps -->
-            <div class="step active" id="stepIndicator1">1</div>
-            <div class="step" id="stepIndicator2">2</div>
-            <div class="step" id="stepIndicator3">3</div>
-            <div class="step" id="stepIndicator4">4</div>
-            <div class="step" id="stepIndicator5">5</div>
-            <div class="step" id="stepIndicator6">6</div>
-            <div class="step" id="stepIndicator7">7</div>
-            <div class="step" id="stepIndicator8">8</div>
-            <div class="step" id="stepIndicator9">9</div>
-            <div class="progress-bar" id="progressBar"></div>
+<header class="header">
+    <div class="top-bar">
+        <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo" class="logo" />
+        <div class="user-actions">
+            <div class="user-profile" id="userProfile">
+                <img src="../assets/images/profile/dion.jpg" alt="img" />
+                <div class="user-details">
+                    <span class="username">Dion Fernando</span>
+                    <div class="genius-level">Genius Level 1</div>
+                </div>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <div class="dropdown-item">
+                    <img src="../assets/icons/profile.png" alt="Profile Icon" class="icon" /> My Account
+                </div>
+                <div class="dropdown-item">
+                    <img src="../assets/icons/suitcase.png" alt="Bookings Icon" class="icon" /> Bookings & Trips
+                </div>
+                <div class="dropdown-item">
+                    <img src="../assets/icons/heart.png" alt="Saved Icon" class="icon" /> Saved
+                </div>
+                <div class="dropdown-item">
+                    <img src="../assets/icons/doc.png" alt="loyalty Icon" class="icon" /> Genius loyalty programme
+                </div>
+                <div class="dropdown-item">
+                    <img src="../assets/icons/logout.png" alt="Logout Icon" class="icon" /> Logout
+                </div>
+            </div>
         </div>
     </div>
+</header>
 
-    <form class="property-form" id="propertyForm">
-        <!-- Step 1: Property Type -->
-        <div class="form-step active" id="step1">
-            <h2>1. Property Type</h2>
-            <div class="form-group">
-                <label>Select Property Type</label>
-                <div class="type-group">
-                    <div class="type-option" data-value="hotel" onclick="selectType(this)">Hotels</div>
-                    <div class="type-option" data-value="apartment" onclick="selectType(this)">Apartments</div>
-                    <div class="type-option" data-value="resort" onclick="selectType(this)">Resorts</div>
-                    <div class="type-option" data-value="villa" onclick="selectType(this)">Villas</div>
+<main class="main-content">
+    <div class="text-content">
+        <h1>
+            List your<br>
+            <span id="rotating-text">apartment</span><br>
+            on Booking.com
+        </h1>
+
+        <p>Whether hosting is your side passion or full-time job, list your home today and quickly start earning more income.</p>
+    </div>
+    <div class="image-placeholder">
+        <img src="../assets/images/hotel.jpg" alt="Property placeholder">
+    </div>
+</main>
+
+<section class="listing-options">
+    <h2 class="section-title">What would you like to list?</h2>
+    <div class="button-container">
+        <div class="listing-button" onclick="location.href='property_add.html'">
+            <img src="../assets/images/hotel2.jpg" alt="Property" />
+            <span>List a Property</span>
+        </div>
+        <div class="listing-button" onclick="location.href='vehicle_add_1.html'">
+            <img src="../assets/images/vehicles/car2.jpg" alt="Vehicle" />
+            <span>List a Vehicle</span>
+        </div>
+    </div>
+</section>
+
+<section class="list-peace-of-mind-section">
+    <div class="list-peace-of-mind-container">
+        <h2 class="list-title">List with peace of mind</h2>
+        <ul class="peace-of-mind-list">
+            <li class="peace-of-mind-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                    <h3>Damage payments</h3>
+                    <p>Our damage program covers your property in case of damages.</p>
                 </div>
-                <input type="hidden" id="type" required />
-            </div>
-            <div class="button-container">
-                <button type="button" class="btn" onclick="nextStep()">Next</button>
-            </div>
-        </div>
-
-        <!-- Step 2: Name -->
-        <div class="form-step" id="step2">
-            <h2>2. Property Name</h2>
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" placeholder="e.g. Grand Palace Hotel" required>
-            </div>
-            <div class="button-container">
-                <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
-                <button type="button" class="btn" onclick="nextStep()">Next</button>
-            </div>
-        </div>
-
-        <!-- Step 3: Country -->
-        <div class="form-step" id="step3">
-            <h2>3. Country</h2>
-            <div class="form-group">
-                <label for="country">Country</label>
-                <input type="text" id="country" placeholder="e.g. United States" required>
-            </div>
-            <div class="button-container">
-                <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
-                <button type="button" class="btn" onclick="nextStep()">Next</button>
-            </div>
-        </div>
-
-        <!-- Step 4: City -->
-        <div class="form-step" id="step4">
-            <h2>4. City</h2>
-            <div class="form-group">
-                <label for="city">City</label>
-                <input type="text" id="city" placeholder="e.g. New York" required>
-            </div>
-            <div class="button-container">
-                <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
-                <button type="button" class="btn" onclick="nextStep()">Next</button>
-            </div>
-        </div>
-
-        <!-- Step 5: Address -->
-        <div class="form-step" id="step5">
-            <h2>5. Address</h2>
-            <div class="form-group">
-                <label for="address">Address</label>
-                <input type="text" id="address" placeholder="e.g. 123 Main Street" required>
-            </div>
-            <div class="button-container">
-                <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
-                <button type="button" class="btn" onclick="nextStep()">Next</button>
-            </div>
-        </div>
-
-        <!-- Step 6: Description -->
-        <div class="form-step" id="step6">
-            <h2>6. Description</h2>
-            <div class="form-group">
-                <label for="description">Property Description</label>
-                <p class="input-hint">Describe your property’s features and ambience</p>
-                <textarea id="description" placeholder="e.g. Spacious rooms with modern amenities, great location close to popular attractions" required></textarea>
-            </div>
-            <div class="button-container">
-                <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
-                <button type="button" class="btn" onclick="nextStep()">Next</button>
-            </div>
-        </div>
-
-        <!-- Step 7: Bed Count -->
-        <div class="form-step" id="step7">
-            <h2>7. Bed Count</h2>
-            <div class="form-group">
-                <label for="bedCount">Bed Count</label>
-                <input type="number" id="bedCount" min="1" placeholder="e.g. 2" required>
-            </div>
-            <div class="button-container">
-                <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
-                <button type="button" class="btn" onclick="nextStep()">Next</button>
-            </div>
-        </div>
-
-        <!-- Step 8: Price (Per Day) -->
-        <div class="form-step" id="step8">
-            <h2>8. Price (Per Day)</h2>
-            <div class="form-group">
-                <label for="price">Price (LKR)</label>
-                <input type="number" id="price" min="1" placeholder="e.g. 2500" required>
-            </div>
-            <div class="button-container">
-                <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
-                <button type="button" class="btn" onclick="nextStep()">Next</button>
-            </div>
-        </div>
-
-        <!-- Step 9: Upload Image -->
-        <div class="form-step" id="step9">
-            <h2>9. Upload Image</h2>
-            <div class="form-group">
-                <label for="image">Property Image</label>
-                <div class="file-input-container" onclick="document.getElementById('image').click()" style="border:2px dashed #e0e0e0; padding:20px; text-align:center; border-radius:6px; cursor:pointer;">
-                    <p>Click to upload or drag and drop</p>
-                    <p>PNG, JPG, JPEG up to 5MB</p>
+            </li>
+            <li class="peace-of-mind-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                    <h3>Protection from liability claims</h3>
+                    <p>Receive protection against liability claims from guests and neighbors of up to €/£/$1,000,000 for each reservation.</p>
                 </div>
-                <input type="file" id="image" name="image" accept="image/*" style="display:none;" required>
-            </div>
-            <div class="preview-container">
-                <img id="imagePreview" src="#" alt="Property Image Preview" />
-            </div>
-            <div class="button-container">
-                <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
-                <!-- This button triggers a review/validation check -->
-                <button type="button" class="btn" onclick="validateFinalStep()">Review</button>
-            </div>
-        </div>
+            </li>
+            <li class="peace-of-mind-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                    <h3>Your own house rules</h3>
+                    <p>Communicate your house rules to potential guests who must agree in order to book.</p>
+                </div>
+            </li>
+            <li class="peace-of-mind-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                    <h3>Get paid and secure your finances</h3>
+                    <p>Get guaranteed payouts and fraud protection through <a href="https://www.booking.com/content/payments.en-gb.html" style="color: #007bff; text-decoration: none;">Payments by Booking.com</a>.</p>
+                </div>
+            </li>
+            <li class="peace-of-mind-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                    <h3>Choose how you prefer to receive bookings</h3>
+                    <p>Either by letting guests book instantly or by <a href="https://join.booking.com/en-gb/help/reservations/booking-request" style="color: #007bff; text-decoration: none;">reviewing booking requests</a> before accepting them.</p>
+                </div>
+            </li>
+            <li class="peace-of-mind-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                    <h3>Verified guests</h3>
+                    <p>We verify guests’ email addresses and credit cards for partners on Payments by Booking.com.</p>
+                </div>
+            </li>
+            <li class="peace-of-mind-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                    <h3>Robust support</h3>
+                    <p>Access support in 45 languages and manage your property through Pulse, our <a href="https://join.booking.com/en-gb/help/mobile-apps/pulse-bookingcom-partners" style="color: #007bff; text-decoration: none;">app for partners</a> like you.</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="list-button-container">
+        <button class="list-button" onclick="location.href='property_register.html'">List your property</button>
+        <button class="list-button" onclick="location.href='vehicle_add_1.html'">List your vehicle</button>
+    </div>
+</section>
 
-        <!-- Submit Container -->
-        <div class="submit-container" style="text-align:right; margin-top:40px;">
-            <button type="submit" id="submitButton" class="btn" disabled>Publish Listing</button>
+<footer class="footer">
+    <div class="footer-sections">
+        <div class="footer-section">
+            <h4>Discover</h4>
+            <a href="#">Trust &amp; Safety</a>
         </div>
-    </form>
-</div>
+        <div class="footer-section">
+            <h4>Useful links</h4>
+            <a href="#">Extranet</a>
+            <a href="#">Pulse for Android</a>
+            <a href="#">Pulse for iOS</a>
+        </div>
+        <div class="footer-section">
+            <h4>Help and communities</h4>
+            <a href="#">Partner Help</a>
+            <a href="#">Partner Community</a>
+            <a href="#">How-to videos</a>
+        </div>
+    </div>
+    <hr class="footer-divider" />
+    <div class="footer-bottom">
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <span>|</span>
+            <a href="#">Privacy &amp; Cookie Statement</a>
+        </div>
+        <div class="footer-copy">
+            &copy; Copyright <a href="#">Booking.com</a> 2025
+        </div>
+    </div>
+</footer>
+
+
+
 
 <script>
-    // All nine steps: now requiredFields include the new image input
-    const formSteps = document.querySelectorAll('.form-step');
-    const stepIndicators = document.querySelectorAll('.step');
-    const progressBar = document.getElementById('progressBar');
-    const submitButton = document.getElementById('submitButton');
-    const form = document.getElementById('propertyForm');
-
-    let currentStep = 0;
-    // Note: Order of requiredFields should match each step index:
-    // 1: type, 2: name, 3: country, 4: city, 5: address, 6: description, 7: bedCount, 8: price, 9: image
-    const requiredFields = ['type', 'name', 'country', 'city', 'address', 'description', 'bedCount', 'price', 'image'];
-    const fieldValidations = {};
-
+    // Update the displayed username using localStorage
     document.addEventListener('DOMContentLoaded', function() {
-        updateProgressBar();
-        updateStepIndicators();
-        showStep(currentStep);
-        setupEventListeners();
-        // Add change listener for image input to update preview
-        document.getElementById('image').addEventListener('change', function () {
-            validateField('image');
-            updateStepIndicators();
-            checkFormCompletion();
-            if (this.files.length > 0) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const preview = document.getElementById('imagePreview');
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
+        const storedName = localStorage.getItem('name');
+        if (storedName) {
+            // Change the username in the header
+            const usernameElements = document.querySelectorAll('.username');
+            usernameElements.forEach(el => {
+                el.textContent = storedName;
+            });
+        }
+
+        // Rotating text functionality
+        const rotatingText = document.getElementById('rotating-text');
+        const words = ['apartment', 'hotel', 'vacation home', 'guest house', 'vehicle', 'bed & breakfast'];
+        let currentIndex = 0;
+
+        function rotateText() {
+            currentIndex = (currentIndex + 1) % words.length;
+            rotatingText.style.opacity = 0;
+
+            setTimeout(() => {
+                rotatingText.textContent = words[currentIndex];
+                rotatingText.style.opacity = 1;
+            }, 500);
+        }
+
+        setInterval(rotateText, 2000);
+    });
+</script>
+
+<script>
+    // Toggle the dropdown menu when profile is clicked
+    document.getElementById('userProfile').addEventListener('click', function() {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        dropdownMenu.classList.toggle('show');
     });
 
-    function setupEventListeners() {
-        requiredFields.forEach(fieldId => {
-            const element = document.getElementById(fieldId);
-            if (element) {
-                element.addEventListener('input', function() {
-                    validateField(fieldId);
-                    updateStepIndicators();
-                    checkFormCompletion();
-                });
-            }
-        });
-    }
-
-    // Validate fields: for the image, ensure a file is chosen.
-    function validateField(fieldId) {
-        const element = document.getElementById(fieldId);
-        let isValid = true;
-        if (!element) return true;
-        let value = element.value;
-        if (element.type === "file") {
-            value = element.files.length > 0 ? "file" : "";
+    // Close the dropdown if clicked outside
+    document.addEventListener('click', function(event) {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const userProfile = document.getElementById('userProfile');
+        if (!userProfile.contains(event.target)) {
+            dropdownMenu.classList.remove('show');
         }
-        if (!value || !value.trim()) {
-            isValid = false;
-        } else {
-            if ((fieldId === 'bedCount' || fieldId === 'price') && (isNaN(value) || parseFloat(value) <= 0)) {
-                isValid = false;
-            }
-        }
-        fieldValidations[fieldId] = isValid;
-        return isValid;
-    }
+    });
 
-    function validateAllSteps() {
-        let allValid = true;
-        requiredFields.forEach(fieldId => {
-            if (!validateField(fieldId)) {
-                allValid = false;
-            }
-        });
-        return allValid;
-    }
-
-    function checkFormCompletion() {
-        submitButton.disabled = !validateAllSteps();
-    }
-
-    function updateProgressBar() {
-        const progressPercentage = (currentStep / (formSteps.length - 1)) * 100;
-        progressBar.style.width = `${progressPercentage}%`;
-    }
-
-    // Here we update the step indicators: if a required field is invalid for that step,
-    // the indicator is marked as "invalid" (red). Otherwise, if the step is completed, it's green.
-    function updateStepIndicators() {
-        // Map each step index to corresponding required field
-        const stepFieldMap = {
-            0: 'type',
-            1: 'name',
-            2: 'country',
-            3: 'city',
-            4: 'address',
-            5: 'description',
-            6: 'bedCount',
-            7: 'price',
-            8: 'image'
-        };
-
-        stepIndicators.forEach((indicator, index) => {
-            indicator.classList.remove('active', 'completed', 'invalid');
-            if (index === currentStep) {
-                indicator.classList.add('active');
-            } else if (index < currentStep) {
-                // Check if the corresponding field was valid; if not, mark invalid.
-                const fieldId = stepFieldMap[index];
-                if (fieldId && fieldValidations[fieldId] === false) {
-                    indicator.classList.add('invalid');
-                } else {
-                    indicator.classList.add('completed');
-                }
-            }
-        });
-    }
-
-    function showStep(stepIndex) {
-        formSteps.forEach((step, index) => {
-            step.classList.toggle('active', index === stepIndex);
-        });
-        currentStep = stepIndex;
-        updateProgressBar();
-        updateStepIndicators();
-        checkFormCompletion();
-    }
-
-    function nextStep() {
-        if (currentStep < formSteps.length - 1) {
-            showStep(currentStep + 1);
-        }
-    }
-
-    function prevStep() {
-        if (currentStep > 0) {
-            showStep(currentStep - 1);
-        }
-    }
-
-    function validateFinalStep() {
-        if (validateAllSteps()) {
-            alert('Your property listing is ready to be published!');
-        } else {
-            updateStepIndicators();
-            alert('Please complete all required fields.');
-        }
-    }
-
-    function selectType(element) {
-        document.querySelectorAll('.type-option').forEach(el => el.classList.remove('active'));
-        element.classList.add('active');
-        document.getElementById('type').value = element.getAttribute('data-value');
-        validateField('type');
-        checkFormCompletion();
-    }
-
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        if (validateAllSteps()) {
-            // The form can later be wired to send a multipart POST request to the backend.
-            alert('Your property has been listed successfully!');
-            form.reset();
-            currentStep = 0;
-            showStep(currentStep);
-            submitButton.disabled = true;
-            // Optionally reset validations
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select the "My Account" dropdown item (first dropdown-item)
+        const myAccountBtn = document.querySelector('#dropdownMenu .dropdown-item:first-child');
+        if (myAccountBtn) {
+            myAccountBtn.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent dropdown from closing immediately
+                window.location.href = 'my_account.html'; // Redirect to my_account.html
+            });
         }
     });
 </script>
+
 </body>
 </html>

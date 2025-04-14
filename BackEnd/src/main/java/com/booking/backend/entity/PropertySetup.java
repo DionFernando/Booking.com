@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.entity;
 
 import jakarta.persistence.*;
@@ -29,3 +30,4 @@ public class PropertySetup {
     @OneToMany(mappedBy = "propertySetup", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<PropertyImage> images;
 }
+*/

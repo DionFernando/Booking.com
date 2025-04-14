@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.service.impl;
 
 import com.booking.backend.dto.PropertyDTO;
@@ -84,3 +85,4 @@ public class PropertyServiceImpl implements PropertyService {
         );
     }
 }
+*/

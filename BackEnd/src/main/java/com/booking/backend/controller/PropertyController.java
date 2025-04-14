@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.controller;
 
 import com.booking.backend.dto.PropertyDTO;
@@ -44,3 +45,4 @@ public class PropertyController {
         return ResponseEntity.ok("Property deleted successfully!");
     }
 }
+*/

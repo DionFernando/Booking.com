@@ -3,14 +3,14 @@ package com.booking.backend.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "property")
+@Table(name = "properties")
 public class Properties {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String type;       // e.g., hotel, apartment, resort, villa
+    private String type;
     private String name;
     private String country;
     private String city;
@@ -20,10 +20,10 @@ public class Properties {
     private String description;
 
     private int bedCount;
-    private double price;      // price per day
+    private double price;
 
     @Lob
-    private byte[] image;      // store the image as byte array
+    private byte[] image;
 
     // Getters and Setters
 

@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.repo;
 
 import com.booking.backend.entity.PropertySetup;
@@ -10,3 +11,4 @@ import java.util.UUID;
 public interface PropertySetupRepository extends JpaRepository<PropertySetup, UUID> {
 }
 
+*/
