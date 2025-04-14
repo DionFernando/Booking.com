@@ -32,6 +32,13 @@ JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+
+        // Optionally bypass token processing for public GET endpoints.
+        if ("GET".equals(httpServletRequest.getMethod()) && httpServletRequest.getRequestURI().equals("/vehicles")) {
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+            return;
+        }
+
         String authorization = httpServletRequest.getHeader("Authorization");
         String token = null;
         String email = null;
