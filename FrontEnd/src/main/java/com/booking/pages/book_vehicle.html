@@ -340,7 +340,7 @@
             // Book now button event: Save booking data and open payment.html in a new tab.
             document.getElementById('book-now').addEventListener('click', () => {
                 const totalText = document.getElementById('total-price').textContent;
-                const totalPrice = parseFloat(totalText.replace(/[^\d.]/g, '')); // Strip non-numeric characters
+                const totalPrice = parseFloat(totalText.replace(/[^\d.]/g, '')); // Extract the price
                 const startDate = document.getElementById('start-date').value;
                 const endDate = document.getElementById('end-date').value;
 
@@ -353,20 +353,33 @@
                     return;
                 }
 
-                // Prepare the booking data object
+                // Prepare the booking data object including price
                 const bookingData = {
-                    vehicle_id: vehicleData.id,
-                    start_date: startDate,
-                    end_date: endDate,
-                    total_price: totalPrice
+                    vehicleId: vehicleData.id,
+                    userId: vehicleData.userId || "defaultUser", // Adjust as needed based on your auth setup
+                    startDate: startDate,
+                    endDate: endDate,
+                    price: totalPrice
                 };
 
-                // Store the data in sessionStorage so payment.html can retrieve it
-                sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
-
-                // Open payment.html in a new tab
-                window.open('payment.html', '_blank');
+                // Send the booking data to your backend endpoint
+                fetch('http://localhost:8080/vehicle-bookings/book', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Optionally include an Authorization header if needed:
+                        // 'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+                    },
+                    body: JSON.stringify(bookingData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Handle successful booking (e.g., display a success message or redirect)
+                        console.log('Booking successful:', data);
+                    })
+                    .catch(error => console.error('Error booking vehicle:', error));
             });
+
         });
     });
 </script>

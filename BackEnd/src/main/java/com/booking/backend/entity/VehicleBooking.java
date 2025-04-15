@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -30,4 +29,8 @@ public class VehicleBooking {
 
     @Column(nullable = false)
     private LocalDate endDate;
+
+    // New field to store the booking price
+    @Column(nullable = false)
+    private double price;
 }

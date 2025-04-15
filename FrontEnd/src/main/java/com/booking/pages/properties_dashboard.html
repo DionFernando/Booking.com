@@ -164,6 +164,16 @@
             background-color: #fff;
         }
 
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            color: #0071c2;
+            font-size: 1rem;
+            border: 1px solid #0071c2;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
 
     </style>
 </head>
@@ -297,7 +307,16 @@
     // Function to render property cards based on the provided list
     function displayProperties(propertiesList) {
         const propertiesContainer = document.getElementById('properties-container');
-        propertiesContainer.innerHTML = ""; // clear existing cards
+        propertiesContainer.innerHTML = ""; // Clear existing cards
+
+        if (propertiesList.length === 0) {
+            // If no properties match, display a modern alert message.
+            const noResultsDiv = document.createElement('div');
+            noResultsDiv.classList.add('no-results');
+            noResultsDiv.textContent = "😕 Oops, we couldn't find any properties matching your search. Try adjusting your filters!";
+            propertiesContainer.appendChild(noResultsDiv);
+            return;
+        }
 
         propertiesList.forEach(property => {
             const card = document.createElement('div');
@@ -325,14 +344,18 @@
         });
     }
 
-    // Filtering function that uses current filters to update the card display
+    // Filtering function that uses current filters and search criteria to update displayed cards
     function filterProperties() {
         // Get current filter values
         const propertyType = document.getElementById('propertyTypeFilter').value;
         const priceOrder = document.getElementById('priceFilter').value;
         const bedCountFilter = document.getElementById('bedCountFilter').value;
 
-        // Apply filters to the full properties list
+        // Get search values
+        const searchCriteria = document.getElementById('searchCriteria').value; // 'name', 'country', or 'city'
+        const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
+
+        // Apply filters on the full properties list
         let filteredProperties = allProperties.filter(property => {
             // Filter by property type if not "All"
             if (propertyType !== "All" && property.type !== propertyType) {
@@ -340,11 +363,18 @@
             }
             // Filter by bed count if not "All"
             if (bedCountFilter !== "All") {
-                // When filtering by bed count, assume "more" means more than 3 beds.
                 if (bedCountFilter === "more") {
                     if (property.bedCount <= 3) return false;
                 } else {
                     if (property.bedCount !== parseInt(bedCountFilter)) return false;
+                }
+            }
+            // Filter by search criteria (name, country, or city)
+            if (searchInput) {
+                // Depending on the search criteria, check the corresponding field.
+                const fieldValue = property[searchCriteria];
+                if (!fieldValue || fieldValue.toLowerCase().indexOf(searchInput) === -1) {
+                    return false;
                 }
             }
             return true;
@@ -365,7 +395,7 @@
         // Check if a property type is passed via URL query parameter.
         const params = new URLSearchParams(window.location.search);
         const propType = params.get('propertyType');
-        if(propType) {
+        if (propType) {
             document.getElementById('propertyTypeFilter').value = propType;
         }
 
@@ -386,17 +416,28 @@
             .then(properties => {
                 // Save the fetched properties globally.
                 allProperties = properties;
-                // Initially display all properties (or you can run filterProperties() to take care of URL filter parameter)
+                // Initially display all properties, or call filterProperties() to apply preset search/filter settings.
                 displayProperties(allProperties);
             })
             .catch(error => console.error('Error fetching properties:', error));
 
-        // Attach event listeners to each filter element to trigger filtering when changed.
+        // Attach event listeners to each filter element
         document.getElementById('propertyTypeFilter').addEventListener('change', filterProperties);
         document.getElementById('priceFilter').addEventListener('change', filterProperties);
         document.getElementById('bedCountFilter').addEventListener('change', filterProperties);
+
+        // Auto-search on input event as user types in the search bar
+        document.getElementById('searchInput').addEventListener('input', filterProperties);
+
+        // Also trigger filtering when search criteria is changed
+        document.getElementById('searchCriteria').addEventListener('change', filterProperties);
+
+        // Optionally, trigger search on button click as well
+        document.getElementById('searchButton').addEventListener('click', filterProperties);
     });
 </script>
+
+
 
 
 </body>

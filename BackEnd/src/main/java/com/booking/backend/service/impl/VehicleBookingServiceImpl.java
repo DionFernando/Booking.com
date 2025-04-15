@@ -7,7 +7,6 @@ import com.booking.backend.repo.VehicleBookingRepository;
 import com.booking.backend.repo.VehicleRepository;
 import com.booking.backend.service.VehicleBookingService;
 import org.springframework.stereotype.Service;
-
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
@@ -44,12 +43,14 @@ public class VehicleBookingServiceImpl implements VehicleBookingService {
             throw new RuntimeException("Vehicle is already booked for the selected date range.");
         }
 
-        // Create and save the booking.
+        // Create and save the booking, setting the price from the DTO.
         VehicleBooking booking = new VehicleBooking();
         booking.setVehicle(vehicle);
         booking.setUserId(bookingDTO.getUserId());
         booking.setStartDate(bookingDTO.getStartDate());
         booking.setEndDate(bookingDTO.getEndDate());
+        booking.setPrice(bookingDTO.getPrice()); // Set the price here
+
         booking = bookingRepository.save(booking);
 
         return convertToDTO(booking);
@@ -76,7 +77,8 @@ public class VehicleBookingServiceImpl implements VehicleBookingService {
                 booking.getVehicle().getId(),
                 booking.getUserId(),
                 booking.getStartDate(),
-                booking.getEndDate()
+                booking.getEndDate(),
+                booking.getPrice() // Include the price in the DTO
         );
     }
 }
