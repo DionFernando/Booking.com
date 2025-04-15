@@ -3,25 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>Book the Property | Booking.com</title>
-    <!-- Font Awesome for star icons (if needed for property rating display) -->
+    <link rel="icon" href="../assets/icons/booking.com-icon.png" type="image/x-icon" />
+    <!-- Font Awesome for star icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-        }
-        /* Header styling */
+        /* Global Styles */
+        body { margin: 0; font-family: Arial, sans-serif; background-color: #f7f7f7; }
+
+        /* Header and Top Bar */
         .header {
             background-color: #003580;
+            color: #fff;
+            padding-bottom: 10px;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 10px 20px;
         }
-        .header img {
-            height: 50px;
+        .logo {
+            height: 60px;
+            margin-left: 50px;
         }
-        /* Main container styling */
+        .user-actions {
+            display: flex;
+            align-items: center;
+            margin-right: 50px;
+            gap: 10px;
+            position: relative;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            padding: 5px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #eb8934;
+        }
+        .user-profile .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+        .user-profile .username {
+            font-size: 0.95rem;
+            color: #fff;
+            font-weight: 600;
+        }
+        .user-profile .genius-level {
+            font-size: 0.8rem;
+            color: #eb8934;
+            font-weight: 400;
+        }
+
+        /* Main Content Styles */
         .container {
             max-width: 1000px;
             margin: 40px auto;
@@ -32,9 +75,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        .property-image {
-            flex: 1;
-        }
+        .property-image { flex: 1; }
         .property-image img {
             width: 100%;
             height: auto;
@@ -70,7 +111,8 @@
         .book-button:hover {
             background-color: #005999;
         }
-        /* Booking Form Styling */
+
+        /* Booking Form Styles */
         .booking-form {
             max-width: 1000px;
             margin: 20px auto;
@@ -79,10 +121,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         }
-        .booking-form h3 {
-            color: #003580;
-            margin-bottom: 20px;
-        }
+        .booking-form h3 { color: #003580; margin-bottom: 20px; }
         .booking-form .date-row {
             display: flex;
             gap: 20px;
@@ -131,19 +170,12 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-        .booking-form button:hover:not(:disabled) {
-            background-color: #218838;
-        }
+        .booking-form button:hover:not(:disabled) { background-color: #218838; }
         .booking-form button:disabled {
             background-color: #cccccc;
             cursor: not-allowed;
         }
-        .error {
-            color: red;
-            margin-top: 5px;
-            font-size: 0.9rem;
-        }
-        /* Increase Flatpickr calendar height for a more spacious look */
+        .error { color: red; margin-top: 5px; font-size: 0.9rem; }
         .flatpickr-calendar {
             font-size: 1.1rem;
             padding: 10px;
@@ -152,14 +184,26 @@
     </style>
 </head>
 <body>
-<!-- Header -->
+<!-- Header with Top Bar -->
 <div class="header">
-    <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo">
+    <div class="top-bar">
+        <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo" class="logo" />
+        <div class="user-actions">
+            <div class="user-profile" id="userProfile">
+                <img src="../assets/icons/user_icon.png" alt="User Icon" />
+                <div class="user-details">
+                    <span class="username">Dion Fernando</span>
+                    <div class="genius-level">Genius Level 1</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Main container with property details -->
+<!-- Main Container with Property Details -->
 <div class="container">
     <div class="property-image">
+        <!-- Use HTTPS so the placeholder image loads correctly -->
         <img id="property-img" src="https://via.placeholder.com/400x300.png?text=Property+Image" alt="Property Image">
     </div>
     <div class="property-details">
@@ -173,37 +217,36 @@
     </div>
 </div>
 
-<!-- Booking form container -->
+<!-- Booking Form Container -->
 <div id="booking-form-container"></div>
 
 <!-- Flatpickr JS -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Retrieve stored property details from localStorage.
+        // Retrieve the stored property details from localStorage.
+        // IMPORTANT: Ensure the stored object includes an "id" field.
         const propertyData = localStorage.getItem('selectedProperty');
         let property = {};
         if (propertyData) {
             property = JSON.parse(propertyData);
+            // Update the page with property details.
             document.getElementById('property-name').textContent = property.name || 'Property Name';
             document.getElementById('property-description').textContent = property.description || 'No description available.';
             document.getElementById('property-bedcount').innerHTML = `<strong>Bed Count:</strong> ${property.bedCount || 'N/A'}`;
-            // Concatenate the address from the backend fields: address, city, and country.
             document.getElementById('property-address').innerHTML = `<strong>Address:</strong> ${property.address || 'N/A'}`;
             document.getElementById('property-location').innerHTML = `<strong>Location:</strong> ${property.city || 'City'}, ${property.country || 'Country'}`;
             document.getElementById('property-price').innerHTML = `<strong>Price per Day:</strong> LKR ${property.price || '0'}`;
-            // If image is available (Base64 string), display it
             if (property.image && !property.image.startsWith('data:image')) {
                 document.getElementById('property-img').src = `data:image/jpeg;base64,${property.image}`;
             } else {
                 document.getElementById('property-img').src = property.image || 'https://via.placeholder.com/400x300.png?text=Property+Image';
             }
-
         } else {
             document.querySelector('.container').innerHTML = "<p>No property selected.</p>";
         }
 
-        // Add click event to create the booking form
+        // When "Proceed to Booking" is clicked, show the booking form.
         document.getElementById('open-booking-form').addEventListener('click', () => {
             if (document.getElementById('booking-form')) {
                 document.getElementById('booking-form').scrollIntoView({ behavior: 'smooth' });
@@ -211,42 +254,39 @@
             }
             const formContainer = document.getElementById('booking-form-container');
             formContainer.innerHTML = `
-            <div class="booking-form" id="booking-form">
-                <h3>Booking Details</h3>
-                <div class="date-row">
-                    <div class="field">
-                        <label for="start-date">Start Date</label>
-                        <input type="text" id="start-date" placeholder="Select start date">
+                    <div class="booking-form" id="booking-form">
+                        <h3>Booking Details</h3>
+                        <div class="date-row">
+                            <div class="field">
+                                <label for="start-date">Start Date</label>
+                                <input type="text" id="start-date" placeholder="Select start date">
+                            </div>
+                            <div class="field">
+                                <label for="end-date">End Date</label>
+                                <input type="text" id="end-date" placeholder="Select end date">
+                            </div>
+                        </div>
+                        <p id="days-count">No of days: 0</p>
+                        <p class="error" id="date-error" style="display:none;"></p>
+                        <p class="total-price" id="total-price">Total Price: LKR 0</p>
+                        <button id="book-now" disabled>Book Now</button>
                     </div>
-                    <div class="field">
-                        <label for="end-date">End Date</label>
-                        <input type="text" id="end-date" placeholder="Select end date">
-                    </div>
-                </div>
-                <p id="days-count">No of days: 0</p>
-                <p class="error" id="date-error" style="display:none;"></p>
-                <p class="total-price" id="total-price">Total Price: LKR 0</p>
-                <button id="book-now" disabled>Book Now</button>
-            </div>
-          `;
-            // Auto scroll to the booking form.
+                `;
             document.getElementById('booking-form').scrollIntoView({ behavior: 'smooth' });
 
-            // Initialize Flatpickr for date selection.
+            // Initialize Flatpickr for the date fields.
             const startPicker = flatpickr("#start-date", {
                 dateFormat: "Y-m-d",
                 minDate: "today",
                 onChange: function(selectedDates) {
-                    // Set a minimum for the end date (at least the same day) since minimum booking is 1 day.
-                    const minEnd = new Date(selectedDates[0]);
-                    startPicker.config.defaultDate = selectedDates[0];
-                    endPicker.set('minDate', selectedDates[0]);
-                    document.getElementById('end-date').value = ''; // Reset previous end date.
-                    document.getElementById('book-now').disabled = true;
+                    if (selectedDates && selectedDates[0]) {
+                        endPicker.set('minDate', selectedDates[0]);
+                        document.getElementById('end-date').value = '';
+                        document.getElementById('book-now').disabled = true;
+                    }
                     calculatePrice();
                 }
             });
-
             const endPicker = flatpickr("#end-date", {
                 dateFormat: "Y-m-d",
                 minDate: "today",
@@ -255,30 +295,26 @@
                 }
             });
 
-            // Price calculation function for property booking.
-            // Minimum booking is 1 day and for extra days the price is applied at a 10% discount.
+            // Calculate price based on selected dates.
             function calculatePrice() {
                 const basePrice = parseFloat(property.price);
                 const start = document.getElementById('start-date').value;
                 const end = document.getElementById('end-date').value;
+                const daysElem = document.getElementById('days-count');
+                const errorElem = document.getElementById('date-error');
+                const totalPriceElem = document.getElementById('total-price');
+                const bookBtn = document.getElementById('book-now');
 
                 if (!start || !end) {
-                    document.getElementById('days-count').textContent = "No of days: 0";
+                    daysElem.textContent = "No of days: 0";
                     return;
                 }
 
                 const startDate = new Date(start);
                 const endDate = new Date(end);
-                // Calculate inclusive day difference.
                 const diffTime = endDate - startDate;
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-                const errorElem = document.getElementById('date-error');
-                const totalPriceElem = document.getElementById('total-price');
-                const bookBtn = document.getElementById('book-now');
-
-                // Update days count display.
-                document.getElementById('days-count').textContent = "No of days: " + diffDays;
+                daysElem.textContent = "No of days: " + diffDays;
 
                 if (diffDays < 1) {
                     errorElem.style.display = 'block';
@@ -289,8 +325,7 @@
                 }
 
                 const extraDays = diffDays - 1;
-                // The extra days are charged at 90% of the regular daily rate.
-                const extraCost = basePrice * extraDays * 0.9;
+                const extraCost = basePrice * extraDays * 0.9; // 10% discount on extra days.
                 const totalPrice = basePrice + extraCost;
 
                 errorElem.style.display = 'none';
@@ -298,30 +333,84 @@
                 bookBtn.disabled = false;
             }
 
-            // Event handler for "Book Now" button.
+            // "Book Now" button handler: first check availability, then save booking.
             document.getElementById('book-now').addEventListener('click', () => {
                 const totalText = document.getElementById('total-price').textContent;
                 const totalPrice = parseFloat(totalText.replace(/[^\d.]/g, ''));
                 const startDate = document.getElementById('start-date').value;
                 const endDate = document.getElementById('end-date').value;
 
-                if (!startDate || !endDate || isNaN(totalPrice) || totalPrice <= 0) {
-                    return;
-                }
+                if (!startDate || !endDate || isNaN(totalPrice) || totalPrice <= 0) return;
 
-                const bookingData = {
-                    property_id: property.id,
-                    start_date: startDate,
-                    end_date: endDate,
-                    total_price: totalPrice
-                };
+                // Construct the URL for checking availability.
+                const checkUrl = `http://localhost:8080/api/v1/bookings/check?propertyId=${property.id}&startDate=${startDate}&endDate=${endDate}`;
 
-                sessionStorage.setItem('propertyBookingData', JSON.stringify(bookingData));
-
-                // Redirect or open payment.html in a new tab.
-                window.open('payment.html', '_blank');
+                fetch(checkUrl, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(text => { throw new Error(text); });
+                        }
+                        return response.json();
+                    })
+                    .then(isAvailable => {
+                        if (!isAvailable) {
+                            alert("This property is already booked for the selected dates. Please choose different dates.");
+                            return;
+                        }
+                        // If available, save the booking.
+                        saveBooking(totalPrice, startDate, endDate);
+                    })
+                    .catch(error => {
+                        console.error('Error checking availability:', error);
+                        alert('Something went wrong while checking availability.');
+                    });
             });
         });
+
+        // Function to save the booking using a POST request.
+        function saveBooking(totalPrice, startDate, endDate) {
+            const bookingData = {
+                property_id: property.id,
+                start_date: startDate,
+                end_date: endDate,
+                total_price: totalPrice
+            };
+
+            fetch('http://localhost:8080/api/v1/bookings/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bookingData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        alert("Failed to save booking. Try again.");
+                        return;
+                    }
+                    return response.json();
+                })
+                .then(savedBooking => {
+                    // Store the booking details in sessionStorage and navigate to the payment page.
+                    sessionStorage.setItem('propertyBookingData', JSON.stringify(bookingData));
+                    window.open('payment-payhere.html', '_blank');
+                })
+                .catch(error => {
+                    console.error('Error saving booking:', error);
+                    alert('Error occurred. Please try again.');
+                });
+        }
+    });
+
+    // Update the logged-in user’s display name from localStorage.
+    document.addEventListener('DOMContentLoaded', function () {
+        const storedName = localStorage.getItem('name');
+        if (storedName) {
+            document.querySelectorAll('.username').forEach(el => {
+                el.textContent = storedName;
+            });
+        }
     });
 </script>
 </body>

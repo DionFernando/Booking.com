@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.controller;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -16,10 +17,12 @@ public class PaymentNotifyController {
     @Value("${payhere.secret.key}")
     private String secretKey;
 
-    /**
+    */
+/**
      * Endpoint to receive payment notifications from PayHere.
      * Ensure that the parameters here match exactly what PayHere sends in their request.
-     */
+     *//*
+
     @PostMapping("/notify")
     public ResponseEntity<String> paymentNotify(@RequestParam Map<String, String> params) {
         // Example: retrieving parameters sent by PayHere
@@ -42,3 +45,4 @@ public class PaymentNotifyController {
         return ResponseEntity.ok("Payment notification processed successfully");
     }
 }
+*/

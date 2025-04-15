@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Properties | Booking.com</title>
+    <link rel="icon" href="../assets/icons/booking.com-icon.png" type="image/x-icon" />
     <style>
         /* Reset & Global Styles */
         * {
@@ -156,6 +157,14 @@
             margin-bottom: 5px;
         }
 
+        .filters-container {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #fff;
+        }
+
+
     </style>
 </head>
 <body>
@@ -183,10 +192,10 @@
             <label for="propertyTypeFilter">Property Type</label>
             <select id="propertyTypeFilter">
                 <option value="All">All</option>
-                <option value="Hotel">Hotel</option>
-                <option value="Apartments">Apartments</option>
-                <option value="Resorts">Resorts</option>
-                <option value="Villas">Villas</option>
+                <option value="hotel">Hotel</option>
+                <option value="apartment">Apartments</option>
+                <option value="resort">Resorts</option>
+                <option value="villa">Villas</option>
             </select>
         </div>
         <div class="filter-group">
@@ -281,6 +290,114 @@
             .catch(error => console.error('Error fetching properties:', error));
     });
 </script>
+
+<script>
+    let allProperties = []; // Global array to store fetched properties
+
+    // Function to render property cards based on the provided list
+    function displayProperties(propertiesList) {
+        const propertiesContainer = document.getElementById('properties-container');
+        propertiesContainer.innerHTML = ""; // clear existing cards
+
+        propertiesList.forEach(property => {
+            const card = document.createElement('div');
+            card.classList.add('property-card');
+
+            // Construct image src. Use a default placeholder if image is absent.
+            const imgSrc = property.image ? `data:image/jpeg;base64,${property.image}` : 'placeholder.jpg';
+
+            card.innerHTML = `
+        <img src="${imgSrc}" alt="${property.name} Image">
+        <div class="card-content">
+          <h3>${property.name}</h3>
+          <p><strong>Bed Count:</strong> ${property.bedCount}</p>
+          <p><strong>Price:</strong> LKR${property.price}</p>
+        </div>
+      `;
+
+            // Add a click listener to navigate to the booking page and save the property details
+            card.addEventListener('click', function() {
+                localStorage.setItem('selectedProperty', JSON.stringify(property));
+                window.open('book_property.html', '_blank');
+            });
+
+            propertiesContainer.appendChild(card);
+        });
+    }
+
+    // Filtering function that uses current filters to update the card display
+    function filterProperties() {
+        // Get current filter values
+        const propertyType = document.getElementById('propertyTypeFilter').value;
+        const priceOrder = document.getElementById('priceFilter').value;
+        const bedCountFilter = document.getElementById('bedCountFilter').value;
+
+        // Apply filters to the full properties list
+        let filteredProperties = allProperties.filter(property => {
+            // Filter by property type if not "All"
+            if (propertyType !== "All" && property.type !== propertyType) {
+                return false;
+            }
+            // Filter by bed count if not "All"
+            if (bedCountFilter !== "All") {
+                // When filtering by bed count, assume "more" means more than 3 beds.
+                if (bedCountFilter === "more") {
+                    if (property.bedCount <= 3) return false;
+                } else {
+                    if (property.bedCount !== parseInt(bedCountFilter)) return false;
+                }
+            }
+            return true;
+        });
+
+        // Sort based on price filter if needed
+        if (priceOrder === "lowToHigh") {
+            filteredProperties.sort((a, b) => a.price - b.price);
+        } else if (priceOrder === "highToLow") {
+            filteredProperties.sort((a, b) => b.price - a.price);
+        }
+
+        displayProperties(filteredProperties);
+    }
+
+    // When the page loads, fetch the list of properties.
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if a property type is passed via URL query parameter.
+        const params = new URLSearchParams(window.location.search);
+        const propType = params.get('propertyType');
+        if(propType) {
+            document.getElementById('propertyTypeFilter').value = propType;
+        }
+
+        const apiEndpoint = 'http://localhost:8080/api/v1/properties/all';
+        fetch(apiEndpoint, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network error or unauthorized');
+                }
+                return response.json();
+            })
+            .then(properties => {
+                // Save the fetched properties globally.
+                allProperties = properties;
+                // Initially display all properties (or you can run filterProperties() to take care of URL filter parameter)
+                displayProperties(allProperties);
+            })
+            .catch(error => console.error('Error fetching properties:', error));
+
+        // Attach event listeners to each filter element to trigger filtering when changed.
+        document.getElementById('propertyTypeFilter').addEventListener('change', filterProperties);
+        document.getElementById('priceFilter').addEventListener('change', filterProperties);
+        document.getElementById('bedCountFilter').addEventListener('change', filterProperties);
+    });
+</script>
+
 
 </body>
 </html>

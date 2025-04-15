@@ -50,6 +50,7 @@ public class PropertiesServiceImpl implements PropertiesService {
         // Map entity list to DTO list (manual mapping below):
         return propertiesList.stream().map(property -> {
             PropertiesDTO dto = new PropertiesDTO();
+            dto.setId(property.getId());
             dto.setType(property.getType());
             dto.setName(property.getName());
             dto.setCountry(property.getCountry());

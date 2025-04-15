@@ -19,7 +19,7 @@
             gap: 20px;
             padding: 20px;
         }
-        /* Left Panel: Vehicle Details */
+        /* Left Panel: Property Details */
         .left-panel, .right-panel {
             background: #fff;
             padding: 20px;
@@ -81,14 +81,16 @@
 </head>
 <body>
 <div class="container">
-    &lt;!&ndash; Left Panel: Vehicle Details &ndash;&gt;
+    &lt;!&ndash; Left Panel: Property Details &ndash;&gt;
     <div class="left-panel">
-        <h2>Vehicle Details</h2>
-        <img id="vehicle-img" src="https://via.placeholder.com/400x300?text=Vehicle+Image" alt="Vehicle Image">
-        <p id="vehicle-brand">Brand: N/A</p>
-        <p id="vehicle-description">Description: N/A</p>
-        <p id="vehicle-color">Color: N/A</p>
-        <p id="vehicle-owner">Owner Email: N/A</p>
+        <h2>Property Details</h2>
+        <img id="property-img" src="https://via.placeholder.com/400x300?text=Property+Image" alt="Property Image">
+        <p id="property-name">Name: N/A</p>
+        <p id="property-description">Description: N/A</p>
+        <p id="property-bedcount">Bed Count: N/A</p>
+        <p id="property-address">Address: N/A</p>
+        <p id="property-location">Location: N/A</p>
+        <p id="property-owner">Owner Email: N/A</p>
     </div>
     &lt;!&ndash; Right Panel: Payment Details and Integration &ndash;&gt;
     <div class="right-panel">
@@ -98,48 +100,53 @@
         <p>Total Days: <span id="total-days">N/A</span></p>
         <p>Total Price: <span id="total-price">N/A</span></p>
 
-        &lt;!&ndash; Payment form that posts directly to PayHere Sandbox &ndash;&gt;
+        &lt;!&ndash; Payment form that would normally post directly to PayHere Sandbox &ndash;&gt;
         <form id="payhere-form" action="https://sandbox.payhere.lk/checkout" method="post">
-            &lt;!&ndash; PayHere required fields (replace with your sandbox credentials & URLs) &ndash;&gt;
+            &lt;!&ndash; PayHere required fields (update with your sandbox credentials & URLs if needed) &ndash;&gt;
             <input type="hidden" name="merchant_id" value="1230128">
             <input type="hidden" name="return_url" value="http://localhost:8080/api/payment-success.html">
             <input type="hidden" name="cancel_url" value="http://localhost:8080/api/payment-cancel.html">
             <input type="hidden" name="notify_url" value="http://localhost:8080/api/payment/notify">
 
-
             &lt;!&ndash; Order and transaction details &ndash;&gt;
             <input type="hidden" name="order_id" id="order_id" value="">
-            <input type="hidden" name="items" value="Vehicle Booking Payment">
+            <input type="hidden" name="items" value="Property Booking Payment">
             <input type="hidden" name="currency" value="LKR">
             <input type="hidden" name="amount" id="amount" value="">
 
-            &lt;!&ndash; Customer details (example static values or dynamically fill if available) &ndash;&gt;
+            &lt;!&ndash; Customer details (example static values; replace with dynamic data as needed) &ndash;&gt;
             <input type="hidden" name="first_name" value="John">
             <input type="hidden" name="last_name" value="Doe">
             <input type="hidden" name="email" value="john.doe@example.com">
             <input type="hidden" name="phone" value="0770000000">
 
-            &lt;!&ndash; Submit Button &ndash;&gt;
-            <button type="submit" class="payment-btn">Pay with PayHere</button>
+            &lt;!&ndash; Instead of auto-submitting to PayHere, we intercept the button click &ndash;&gt;
+            <button type="button" id="pay-button" class="payment-btn">Pay with PayHere</button>
         </form>
     </div>
 </div>
 
 <script>
-    // Retrieve booking data from sessionStorage and vehicle data from localStorage
-    const bookingData = JSON.parse(sessionStorage.getItem('bookingData') || '{}');
-    const vehicleData = JSON.parse(localStorage.getItem('selectedVehicle') || '{}');
+    // Retrieve booking data for the property from sessionStorage and property details from localStorage.
+    const bookingData = JSON.parse(sessionStorage.getItem('propertyBookingData') || '{}');
+    const propertyData = JSON.parse(localStorage.getItem('selectedProperty') || '{}');
 
-    // Populate left panel with vehicle details
-    if (vehicleData) {
-        document.getElementById('vehicle-img').src = vehicleData.image || "https://via.placeholder.com/400x300?text=Vehicle+Image";
-        document.getElementById('vehicle-brand').textContent = "Brand: " + (vehicleData.brand || "N/A");
-        document.getElementById('vehicle-description').textContent = "Description: " + (vehicleData.description || "N/A");
-        document.getElementById('vehicle-color').textContent = "Color: " + (vehicleData.color || "N/A");
-        document.getElementById('vehicle-owner').textContent = "Owner Email: " + (vehicleData.owner_email || "N/A");
+    // Populate left panel with property details.
+    if (propertyData) {
+        if(propertyData.image && !propertyData.image.startsWith('data:image')){
+            document.getElementById('property-img').src = `data:image/jpeg;base64,${propertyData.image}`;
+        } else {
+            document.getElementById('property-img').src = propertyData.image || "https://via.placeholder.com/400x300?text=Property+Image";
+        }
+        document.getElementById('property-name').textContent = "Name: " + (propertyData.name || "N/A");
+        document.getElementById('property-description').textContent = "Description: " + (propertyData.description || "N/A");
+        document.getElementById('property-bedcount').textContent = "Bed Count: " + (propertyData.bedCount || "N/A");
+        document.getElementById('property-address').textContent = "Address: " + (propertyData.address || "N/A");
+        document.getElementById('property-location').textContent = "Location: " + (propertyData.city || "N/A") + ", " + (propertyData.country || "N/A");
+        document.getElementById('property-owner').textContent = "Owner Email: " + (propertyData.userEmail || "N/A");
     }
 
-    // Populate right panel with booking details from bookingData
+    // Populate right panel with booking details from bookingData.
     if (bookingData) {
         document.getElementById('start-date').textContent = bookingData.start_date || "N/A";
         document.getElementById('end-date').textContent = bookingData.end_date || "N/A";
@@ -154,12 +161,18 @@
         document.getElementById('total-days').textContent = totalDays;
         document.getElementById('total-price').textContent = bookingData.total_price ? "LKR " + bookingData.total_price.toFixed(2) : "N/A";
 
-        // Set hidden form fields dynamically
         document.getElementById('amount').value = bookingData.total_price || "0.00";
-        // Generate a simple order ID (or use one from your system)
         const orderId = "ORD" + Date.now();
         document.getElementById('order_id').value = orderId;
     }
+
+    // Event listener for the Pay with PayHere button.
+    // Instead of submitting to PayHere directly, we redirect to the payment-payhere page.
+    document.getElementById('pay-button').addEventListener('click', function(e) {
+        e.preventDefault();
+        // Optionally, you can also store or update any data if needed before redirecting.
+        window.location.href = "payment-payhere.html"; // Adjust the path if necessary.
+    });
 </script>
 </body>
 </html>
