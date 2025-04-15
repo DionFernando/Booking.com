@@ -72,6 +72,7 @@ public class PropertiesDTO {
     public void setImage(String image) {
         this.image = image;
     }
+    
     public String getUserEmail() {
         return userEmail;
     }

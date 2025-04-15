@@ -28,6 +28,8 @@ public class Vehicle {
 
     private String description;
 
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String image;
 
     private Double priceFor3Days;
