@@ -6,13 +6,19 @@ A fully responsive web application inspired by [Booking.com](https://www.booking
 
 ## 🚀 Features
 
-- 🔍 **Search Functionality** — Find stays, flights, car rentals, and attractions
-- 🛏️ **Booking System** — Reserve stays with date and guest filters
-- 👤 **User Authentication** — Sign up, sign in, and manage your bookings
-- 📍 **Location-based Search** — Filter results by city, type, and rating
-- 💬 **Reviews & Ratings** — Post and read user reviews for each property
-- 📱 **Responsive UI** — Optimized for mobile, tablet, and desktop devices
-- 🧭 **Navigation Dashboard** — Tabs for Stays, Flights, Cars, Attractions
+✅ **Booking System**
+
+✅ **User Authentication**
+
+✅ **Search Functionality**
+
+✅ **Email**
+
+✅ **Responsive UI**
+
+✅ **Filtering**
+
+✅ **Reviews & Ratings**
 
 ---
 
@@ -32,11 +38,12 @@ A fully responsive web application inspired by [Booking.com](https://www.booking
 
 ## 📸 Screenshots
 
-> Add relevant screenshots or GIFs of your website here.
+
+
 
 ---
 
 ## Youtube Video Link
 
-Will be uploaded soon
+Video is under editing process. Will be uploaded soon...
 
