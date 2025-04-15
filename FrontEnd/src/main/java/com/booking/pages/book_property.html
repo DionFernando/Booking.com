@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book the Property | Booking.com</title>
+    <!-- Font Awesome for star icons (if needed for property rating display) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
+        /* Header styling */
+        .header {
+            background-color: #003580;
+            padding: 10px 20px;
+        }
+        .header img {
+            height: 50px;
+        }
+        /* Main container styling */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            display: flex;
+            gap: 50px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .property-image {
+            flex: 1;
+        }
+        .property-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .property-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .property-details h2 {
+            font-size: 1.8rem;
+            color: #003580;
+        }
+        .property-details p {
+            font-size: 1rem;
+            color: #333;
+            margin: 4px 0;
+        }
+        .book-button {
+            padding: 12px 20px;
+            background-color: #0071c2;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: fit-content;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .book-button:hover {
+            background-color: #005999;
+        }
+        /* Booking Form Styling */
+        .booking-form {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        .booking-form h3 {
+            color: #003580;
+            margin-bottom: 20px;
+        }
+        .booking-form .date-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .booking-form .field {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+        .booking-form label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        .booking-form input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            background: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 0h1V1H3V0zm7 0h1v1h-1V0zM2 2h10a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 10h10V6H2v6z' fill='%23999'/%3E%3C/svg%3E") no-repeat right 10px center;
+            background-size: 14px 14px;
+            -webkit-appearance: none;
+        }
+        .booking-form input[type="text"]:focus {
+            outline: none;
+            border-color: #003580;
+        }
+        .booking-form .total-price {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #333;
+        }
+        .booking-form button {
+            padding: 12px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .booking-form button:hover:not(:disabled) {
+            background-color: #218838;
+        }
+        .booking-form button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .error {
+            color: red;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        /* Increase Flatpickr calendar height for a more spacious look */
+        .flatpickr-calendar {
+            font-size: 1.1rem;
+            padding: 10px;
+            min-height: 350px;
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<div class="header">
+    <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo">
+</div>
+
+<!-- Main container with property details -->
+<div class="container">
+    <div class="property-image">
+        <img id="property-img" src="https://via.placeholder.com/400x300.png?text=Property+Image" alt="Property Image">
+    </div>
+    <div class="property-details">
+        <h2 id="property-name">Property Name</h2>
+        <p id="property-description">Property description goes here.</p>
+        <p id="property-bedcount"><strong>Bed Count:</strong> N/A</p>
+        <p id="property-address"><strong>Address:</strong> N/A</p>
+        <p id="property-location"><strong>Location:</strong> City, Country</p>
+        <p id="property-price"><strong>Price per Day:</strong> LKR 0</p>
+        <button class="book-button" id="open-booking-form">Proceed to Booking</button>
+    </div>
+</div>
+
+<!-- Booking form container -->
+<div id="booking-form-container"></div>
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Retrieve stored property details from localStorage.
+        const propertyData = localStorage.getItem('selectedProperty');
+        let property = {};
+        if (propertyData) {
+            property = JSON.parse(propertyData);
+            document.getElementById('property-name').textContent = property.name || 'Property Name';
+            document.getElementById('property-description').textContent = property.description || 'No description available.';
+            document.getElementById('property-bedcount').innerHTML = `<strong>Bed Count:</strong> ${property.bedCount || 'N/A'}`;
+            // Concatenate the address from the backend fields: address, city, and country.
+            document.getElementById('property-address').innerHTML = `<strong>Address:</strong> ${property.address || 'N/A'}`;
+            document.getElementById('property-location').innerHTML = `<strong>Location:</strong> ${property.city || 'City'}, ${property.country || 'Country'}`;
+            document.getElementById('property-price').innerHTML = `<strong>Price per Day:</strong> LKR ${property.price || '0'}`;
+            // If image is available (Base64 string), display it
+            if (property.image && !property.image.startsWith('data:image')) {
+                document.getElementById('property-img').src = `data:image/jpeg;base64,${property.image}`;
+            } else {
+                document.getElementById('property-img').src = property.image || 'https://via.placeholder.com/400x300.png?text=Property+Image';
+            }
+
+        } else {
+            document.querySelector('.container').innerHTML = "<p>No property selected.</p>";
+        }
+
+        // Add click event to create the booking form
+        document.getElementById('open-booking-form').addEventListener('click', () => {
+            if (document.getElementById('booking-form')) {
+                document.getElementById('booking-form').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+            const formContainer = document.getElementById('booking-form-container');
+            formContainer.innerHTML = `
+            <div class="booking-form" id="booking-form">
+                <h3>Booking Details</h3>
+                <div class="date-row">
+                    <div class="field">
+                        <label for="start-date">Start Date</label>
+                        <input type="text" id="start-date" placeholder="Select start date">
+                    </div>
+                    <div class="field">
+                        <label for="end-date">End Date</label>
+                        <input type="text" id="end-date" placeholder="Select end date">
+                    </div>
+                </div>
+                <p id="days-count">No of days: 0</p>
+                <p class="error" id="date-error" style="display:none;"></p>
+                <p class="total-price" id="total-price">Total Price: LKR 0</p>
+                <button id="book-now" disabled>Book Now</button>
+            </div>
+          `;
+            // Auto scroll to the booking form.
+            document.getElementById('booking-form').scrollIntoView({ behavior: 'smooth' });
+
+            // Initialize Flatpickr for date selection.
+            const startPicker = flatpickr("#start-date", {
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                onChange: function(selectedDates) {
+                    // Set a minimum for the end date (at least the same day) since minimum booking is 1 day.
+                    const minEnd = new Date(selectedDates[0]);
+                    startPicker.config.defaultDate = selectedDates[0];
+                    endPicker.set('minDate', selectedDates[0]);
+                    document.getElementById('end-date').value = ''; // Reset previous end date.
+                    document.getElementById('book-now').disabled = true;
+                    calculatePrice();
+                }
+            });
+
+            const endPicker = flatpickr("#end-date", {
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                onChange: function(selectedDates) {
+                    calculatePrice();
+                }
+            });
+
+            // Price calculation function for property booking.
+            // Minimum booking is 1 day and for extra days the price is applied at a 10% discount.
+            function calculatePrice() {
+                const basePrice = parseFloat(property.price);
+                const start = document.getElementById('start-date').value;
+                const end = document.getElementById('end-date').value;
+
+                if (!start || !end) {
+                    document.getElementById('days-count').textContent = "No of days: 0";
+                    return;
+                }
+
+                const startDate = new Date(start);
+                const endDate = new Date(end);
+                // Calculate inclusive day difference.
+                const diffTime = endDate - startDate;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+                const errorElem = document.getElementById('date-error');
+                const totalPriceElem = document.getElementById('total-price');
+                const bookBtn = document.getElementById('book-now');
+
+                // Update days count display.
+                document.getElementById('days-count').textContent = "No of days: " + diffDays;
+
+                if (diffDays < 1) {
+                    errorElem.style.display = 'block';
+                    errorElem.textContent = "Booking must be for at least 1 day.";
+                    totalPriceElem.textContent = "Total Price: LKR 0";
+                    bookBtn.disabled = true;
+                    return;
+                }
+
+                const extraDays = diffDays - 1;
+                // The extra days are charged at 90% of the regular daily rate.
+                const extraCost = basePrice * extraDays * 0.9;
+                const totalPrice = basePrice + extraCost;
+
+                errorElem.style.display = 'none';
+                totalPriceElem.textContent = `Total Price: LKR ${totalPrice.toFixed(2)}`;
+                bookBtn.disabled = false;
+            }
+
+            // Event handler for "Book Now" button.
+            document.getElementById('book-now').addEventListener('click', () => {
+                const totalText = document.getElementById('total-price').textContent;
+                const totalPrice = parseFloat(totalText.replace(/[^\d.]/g, ''));
+                const startDate = document.getElementById('start-date').value;
+                const endDate = document.getElementById('end-date').value;
+
+                if (!startDate || !endDate || isNaN(totalPrice) || totalPrice <= 0) {
+                    return;
+                }
+
+                const bookingData = {
+                    property_id: property.id,
+                    start_date: startDate,
+                    end_date: endDate,
+                    total_price: totalPrice
+                };
+
+                sessionStorage.setItem('propertyBookingData', JSON.stringify(bookingData));
+
+                // Redirect or open payment.html in a new tab.
+                window.open('payment.html', '_blank');
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -104,7 +104,6 @@
             background-color: #005999;
         }
 
-
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .filter-group select,
@@ -116,11 +115,6 @@
                 flex-direction: column;
             }
         }
-
-
-
-        /*---------------------*/
-
 
         .properties-container {
             display: grid;
@@ -135,6 +129,7 @@
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transition: transform 0.2s ease;
+            cursor: pointer; /* Added to indicate clickable cards */
         }
 
         .property-card:hover {
@@ -233,12 +228,10 @@
     });
 </script>
 
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Replace with your API endpoint. If you require user authentication, ensure you send the token.
         const apiEndpoint = 'http://localhost:8080/api/v1/properties/all';
-
 
         fetch(apiEndpoint, {
             method: 'GET',
@@ -247,7 +240,6 @@
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
-
         })
             .then(response => {
                 if (!response.ok) {
@@ -257,7 +249,7 @@
             })
             .then(properties => {
                 const propertiesContainer = document.getElementById('properties-container');
-                // Ensure properties is an array
+                // Iterate through each property and generate a card element
                 properties.forEach(property => {
                     const card = document.createElement('div');
                     card.classList.add('property-card');
@@ -265,15 +257,24 @@
                     // Construct image source using data URL if image property is returned as a Base64 string.
                     const imgSrc = property.image ? `data:image/jpeg;base64,${property.image}` : 'placeholder.jpg';
 
-                    // Build the card HTML
+                    // Build the card HTML. Note: The currency prefix is updated to LKR.
                     card.innerHTML = `
-                <img src="${imgSrc}" alt="${property.name} Image">
-                <div class="card-content">
-                    <h3>${property.name}</h3>
-                    <p><strong>Bed Count:</strong> ${property.bedCount}</p>
-                    <p><strong>Price:</strong> $${property.price}</p>
-                </div>
-            `;
+                    <img src="${imgSrc}" alt="${property.name} Image">
+                    <div class="card-content">
+                        <h3>${property.name}</h3>
+                        <p><strong>Bed Count:</strong> ${property.bedCount}</p>
+                        <p><strong>Price:</strong> LKR${property.price}</p>
+                    </div>
+                `;
+
+                    // Add a click listener to navigate to the booking page and save the property details
+                    card.addEventListener('click', function() {
+                        // Save the selected property details in localStorage
+                        localStorage.setItem('selectedProperty', JSON.stringify(property));
+                        // Redirect to the book_property.html page
+                        window.open('book_property.html', '_blank');
+                    });
+
                     propertiesContainer.appendChild(card);
                 });
             })
