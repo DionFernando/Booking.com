@@ -26,6 +26,7 @@ public class Vehicle {
 
     private String color;
 
+    @Lob
     private String description;
 
     @Lob
