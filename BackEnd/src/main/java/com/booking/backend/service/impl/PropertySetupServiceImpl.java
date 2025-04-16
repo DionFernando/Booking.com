@@ -47,5 +47,6 @@ public class PropertySetupServiceImpl implements PropertySetupService {
         return "Images uploaded successfully!";
     }
 }
-*/
-public class PropertySetupServiceImpl  {}
+*//*
+
+public class PropertySetupServiceImpl  {}*/

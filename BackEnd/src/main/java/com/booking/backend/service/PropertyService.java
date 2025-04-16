@@ -12,5 +12,6 @@ public interface PropertyService {
     PropertyDTO updateProperty(UUID id, PropertyDTO propertyDTO);
     void deleteProperty(UUID id);
 }
-*/
-public interface PropertyService {}
+*//*
+
+public interface PropertyService {}*/

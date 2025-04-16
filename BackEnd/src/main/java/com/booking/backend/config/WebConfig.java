@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +18,10 @@ public class WebConfig implements WebMvcConfigurer {
     }
 }
 
+*/
+
+
 /*
-
-
 package com.booking.backend.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +39,5 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:/home/dion/Documents/GDSE69/10. AAD/Final CourseWork/Images/");
     }
 }
-
-
-
 */
+

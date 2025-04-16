@@ -10,5 +10,6 @@ public interface UserVehicleBookingService {
     List<VehicleBookingDTO> getPastBookings(String userId);
     void cancelBooking(String userId, UUID bookingId);
 }
-*/
-public interface UserVehicleBookingService {}
+*//*
+
+public interface UserVehicleBookingService {}*/

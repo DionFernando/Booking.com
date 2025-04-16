@@ -64,5 +64,6 @@ public class UserVehicleBookingServiceImpl implements UserVehicleBookingService 
         );
     }
 }
-*/
-public class UserVehicleBookingServiceImpl  {}
+*//*
+
+public class UserVehicleBookingServiceImpl  {}*/
