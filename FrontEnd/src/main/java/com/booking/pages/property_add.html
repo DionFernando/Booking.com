@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>List Your Property - Booking.com</title>
     <link rel="icon" href="../assets/icons/booking.com-icon.png" type="image/x-icon" />
-
+    <!-- SweetAlert2 CSS (optional, for styling) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
+        /* (Your existing CSS remains unchanged) */
         /* Basic Reset */
         body, h1, h2, form, label, input, select, textarea, button, div {
             margin: 0;
@@ -248,6 +250,8 @@
             }
         }
     </style>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 <div class="header">
@@ -291,7 +295,7 @@
             </div>
         </div>
 
-        <!-- Step 2: Name -->
+        <!-- Step 2: Property Name -->
         <div class="form-step" id="step2">
             <h2>2. Property Name</h2>
             <div class="form-group">
@@ -543,12 +547,22 @@
         }
     }
 
+    // Using SweetAlert2 for a cool modern alert message when reviewing the form
     function validateFinalStep() {
         if (validateAllSteps()) {
-            alert('Your property listing is ready to be published!');
+            Swal.fire({
+                icon: 'success',
+                title: 'All Set!',
+                text: 'Your property listing is ready to be published!',
+                confirmButtonText: 'Great!'
+            });
         } else {
             updateStepIndicators();
-            alert('Please complete all required fields.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Incomplete',
+                text: 'Please complete all required fields.'
+            });
         }
     }
 
@@ -577,8 +591,8 @@
                 }
             });
 
-            // Send the form data to the backend endpoint
-            const token = localStorage.getItem('token'); // or however you retrieve the token
+            // Replace the URL and token retrieval as needed
+            const token = localStorage.getItem('token');
             fetch('http://localhost:8080/api/v1/properties/save', {
                 method: 'POST',
                 headers: {
@@ -586,24 +600,36 @@
                 },
                 body: formData
             })
-
-                    .then(response => {
+                .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not OK');
                     }
                     return response.json();
                 })
                 .then(data => {
-                    alert('Your property has been listed successfully!');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Your property has been listed successfully!',
+                        confirmButtonText: 'OK',
+                        timer: 2000,
+                        timerProgressBar: true
+                    }).then(() => {
+                        // Navigate to the users list page after success
+                        window.location.href = 'users_lists.html';
+                    });
                     form.reset();
                     currentStep = 0;
                     showStep(currentStep);
                     submitButton.disabled = true;
-                    // Optionally clear validations
                 })
                 .catch(error => {
                     console.error('Error saving property:', error);
-                    alert('There was an error saving your property. Please try again.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'There was an error saving your property. Please try again.'
+                    });
                 });
         }
     });

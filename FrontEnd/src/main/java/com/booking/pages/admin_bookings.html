@@ -1,12 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Bookings</title>
     <link rel="icon" href="../assets/icons/booking.com-icon.png" type="image/x-icon" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #f4f6f8;
+            margin: 0;
+            color: #333;
+        }
+        /* Search Bar Styles */
+        .search-header-admin {
+            position: sticky;
+            top: 0;
+            background-color: #fff;
+            padding: 15px 20px;
+            z-index: 100;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .search-header-admin input[type="text"] {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            border: 2px solid #003580;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .search-header-admin button {
+            padding: 10px 20px;
+            background-color: #003580;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+        .search-header-admin button:hover {
+            background-color: #002d6c;
+        }
+        /* Styling for the two toggle buttons */
+        .filter-btns {
+            margin-left: auto;
+            display: flex;
+            gap: 10px;
+        }
+        .filter-btn {
+            padding: 10px 20px;
+            background-color: #ccc;
+            color: #333;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background-color: #003580;
+            color: #fff;
+        }
+        /* No Results Message */
+        .no-results {
+            text-align: center;
+            color: #777;
+            margin-top: 20px;
+            display: none;
+        }
+        /* Bookings List Layout as a vertical list */
+        .bookings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 0 20px;
+        }
+        /* Booking Card: Horizontal rectangle */
+        .booking-card {
+            display: flex;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .booking-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        /* Left Image */
+        .booking-image {
+            flex-shrink: 0;
+            width: 300px;
+            height: 100%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .booking-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+        .booking-card:hover .booking-image img {
+            opacity: 0.95;
+        }
+        /* Right Details */
+        .booking-details {
+            padding: 15px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            margin-left: 30px;
+        }
+        .booking-details h3 {
+            margin: 0 0 10px;
+            font-size: 1.4rem;
+            color: #003580;
+        }
+        .booking-details p {
+            margin: 4px 0;
+            font-size: 0.95rem;
+        }
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .booking-card {
+                flex-direction: column;
+            }
+            .booking-image {
+                width: 100%;
+                height: 200px;
+            }
+            .booking-details {
+                padding: 15px;
+                margin-left: 0;
+            }
+            .filter-btns {
+                flex-direction: column;
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
+<!-- Fixed Search Bar with Extra Buttons -->
+<div class="search-header-admin">
+    <input type="text" id="searchInput" placeholder="Search by hotel/vehicle name or user email..." />
+    <button type="button" id="searchBtn">Search</button>
+    <div class="filter-btns">
+        <button type="button" id="btnProperties" class="filter-btn active">Properties</button>
+        <button type="button" id="btnVehicles" class="filter-btn">Vehicles</button>
+    </div>
+</div>
 
+<!-- Bookings List -->
+<div class="bookings-list" id="bookingsList">
+    <!-- Initially, display properties bookings -->
+    <!-- Booking Card 1 -->
+    <div class="booking-card" data-name="Araliya Beach Resort" data-email="nimal@gmail.com">
+        <div class="booking-image">
+            <img src="../assets/images/cards/araliya-unawatuna.jpg" alt="Araliya Beach Resort">
+        </div>
+        <div class="booking-details">
+            <h3>Araliya Beach Resort</h3>
+            <p><strong>Start Date:</strong> 2025-04-24</p>
+            <p><strong>End Date:</strong> 2025-04-26</p>
+            <p><strong>Price:</strong> LKR 99,400.00</p>
+            <p><strong>Booked by:</strong> nimal@gmail.com</p>
+        </div>
+    </div>
+
+    <!-- Booking Card 3 -->
+    <div class="booking-card" data-name="Cinnamon Grand" data-email="danapala@gmail.com">
+        <div class="booking-image">
+            <img src="../assets/images/cards/cinamon.jpg" alt="Cinnamon Grand">
+        </div>
+        <div class="booking-details">
+            <h3>Cinnamon Grand</h3>
+            <p><strong>Start Date:</strong> 2025-03-14</p>
+            <p><strong>End Date:</strong> 2025-03-16</p>
+            <p><strong>Price:</strong> LKR 89,600.00</p>
+            <p><strong>Booked by:</strong> danapala@gmail.com</p>
+        </div>
+    </div>
+
+    <!-- Booking Card 4 -->
+    <div class="booking-card" data-name="Araliya  Beach Resort" data-email="dion@gmail.com">
+        <div class="booking-image">
+            <img src="../assets/images/cards/araliya-unawatuna.jpg" alt="Sheraton Towers">
+        </div>
+        <div class="booking-details">
+            <h3>Araliya  Beach Resort</h3>
+            <p><strong>Start Date:</strong> 2025-05-01</p>
+            <p><strong>End Date:</strong> 2025-05-03</p>
+            <p><strong>Price:</strong> LKR 110,000.00</p>
+            <p><strong>Booked by:</strong> dion@gmail.com</p>
+        </div>
+    </div>
+
+    <!-- Booking Card 5 -->
+    <div class="booking-card" data-name="Radisson Blu" data-email="shewmi@gmail.com">
+        <div class="booking-image">
+            <img src="../assets/images/cards/mounlavinia-appartment.jpg" alt="Radisson Blu">
+        </div>
+        <div class="booking-details">
+            <h3>Rush Reliance</h3>
+            <p><strong>Start Date:</strong> 2025-06-10</p>
+            <p><strong>End Date:</strong> 2025-06-12</p>
+            <p><strong>Price:</strong> LKR 112,500.00</p>
+            <p><strong>Booked by:</strong> shewmi@gmail.com</p>
+        </div>
+    </div>
+
+    <!-- Booking Card 6 -->
+    <div class="booking-card" data-name="Hilton Colombo" data-email="akash@gmail.com">
+        <div class="booking-image">
+            <img src="../assets/images/cards/arliyagreen.jpeg" alt="Hilton Colombo">
+        </div>
+        <div class="booking-details">
+            <h3>Araliya Green City</h3>
+            <p><strong>Start Date:</strong> 2025-07-20</p>
+            <p><strong>End Date:</strong> 2025-07-23</p>
+            <p><strong>Price:</strong> LKR 125,000.00</p>
+            <p><strong>Booked by:</strong> akash@gmail.com</p>
+        </div>
+    </div>
+</div>
+
+<!-- No Results Message -->
+<div class="no-results" id="noResults">No bookings found matching your search.</div>
+
+<script>
+    // ---------- Search Filtering ----------
+    let bookingCards = document.querySelectorAll('.booking-card');
+    const searchInput = document.getElementById('searchInput');
+    const noResultsEl = document.getElementById('noResults');
+
+    const filterBookings = () => {
+        const query = searchInput.value.trim().toLowerCase();
+        let anyVisible = false;
+        bookingCards.forEach(card => {
+            const name = card.getAttribute('data-name').toLowerCase();
+            const email = card.getAttribute('data-email').toLowerCase();
+            if (name.includes(query) || email.includes(query)) {
+                card.style.display = 'flex';
+                anyVisible = true;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        noResultsEl.style.display = anyVisible ? 'none' : 'block';
+    };
+
+    searchInput.addEventListener('input', filterBookings);
+
+    // ---------- Toggle between Properties and Vehicles ----------
+    const btnProperties = document.getElementById('btnProperties');
+    const btnVehicles = document.getElementById('btnVehicles');
+    const bookingsList = document.getElementById('bookingsList');
+
+    // Store current (properties) markup as a string (using the existing HTML)
+    // In a real project, you might fetch this from a separate file.
+    const propertiesMarkup = bookingsList.innerHTML;
+
+    // Define vehicles markup with sample vehicle booking cards.
+    // Adjust images and data as needed.
+    const vehiclesMarkup = `
+      <!-- Vehicle Booking Card 1 -->
+      <div class="booking-card" data-name="Toyota Camry" data-email="userA@example.com">
+        <div class="booking-image">
+          <img src="../assets/images/cards/toyota%20corolla.jpg" alt="Toyota Camry">
+        </div>
+        <div class="booking-details">
+          <h3>Toyota Corolla</h3>
+          <p><strong>Start Date:</strong> 2025-08-01</p>
+          <p><strong>End Date:</strong> 2025-08-05</p>
+          <p><strong>Price:</strong> LKR 45,000.00</p>
+          <p><strong>Booked by:</strong> nimal@gmail.com</p>
+        </div>
+      </div>
+
+      <div class="booking-card" data-name="Benz Beach Resort" data-email="anjana@gmail.com">
+        <div class="booking-image">
+            <img src="../assets/images/cards/benz.jpg" alt="Benz Beach Resort">
+        </div>
+        <div class="booking-details">
+            <h3>Benz Beach Resort</h3>
+            <p><strong>Start Date:</strong> 2025-05-10</p>
+            <p><strong>End Date:</strong> 2025-05-12</p>
+            <p><strong>Price:</strong> LKR 105,000.00</p>
+            <p><strong>Booked by:</strong> anjana@gmail.com</p>
+        </div>
+    </div>
+
+      <!-- Vehicle Booking Card 2 -->
+      <div class="booking-card" data-name="Honda Civic" data-email="userB@example.com">
+        <div class="booking-image">
+          <img src="../assets/images/cards/Volvo%20FH16.jpg" alt="Toyota Camry">
+        </div>
+        <div class="booking-details">
+          <h3>Volvo FH16</h3>
+          <p><strong>Start Date:</strong> 2025-08-10</p>
+          <p><strong>End Date:</strong> 2025-08-12</p>
+          <p><strong>Price:</strong> LKR 40,000.00</p>
+          <p><strong>Booked by:</strong> samal@gmail.com</p>
+        </div>
+      </div>
+      <!-- Vehicle Booking Card 3 -->
+      <div class="booking-card" data-name="Ford Mustang" data-email="userC@example.com">
+        <div class="booking-image">
+          <img src="../assets/images/cards/nissan1.jpg" alt="Toyota Camry">
+        </div>
+        <div class="booking-details">
+          <h3>Nissan Sentra</h3>
+          <p><strong>Start Date:</strong> 2025-09-01</p>
+          <p><strong>End Date:</strong> 2025-09-03</p>
+          <p><strong>Price:</strong> LKR 60,000.00</p>
+          <p><strong>Booked by:</strong> anjana@gmail.com</p>
+        </div>
+      </div>
+
+      <div class="booking-card" data-name="Ford Mustang" data-email="userC@example.com">
+        <div class="booking-image">
+          <img src="../assets/images/cards/hyndia.jpeg" alt="Toyota Camry">
+        </div>
+        <div class="booking-details">
+          <h3>Hyundai Elantra</h3>
+          <p><strong>Start Date:</strong> 2025-09-01</p>
+          <p><strong>End Date:</strong> 2025-09-03</p>
+          <p><strong>Price:</strong> LKR 60,000.00</p>
+          <p><strong>Booked by:</strong> anjana@gmail.com</p>
+        </div>
+      </div>
+    `;
+
+    // Helper function to update the bookingCards variable (for filtering) after markup change.
+    const updateBookingCards = () => {
+        bookingCards = document.querySelectorAll('.booking-card');
+        filterBookings(); // Apply filtering on new content immediately if needed.
+    };
+
+    btnProperties.addEventListener('click', () => {
+        btnProperties.classList.add('active');
+        btnVehicles.classList.remove('active');
+        bookingsList.innerHTML = propertiesMarkup;
+        updateBookingCards();
+    });
+
+    btnVehicles.addEventListener('click', () => {
+        btnVehicles.classList.add('active');
+        btnProperties.classList.remove('active');
+        bookingsList.innerHTML = vehiclesMarkup;
+        updateBookingCards();
+    });
+</script>
 </body>
 </html>

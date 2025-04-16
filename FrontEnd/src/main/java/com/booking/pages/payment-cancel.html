@@ -2,9 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Payment Cancelled</title>
+    <title>Payment Failed</title>
+    <style>
+        /* Reset and basic styling */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #c70039, #ff5733);
+            color: #fff;
+        }
+        /* Center container */
+        .container {
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in forwards;
+        }
+        /* Main message styling */
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transform: scale(0.8);
+            animation: popIn 0.8s forwards;
+            animation-delay: 0.5s;
+        }
+        /* Redirect message styling */
+        .redirect-message {
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        /* Pop-in animation for the main message */
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-<h1>❌ Payment was cancelled.</h1>
+<div class="container">
+    <h1>Payment Failed!</h1>
+    <div class="redirect-message" id="redirectMessage">Redirecting back...</div>
+</div>
+
+<script>
+    // Reveal the "Redirecting back..." message after 3 seconds.
+    setTimeout(() => {
+        document.getElementById('redirectMessage').style.opacity = 1;
+    }, 3000);
+
+    // After 5 seconds total, navigate back to the previous page.
+    setTimeout(() => {
+        window.history.back();
+    }, 5000);
+</script>
 </body>
 </html>

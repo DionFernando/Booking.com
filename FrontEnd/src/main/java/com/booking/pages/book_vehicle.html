@@ -15,12 +15,57 @@
             background-color: #f7f7f7;
         }
         /* Header styling */
+        /* Header with Logo */
         .header {
             background-color: #003580;
+            color: #fff;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 10px 20px;
         }
-        .header img {
-            height: 50px;
+        .logo {
+            height: 60px;
+            margin-left: 50px;
+        }
+        .user-actions {
+            display: flex;
+            align-items: center;
+            margin-right: 50px;
+            gap: 10px;
+            position: relative;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            padding: 5px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #eb8934;
+        }
+        .user-profile .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+        .user-profile .username {
+            font-size: 0.95rem;
+            color: #fff;
+            font-weight: 600;
+        }
+        .user-profile .genius-level {
+            font-size: 0.8rem;
+            color: #eb8934;
+            font-weight: 400;
         }
         /* Main container styling */
         .container {
@@ -165,9 +210,20 @@
 </head>
 <body>
 <!-- Header -->
-<div class="header">
-    <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo">
-</div>
+<header class="header">
+    <div class="top-bar">
+        <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo" class="logo" />
+        <div class="user-actions">
+            <div class="user-profile" id="userProfile">
+                <img src="../assets/icons/user_icon.png" alt="img" />
+                <div class="user-details">
+                    <span class="username">Dion Fernando</span>
+                    <div class="genius-level">Genius Level 1</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 
 <!-- Main container with vehicle details -->
 <div class="container">
@@ -381,6 +437,17 @@
             });
 
         });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const storedName = localStorage.getItem('name');
+        if (storedName) {
+            document.querySelectorAll('.username').forEach(el => {
+                el.textContent = storedName;
+            });
+        }
     });
 </script>
 

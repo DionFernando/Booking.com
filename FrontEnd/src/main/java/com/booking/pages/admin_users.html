@@ -5,7 +5,7 @@
     <title>Users | Admin Panel | Booking.com</title>
     <link rel="icon" href="../assets/icons/booking.com-icon.png" type="image/x-icon" />
     <style>
-        /* Styles for the content loaded into mainContent */
+        /* Existing Styles */
         h2 {
             margin-bottom: 20px;
             font-size: 1.8rem;
@@ -44,7 +44,6 @@
         .search-container button:hover {
             background-color: #002a65;
         }
-        /* Heading for Current Users Section */
         .section-heading {
             margin-top: 40px;
             font-size: 1.5rem;
@@ -63,6 +62,9 @@
             justify-content: space-between;
             align-items: center;
         }
+        .user-card:hover {
+            background-color: lightgray;
+        }
         .user-info {
             display: flex;
             flex-direction: column;
@@ -73,7 +75,6 @@
             color: #333;
         }
         .status-btn {
-            background-color: #d9534f;
             border: none;
             padding: 8px 12px;
             border-radius: 4px;
@@ -82,9 +83,66 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-        .status-btn:hover {
-            background-color: #c9302c;
+        /* Form Buttons: Active is green, Deactivate is red */
+        .active-btn {
+            background-color: #5cb85c; /* green */
         }
+        .deactivated-btn {
+            background-color: #d9534f; /* red */
+        }
+
+        /* Custom Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .modal-content p {
+            font-size: 1rem;
+            color: #333;
+        }
+        .modal-actions {
+            margin-top: 20px;
+            text-align: right;
+        }
+        .modal-actions button {
+            padding: 8px 16px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+        /* Modal button base classes */
+        .confirm-btn { }
+        .cancel-btn { }
+        /* For deactivation modal: confirm = red, cancel = green */
+        .confirm-red { background-color: #d9534f; color: #fff; }
+        .confirm-red:hover { background-color: #c9302c; }
+        .cancel-green { background-color: #5cb85c; color: #fff; }
+        .cancel-green:hover { background-color: #4cae4c; }
+        /* For activation modal: confirm = green, cancel = red */
+        .confirm-green { background-color: #5cb85c; color: #fff; }
+        .confirm-green:hover { background-color: #4cae4c; }
+        .cancel-red { background-color: #d9534f; color: #fff; }
+        .cancel-red:hover { background-color: #c9302c; }
     </style>
 </head>
 <body>
@@ -94,18 +152,30 @@
     <input type="text" id="searchInput" placeholder="Search users by email">
     <button id="searchBtn">Search</button>
 </div>
-<!-- Section heading for the list -->
 <div class="section-heading">Current Users</div>
 <div id="usersList"></div>
 
+<!-- Custom Modal -->
+<div id="customModal" class="modal">
+    <div class="modal-content">
+        <p id="modalMessage"></p>
+        <div class="modal-actions">
+            <button id="modalConfirmBtn" class="confirm-btn"></button>
+            <button id="modalCancelBtn" class="cancel-btn">Cancel</button>
+        </div>
+    </div>
+</div>
+
 <script>
-    // Function to fetch all users from the backend using the correct endpoint
+    const baseURL = 'http://localhost:8080'; // Update as needed
+
+    // Fetch all users from backend
     function fetchUsers() {
-        fetch('/api/v1/user/all', {
+        fetch(`${baseURL}/api/v1/user/all`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token') // Assumes token is stored after login
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         })
             .then(response => response.json())
@@ -118,11 +188,10 @@
                 } else {
                     console.log('No users found in response', result);
                 }
-            })
-
+            });
     }
 
-    // Display each user in the list with a toggle button for status
+    // Display each user with a status button
     function displayUsers(users) {
         const usersList = document.getElementById('usersList');
         usersList.innerHTML = "";
@@ -130,18 +199,18 @@
             const card = document.createElement('div');
             card.classList.add('user-card');
             card.innerHTML = `
-              <div class="user-info">
-                <span><strong>Name:</strong> ${user.name}</span>
-                <span><strong>Email:</strong> ${user.email}</span>
-                <span><strong>Role:</strong> ${user.role}</span>
-              </div>
-              <button class="status-btn" onclick="toggleStatus(this)">Active</button>
-            `;
+          <div class="user-info">
+            <span><strong>Name:</strong> ${user.name}</span>
+            <span><strong>Email:</strong> ${user.email}</span>
+            <span><strong>Role:</strong> ${user.role}</span>
+          </div>
+          <button class="status-btn active-btn" onclick="toggleStatus(this)">Active</button>
+        `;
             usersList.appendChild(card);
         });
     }
 
-    // Function to search users by email. If the search input is empty, load all users.
+    // Search users by email. If empty, load all users.
     function searchUser() {
         const query = document.getElementById('searchInput').value.trim();
         if (query === '') {
@@ -157,7 +226,6 @@
         })
             .then(response => response.json())
             .then(result => {
-                // Extract users from the returned ResponseDTO structure
                 const users = result.data;
                 if (Array.isArray(users)) {
                     document.getElementById('totalUsers').innerText = "Search Results: " + users.length;
@@ -174,23 +242,80 @@
             });
     }
 
-    // Toggle the status button text between "Active" and "Deactivate"
+    // Show custom modal with message and dynamic button styles.
+    // Additional parameters confirmClass and cancelClass allow
+    // dynamic styling of modal buttons.
+    function showCustomModal(message, confirmText, confirmClass, cancelClass, callback) {
+        const modal = document.getElementById("customModal");
+        const modalMessage = document.getElementById("modalMessage");
+        const modalConfirmBtn = document.getElementById("modalConfirmBtn");
+        const modalCancelBtn = document.getElementById("modalCancelBtn");
+
+        modalMessage.innerHTML = message;
+        modalConfirmBtn.innerText = confirmText;
+
+        // Apply the dynamic classes
+        modalConfirmBtn.className = "confirm-btn " + confirmClass;
+        modalCancelBtn.className = "cancel-btn " + cancelClass;
+
+        modal.style.display = "block";
+
+        // Confirm action
+        modalConfirmBtn.onclick = function() {
+            modal.style.display = "none";
+            callback(true);
+        };
+
+        // Cancel action
+        modalCancelBtn.onclick = function() {
+            modal.style.display = "none";
+            callback(false);
+        };
+
+        // Close modal if clicked outside the content
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                callback(false);
+            }
+        };
+    }
+
+    // Toggle user status using the custom modal.
     function toggleStatus(btn) {
         if (btn.innerText === "Active") {
-            btn.innerText = "Deactivate";
-            btn.style.backgroundColor = "#5cb85c"; // Change button color to indicate new status
+            // For deactivation: Confirm -> red; Cancel -> green.
+            const message = `Are you sure you want to deactivate this user?<br><br>
+                         User lists will be hold until activated back.<br><br>
+                         <strong>Important:</strong> If user's properties or vehicles are already booked, they will remain as is.
+                         After the booking is finished, they will also be held.`;
+            showCustomModal(message, "Yes, Deactivate", "confirm-red", "cancel-green", function(confirmed) {
+                if (confirmed) {
+                    // Change button text to "Deactivate" and update styling to red.
+                    btn.innerText = "Deactivate";
+                    btn.classList.remove("active-btn");
+                    btn.classList.add("deactivated-btn");
+                }
+            });
         } else {
-            btn.innerText = "Active";
-            btn.style.backgroundColor = "#d9534f"; // Reset to original color
+            // For activation: Confirm -> green; Cancel -> red.
+            const message = "Are you sure you want to activate this user back?";
+            showCustomModal(message, "Yes, Activate", "confirm-green", "cancel-red", function(confirmed) {
+                if (confirmed) {
+                    // Change button text back to "Active" and update styling to green.
+                    btn.innerText = "Active";
+                    btn.classList.remove("deactivated-btn");
+                    btn.classList.add("active-btn");
+                }
+            });
         }
     }
 
-    // Attach event listener for the search button
+    // Attach event listener for search button
     document.getElementById('searchBtn').addEventListener('click', searchUser);
 
-    // Load users on page load
+    // Load users on page load.
     fetchUsers();
 </script>
-
 </body>
 </html>

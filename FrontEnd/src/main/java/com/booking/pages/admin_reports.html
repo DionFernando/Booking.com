@@ -2,10 +2,182 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="icon" href="../assets/icons/booking.com-icon.png" type="image/x-icon" />
+    <title>Admin Reports Dashboard</title>
+    <style>
+        .reports-dashboard {
+            padding: 20px;
+        }
+        .reports-dashboard h2 {
+            font-size: 1.75rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            color: #333;
+        }
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .chart-card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .chart-card:hover {
+            transform: translateY(-3px);
+        }
+        .chart-card h3 {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .chart-canvas {
+            position: relative;
+            height: 300px;
+        }
+    </style>
+    <!-- Updated Chart.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 </head>
 <body>
+<div class="reports-dashboard">
+    <h2>System Reports Dashboard</h2>
+    <div class="chart-container">
+        <div class="chart-card">
+            <h3>System Usage (Last 7 Days)</h3>
+            <div class="chart-canvas">
+                <canvas id="usageLineChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3>Module Errors</h3>
+            <div class="chart-canvas">
+                <canvas id="errorBarChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3>User Distribution</h3>
+            <div class="chart-canvas">
+                <canvas id="userPieChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3>Performance Metrics</h3>
+            <div class="chart-canvas">
+                <canvas id="performanceDoughnutChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Line Chart: System Usage over the last 7 days
+        const ctxUsage = document.getElementById('usageLineChart').getContext('2d');
+        new Chart(ctxUsage, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Active Users',
+                    data: [120, 150, 170, 160, 180, 200, 190],
+                    backgroundColor: 'rgba(0, 53, 128, 0.1)',
+                    borderColor: '#003580',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#003580'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#eee' } },
+                    x: { grid: { display: false } }
+                },
+                plugins: { legend: { position: 'top' } }
+            }
+        });
+
+        // Initialize Bar Chart: Errors per Module
+        const ctxError = document.getElementById('errorBarChart').getContext('2d');
+        new Chart(ctxError, {
+            type: 'bar',
+            data: {
+                labels: ['Module A', 'Module B', 'Module C', 'Module D', 'Module E'],
+                datasets: [{
+                    label: 'Error Count',
+                    data: [5, 3, 7, 2, 6],
+                    backgroundColor: [
+                        'rgba(249, 65, 68, 0.6)',
+                        'rgba(243, 114, 44, 0.6)',
+                        'rgba(248, 150, 30, 0.6)',
+                        'rgba(244, 208, 63, 0.6)',
+                        'rgba(45, 204, 112, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(249, 65, 68, 1)',
+                        'rgba(243, 114, 44, 1)',
+                        'rgba(248, 150, 30, 1)',
+                        'rgba(244, 208, 63, 1)',
+                        'rgba(45, 204, 112, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#eee' } },
+                    x: { grid: { display: false } }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Initialize Pie Chart: User Distribution Across Roles
+        const ctxUser = document.getElementById('userPieChart').getContext('2d');
+        new Chart(ctxUser, {
+            type: 'pie',
+            data: {
+                labels: ['Admins', 'Editors', 'Subscribers', 'Guests'],
+                datasets: [{
+                    data: [10, 25, 50, 15],
+                    backgroundColor: ['#003580', '#f9c74f', '#90be6d', '#f94144']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+
+        // Initialize Doughnut Chart: Performance Metrics Breakdown
+        const ctxPerformance = document.getElementById('performanceDoughnutChart').getContext('2d');
+        new Chart(ctxPerformance, {
+            type: 'doughnut',
+            data: {
+                labels: ['Response Time', 'Throughput', 'Stability'],
+                datasets: [{
+                    data: [65, 20, 15],
+                    backgroundColor: ['#003580', '#f9c74f', '#90be6d']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+    });
+</script>
 </body>
 </html>

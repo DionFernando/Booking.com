@@ -10,18 +10,22 @@
     <!-- Chart.js for charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Global Reset */
+        /* -------------------------
+           Global & Reset
+        -------------------------- */
         *, *::before, *::after {
             box-sizing: border-box;
-        }
-        body {
             margin: 0;
             padding: 0;
+        }
+        html, body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             background-color: #f4f6f8;
             color: #333;
         }
-        /* Header */
+        /* -------------------------
+           Header (Unchanged)
+        -------------------------- */
         header {
             background-color: #003580;
             color: #fff;
@@ -46,7 +50,6 @@
             font-weight: 500;
             letter-spacing: 0.5px;
         }
-        /* Profile Section */
         .header-right {
             position: relative;
             cursor: pointer;
@@ -84,7 +87,7 @@
             background-color: #fff;
             min-width: 220px;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             overflow: hidden;
             opacity: 0;
             visibility: hidden;
@@ -114,7 +117,9 @@
             width: 18px;
             margin-right: 10px;
         }
-        /* Layout Container */
+        /* -------------------------
+           Layout Container
+        -------------------------- */
         .container {
             display: flex;
             min-height: calc(100vh - 80px);
@@ -155,7 +160,7 @@
             flex: 1;
             padding: 20px;
             background-color: #fff;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
             margin: 20px;
             border-radius: 8px;
             overflow-y: auto;
@@ -166,44 +171,95 @@
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
-        .card {
-            background-color: #fafafa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
-        }
-        .card h3 {
-            margin-top: 0;
-            font-size: 1.1rem;
-        }
-        .card .stat {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-top: 10px;
-        }
-        /* Charts Container */
-        .charts-container {
-            display: flex;
-            flex-wrap: wrap;
+        /* -------------------------
+           Stat Cards
+        -------------------------- */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
             margin-bottom: 20px;
         }
-        .chart-card {
-            flex: 1 1 300px;
+        .stat-card {
             background-color: #fff;
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
-        .chart-card canvas {
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+        .stat-card .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .stat-card .card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .stat-card .card-change {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        /* Accent border for each card */
+        .stat-card.blue { border-left: 5px solid #003580; }
+        .stat-card.orange { border-left: 5px solid #f9c74f; }
+        .stat-card.red { border-left: 5px solid #f94144; }
+        .stat-card.green { border-left: 5px solid #06d6a0; }
+        /* -------------------------
+           Traffic Chart Section
+        -------------------------- */
+        .chart-section {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .chart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .chart-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        .chart-nav {
+            display: flex;
+            gap: 10px;
+        }
+        .chart-nav button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f4f6f8;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .chart-nav button:hover {
+            background-color: #dedede;
+        }
+        .chart-wrapper {
+            width: 100%;
+            height: 300px;
+        }
+        .chart-wrapper canvas {
             width: 100% !important;
-            height: auto !important;
+            height: 100% !important;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 </head>
 <body>
-<!-- Header -->
+<!-- Header (Original Design) -->
 <header>
     <div class="header-left">
         <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo" />
@@ -245,39 +301,49 @@
 
     <!-- Main Content Area -->
     <main class="main-content" id="mainContent">
+        <!-- Initial Dashboard Content -->
         <h2>Dashboard Overview</h2>
-        <!-- Charts Section -->
-        <div class="charts-container">
-            <!-- Line Chart Card -->
-            <div class="chart-card">
-                <canvas id="lineChart"></canvas>
+        <!-- Stat Cards -->
+        <div class="stats-cards">
+            <div class="stat-card blue">
+                <div class="card-title">Total Bookings</div>
+                <div class="card-value">11</div>
+                <div class="card-change"><i class="fas fa-arrow-up"></i> 3.10%</div>
             </div>
-            <!-- Doughnut Chart Card -->
-            <div class="chart-card">
-                <canvas id="doughnutChart"></canvas>
+            <div class="stat-card orange">
+                <div class="card-title">Current Users</div>
+                <div class="card-value">10</div>
+                <div class="card-change"><i class="fas fa-arrow-down"></i> 1.42%</div>
+            </div>
+            <div class="stat-card red">
+                <div class="card-title">Revenue</div>
+                <div class="card-value">LKR 897,550</div>
+                <div class="card-change"><i class="fas fa-arrow-up"></i> 2.49%</div>
+            </div>
+            <div class="stat-card green">
+                <div class="card-title">Pending Requests</div>
+                <div class="card-value">10</div>
+                <div class="card-change"><i class="fas fa-arrow-up"></i> 5.42%</div>
             </div>
         </div>
-
-        <!-- Stats Cards -->
-        <div class="card">
-            <h3>Total Bookings</h3>
-            <div class="stat">150</div>
-        </div>
-        <div class="card">
-            <h3>Current Users</h3>
-            <div class="stat">25</div>
-        </div>
-        <div class="card">
-            <h3>Revenue</h3>
-            <div class="stat">$5,000</div>
-        </div>
-        <div class="card">
-            <h3>Pending Requests</h3>
-            <div class="stat">10</div>
+        <!-- Traffic Chart Section -->
+        <div class="chart-section">
+            <div class="chart-header">
+                <h3>Traffic</h3>
+                <div class="chart-nav">
+                    <button onclick="updateChart('day')">Day</button>
+                    <button onclick="updateChart('month')">Month</button>
+                    <button onclick="updateChart('year')">Year</button>
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="trafficChart"></canvas>
+            </div>
         </div>
     </main>
 </div>
 
+<!-- JavaScript: Dynamic Content & Chart Initialization -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Update username if saved in localStorage (if applicable)
@@ -293,22 +359,44 @@
             e.stopPropagation();
             dropdownMenu.classList.toggle('show');
         });
-        // Close dropdown when clicking outside
         document.addEventListener('click', function (e) {
             if (!userProfile.contains(e.target)) {
                 dropdownMenu.classList.remove('show');
             }
         });
 
-        // Sidebar Navigation
+        // Sidebar Navigation for dynamic content
         const sidebarLinks = document.querySelectorAll('.sidebar a');
         const mainContent = document.getElementById('mainContent');
 
         function loadPageIntoMainContent(url) {
             fetch(url)
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
                 .then(html => {
+                    // Replace the main content HTML
                     mainContent.innerHTML = html;
+
+                    // Extract and execute any inline <script> tags
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+                    const scripts = tempDiv.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        // If the script has a src attribute, copy it; otherwise, inline the text
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.textContent = script.textContent;
+                        }
+                        document.body.appendChild(newScript);
+                        // Optionally remove the script after executing it
+                        document.body.removeChild(newScript);
+                    });
                 })
                 .catch(err => {
                     mainContent.innerHTML = `<p>Error loading page: ${err}</p>`;
@@ -323,33 +411,44 @@
 
                 switch (this.id) {
                     case 'dashboardLink':
-                        // Re-render the default dashboard content with charts and stats
                         mainContent.innerHTML = `
                 <h2>Dashboard Overview</h2>
-                <div class="charts-container">
-                  <div class="chart-card">
-                    <canvas id="lineChart"></canvas>
+                <div class="stats-cards">
+                  <div class="stat-card blue">
+                    <div class="card-title">Total Bookings</div>
+                    <div class="card-value">11</div>
+                    <div class="card-change"><i class="fas fa-arrow-up"></i> 3.10%</div>
                   </div>
-                  <div class="chart-card">
-                    <canvas id="doughnutChart"></canvas>
+                  <div class="stat-card orange">
+                    <div class="card-title">Current Users</div>
+                    <div class="card-value">10</div>
+                    <div class="card-change"><i class="fas fa-arrow-down"></i> 1.42%</div>
+                  </div>
+                  <div class="stat-card red">
+                    <div class="card-title">Revenue</div>
+                    <div class="card-value">LKR 897,550</div>
+                    <div class="card-change"><i class="fas fa-arrow-up"></i> 2.49%</div>
+                  </div>
+                  <div class="stat-card green">
+                    <div class="card-title">Pending Requests</div>
+                    <div class="card-value">10</div>
+                    <div class="card-change"><i class="fas fa-arrow-up"></i> 5.42%</div>
                   </div>
                 </div>
-                <div class="card">
-                  <h3>Total Bookings</h3>
-                  <div class="stat">150</div>
+                <div class="chart-section">
+                  <div class="chart-header">
+                    <h3>Traffic</h3>
+                    <div class="chart-nav">
+                      <button onclick="updateChart('day')">Day</button>
+                      <button onclick="updateChart('month')">Month</button>
+                      <button onclick="updateChart('year')">Year</button>
+                    </div>
+                  </div>
+                  <div class="chart-wrapper">
+                    <canvas id="trafficChart"></canvas>
+                  </div>
                 </div>
-                <div class="card">
-                  <h3>Current Users</h3>
-                  <div class="stat">25</div>
-                </div>
-                <div class="card">
-                  <h3>Revenue</h3>
-                  <div class="stat">$5,000</div>
-                </div>
-                <div class="card">
-                  <h3>Pending Requests</h3>
-                  <div class="stat">10</div>
-                </div>`;
+              `;
                         initializeCharts();
                         break;
                     case 'bookingsLink':
@@ -368,79 +467,62 @@
             });
         });
 
-        // Dropdown navigation actions
-        const dropdownItems = dropdownMenu.querySelectorAll('.dropdown-item');
-        dropdownItems[0].addEventListener('click', function () {
-            window.location.href = 'my_account.html';
-        });
+        // Chart data sets for Traffic chart
+        const dayData = [300, 400, 320, 500, 450, 600, 700];
+        const monthData = [7000, 10500, 8000, 12000, 10000, 13000, 14000];
+        const yearData = [78000, 88000, 92000, 110000, 99000, 125000, 138000];
 
-        dropdownItems[1].addEventListener('click', function () {
-            window.open('https://www.booking.com/genius.html', '_blank');
-        });
+        let trafficChart;
 
-        dropdownItems[2].addEventListener('click', function () {
-            window.location.href = 'index.html';
-        });
-
-        // Initialize charts using Chart.js
+        // Initialize Traffic Chart (if present)
         function initializeCharts() {
-            // Check if canvases are present before initializing
-            if (document.getElementById('lineChart')) {
-                const ctxLine = document.getElementById('lineChart').getContext('2d');
-                new Chart(ctxLine, {
+            // Remove previous canvas content (if reloading dashboard)
+            const trafficCanvas = document.getElementById('trafficChart');
+            if (trafficCanvas) {
+                const ctxTraffic = trafficCanvas.getContext('2d');
+                trafficChart = new Chart(ctxTraffic, {
                     type: 'line',
                     data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        labels: ['Point1', 'Point2', 'Point3', 'Point4', 'Point5', 'Point6', 'Point7'],
                         datasets: [{
-                            label: 'Bookings Over Time',
-                            data: [50, 70, 60, 80, 90, 150],
-                            fill: false,
+                            label: 'Traffic',
+                            data: dayData,
                             borderColor: '#003580',
-                            tension: 0.1
+                            backgroundColor: 'rgba(0, 53, 128, 0.1)',
+                            fill: true,
+                            tension: 0.3
                         }]
                     },
                     options: {
                         responsive: true,
-                        plugins: {
-                            legend: {
-                                display: true
-                            }
-                        }
-                    }
-                });
-            }
-
-            if (document.getElementById('doughnutChart')) {
-                const ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
-                new Chart(ctxDoughnut, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Direct', 'Referral', 'Social'],
-                        datasets: [{
-                            label: 'User Sources',
-                            data: [60, 25, 15],
-                            backgroundColor: [
-                                '#003580',
-                                '#eb8934',
-                                '#2c3a50'
-                            ]
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
-                            }
-                        }
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: '#eee' } },
+                            x: { grid: { display: false } }
+                        },
+                        plugins: { legend: { display: false } }
                     }
                 });
             }
         }
 
-        // Initial chart rendering on page load
+        // Update Traffic Chart data
+        window.updateChart = function (period) {
+            if (!trafficChart) return;
+            let newData;
+            switch (period) {
+                case 'day': newData = dayData; break;
+                case 'month': newData = monthData; break;
+                case 'year': newData = yearData; break;
+            }
+            trafficChart.data.datasets[0].data = newData;
+            trafficChart.update();
+        }
+
+        // Initialize charts on first load (Dashboard)
         initializeCharts();
     });
 </script>
+
 </body>
 </html>

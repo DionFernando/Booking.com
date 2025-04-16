@@ -2,10 +2,204 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>My Bookings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../assets/icons/booking.com-icon.png" type="image/x-icon" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for easy theming */
+        :root {
+            --primary-color: #003580;
+            --secondary-color: #0071c2;
+            --background-color: #f4f7f9;
+            --card-background: #ffffff;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --text-color: #333;
+            --font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Reset and Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Modern Booking Cards */
+        .bookings-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .booking-card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .booking-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .booking-image {
+            width: 100%;
+            height: 200px;
+            background-color: #e9ecef;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .booking-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+        .booking-card:hover .booking-image img {
+            opacity: 0.95;
+        }
+
+        .booking-details {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .booking-details h3 {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .booking-details p {
+            font-size: 0.95rem;
+        }
+
+        .booking-details .status {
+            margin-top: auto;
+            font-weight: 600;
+        }
+
+        /* Status Colors */
+        .status.confirmed {
+            color: var(--success-color);
+        }
+        .status.pending {
+            color: var(--warning-color);
+        }
+        .status.cancelled {
+            color: var(--danger-color);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <header>
+        <h1>My Bookings</h1>
+        <p>View all the bookings you have made with us below.</p>
+    </header>
 
+    <!-- Bookings List -->
+    <section class="bookings-list">
+        <!-- Sample Booking Card 1 -->
+        <div class="booking-card">
+            <div class="booking-image">
+                <!-- Replace with your image -->
+                <img src="../assets/images/cards/araliya-unawatuna.jpg" alt="Property Image">
+            </div>
+            <div class="booking-details">
+                <h3>Araliya Beach Resort</h3>
+                <p><strong>Start Date:</strong> 2025-04-24</p>
+                <p><strong>End Date:</strong> 2025-04-26</p>
+                <p><strong>Price :</strong> LKR 99400.00</p>
+
+                <p class="status confirmed">Confirmed</p>
+            </div>
+        </div>
+
+        <!-- Sample Booking Card 2 -->
+        <div class="booking-card">
+            <div class="booking-image">
+                <img src="../assets/images/cards/benz.jpg" alt="Property Image">
+            </div>
+            <div class="booking-details">
+                <h3>Araliya Beach Resort</h3>
+                <p><strong>Start Date:</strong> 2025-04-24</p>
+                <p><strong>End Date:</strong> 2025-04-26</p>
+                <p><strong>Price :</strong> LKR 99400.00</p>
+                <p class="status confirmed">Confirmed</p>
+            </div>
+        </div>
+
+        <!-- Sample Booking Card 3 -->
+        <div class="booking-card">
+            <div class="booking-image">
+                <img src="../assets/images/cards/cinamon.jpg" alt="Property Image">
+            </div>
+            <div class="booking-details">
+                <h3>Cinnamon Grand</h3>
+                <p><strong>Start Date:</strong> 2025-03-14</p>
+                <p><strong>End Date:</strong> 2025-03-16</p>
+                <p><strong>Price:</strong> LKR 89600.00</p>
+
+                <p class="status confirmed">Confirmed</p>
+            </div>
+        </div>
+    </section>
+</div>
 </body>
 </html>

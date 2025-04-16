@@ -86,3 +86,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 }
 */
+
+
+
+public class PropertyServiceImpl  {}

@@ -48,3 +48,4 @@ public class PropertySetupServiceImpl implements PropertySetupService {
     }
 }
 */
+public class PropertySetupServiceImpl  {}

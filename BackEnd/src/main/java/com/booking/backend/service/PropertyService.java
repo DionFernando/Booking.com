@@ -13,3 +13,4 @@ public interface PropertyService {
     void deleteProperty(UUID id);
 }
 */
+public interface PropertyService {}

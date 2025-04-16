@@ -11,3 +11,4 @@ public interface UserVehicleBookingService {
     void cancelBooking(String userId, UUID bookingId);
 }
 */
+public interface UserVehicleBookingService {}

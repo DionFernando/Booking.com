@@ -1,4 +1,4 @@
-/*
+
 package com.booking.backend.service.impl;
 
 import com.booking.backend.dto.VehicleDTO;
@@ -14,8 +14,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class SavedVehicleServiceImpl implements SavedVehicleService {
-
+public class SavedVehicleServiceImpl /*implements SavedVehicleService*/ {
+/*
     private final SavedVehicleRepository savedVehicleRepository;
     private final VehicleRepository vehicleRepository;
 
@@ -57,12 +57,12 @@ public class SavedVehicleServiceImpl implements SavedVehicleService {
                         savedVehicle.getVehicle().getType(),
                         savedVehicle.getVehicle().getBrand(),
                         savedVehicle.getVehicle().getSeats(),
-                        savedVehicle.getVehicle().getColor(),
+                       savedVehicle.getVehicle().getColor(),
                         savedVehicle.getVehicle().getDescription(),
                         savedVehicle.getVehicle().getImage(),
                         savedVehicle.getVehicle().getPriceFor3Days()
                 ))
                 .collect(Collectors.toList());
-    }
+    }*/
 }
-*/
+

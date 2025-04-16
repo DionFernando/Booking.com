@@ -134,6 +134,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/v1/properties/save").permitAll()
                         .requestMatchers(HttpMethod.GET, "/vehicles").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/bookings/check").permitAll() // Allow check endpoint
                         .requestMatchers("/api/v1/auth/**", "/api/v1/user/register").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -143,7 +144,5 @@ public class WebSecurityConfig {
 
         return http.build();
     }
-
-
 }
 

@@ -36,7 +36,6 @@ public class VehicleServiceImpl implements VehicleService {
         return convertToDTO(vehicle);
     }
 
-    // Other methods remain unchanged…
 
     @Override
     public List<VehicleDTO> getVehiclesByOwner(String ownerEmail) {

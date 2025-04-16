@@ -21,17 +21,54 @@
             color: inherit;
         }
         /* Header */
-        header {
+        .header {
             background-color: #003580;
             color: #fff;
-            padding: 20px;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .logo {
+            height: 60px;
+            margin-left: 50px;
+        }
+        .user-actions {
             display: flex;
             align-items: center;
+            margin-right: 50px;
+            gap: 10px;
+            position: relative;
         }
-        header .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-left: 20px;
+        .user-profile {
+            display: flex;
+            align-items: center;
+            padding: 5px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #eb8934;
+        }
+        .user-profile .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+        .user-profile .username {
+            font-size: 0.95rem;
+            color: #fff;
+            font-weight: 600;
+        }
+        .user-profile .genius-level {
+            font-size: 0.8rem;
+            color: #eb8934;
+            font-weight: 400;
         }
         header .description {
             font-size: 1rem;
@@ -84,19 +121,20 @@
             margin-bottom: 20px;
         }
         .list-card-img {
-            flex: 0 0 150px;
+            flex: 0 0 300px;
         }
         .list-card-img img {
-            width: 150px;
+            width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 8px 0 0 8px;
         }
         .list-card-details {
             padding: 15px;
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            /* Ensures the buttons container aligns at the bottom */
         }
         .list-card-details h3 {
             margin: 0 0 8px;
@@ -108,18 +146,34 @@
             font-size: 0.95rem;
             color: #555;
         }
-        .edit-button {
-            align-self: flex-end;
-            background-color: #003580;
-            color: #fff;
+        .edit-button,
+        .delete-button {
+            display: inline-block;
             padding: 8px 12px;
             border-radius: 4px;
             font-size: 0.85rem;
             transition: background-color 0.3s ease;
-            margin-top: 15px;
+        }
+        .edit-button {
+            background-color: #003580;
+            color: #fff;
         }
         .edit-button:hover {
             background-color: #005999;
+        }
+        .delete-button {
+            background-color: #d32f2f;
+            color: #fff;
+        }
+        .delete-button:hover {
+            background-color: #b71c1c;
+        }
+        /* Action Buttons Container */
+        .action-buttons {
+            margin-top: auto; /* Pushes the container to the bottom */
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
         }
         /* Placeholder Message */
         .placeholder {
@@ -170,10 +224,20 @@
 <body>
 
 <!-- Header -->
-<header>
-    <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo" class="logo" style="height:60px;">
+<header class="header">
+    <div class="top-bar">
+        <img src="../assets/icons/bookinglogowhite.png" alt="Booking.com Logo" class="logo" />
+        <div class="user-actions">
+            <div class="user-profile" id="userProfile">
+                <img src="../assets/icons/user_icon.png" alt="img" />
+                <div class="user-details">
+                    <span class="username">Dion Fernando</span>
+                    <div class="genius-level">Genius Level 1</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </header>
-
 <section class="after-header">
     <h2 class="your-lists-h2">Your Lists</h2>
     <div class="description">
@@ -189,10 +253,8 @@
             <img src="../assets/icons/car2.png" alt="Vehicle Icon">
             Vehicles
         </div>
-        <!-- Listings Container: Sample List Card for a Vehicle -->
-        <div id="vehiclesList">
-            <!-- Vehicles cards will be injected here -->
-        </div>
+        <!-- Listings Container: Vehicles will be injected here -->
+        <div id="vehiclesList"></div>
         <!-- Placeholder if no vehicles are listed -->
         <div class="placeholder" id="noVehiclesMessage">
             You have not listed any vehicles yet. <br>
@@ -206,10 +268,8 @@
             <img src="../assets/icons/property.png" alt="Property Icon">
             Properties
         </div>
-        <!-- Listings Container: Sample List Card for a Property -->
-        <div id="propertiesList">
-            <!-- Properties cards will be injected here -->
-        </div>
+        <!-- Listings Container: Properties will be injected here -->
+        <div id="propertiesList"></div>
         <!-- Placeholder if no properties are listed -->
         <div class="placeholder" id="noPropertiesMessage">
             You have not listed any properties yet. <br>
@@ -271,66 +331,69 @@
         function displayVehicles(vehicles) {
             const vehiclesListDiv = document.getElementById('vehiclesList');
             const noVehiclesMessageDiv = document.getElementById('noVehiclesMessage');
-
-            // Clear any existing content in the vehicles list container
             vehiclesListDiv.innerHTML = "";
 
             if (vehicles.length === 0) {
                 noVehiclesMessageDiv.style.display = "block";
             } else {
                 noVehiclesMessageDiv.style.display = "none";
-
                 vehicles.forEach(vehicle => {
-                    // Create the outer card div for vehicle
+                    // Create card container
                     const cardDiv = document.createElement("div");
                     cardDiv.className = "list-card";
 
-                    // Left image container
+                    // Image container
                     const imgDiv = document.createElement("div");
                     imgDiv.className = "list-card-img";
                     const imgEl = document.createElement("img");
-                    // Adjust the source if your image is a Base64 string or URL
                     imgEl.src = vehicle.image;
                     imgEl.alt = vehicle.brand;
                     imgDiv.appendChild(imgEl);
 
-                    // Right details container
+                    // Details container with flex column layout
                     const detailsDiv = document.createElement("div");
                     detailsDiv.className = "list-card-details";
 
-                    // Create and add the vehicle brand as a heading
                     const heading = document.createElement("h3");
                     heading.textContent = vehicle.brand;
                     detailsDiv.appendChild(heading);
 
-                    // Description paragraph
                     const descriptionPara = document.createElement("p");
                     descriptionPara.innerHTML = `<strong>Description:</strong> ${vehicle.description}`;
                     detailsDiv.appendChild(descriptionPara);
 
-                    // Seats count paragraph
                     const seatsPara = document.createElement("p");
                     seatsPara.innerHTML = `<strong>Seats Count:</strong> ${vehicle.seats}`;
                     detailsDiv.appendChild(seatsPara);
 
-                    // Color paragraph
                     const colorPara = document.createElement("p");
                     colorPara.innerHTML = `<strong>Color:</strong> ${vehicle.color}`;
                     detailsDiv.appendChild(colorPara);
 
-                    // Price paragraph
                     const pricePara = document.createElement("p");
                     pricePara.innerHTML = `<strong>Price for 3 Days:</strong> LKR ${vehicle.priceFor3Days}`;
                     detailsDiv.appendChild(pricePara);
 
-                    // Edit button for vehicle
+                    // Create the action buttons container that will stick at the bottom
+                    const buttonsContainer = document.createElement("div");
+                    buttonsContainer.className = "action-buttons";
+
                     const editButton = document.createElement("a");
                     editButton.className = "edit-button";
                     editButton.href = "edit_vehicle.html?id=" + vehicle.id;
                     editButton.textContent = "Edit";
-                    detailsDiv.appendChild(editButton);
+                    buttonsContainer.appendChild(editButton);
 
-                    // Combine image and details into card and add to the container
+                    const deleteButton = document.createElement("a");
+                    deleteButton.className = "delete-button";
+                    deleteButton.href = "delete_vehicle.html?id=" + vehicle.id; // Adjust URL as needed
+                    deleteButton.textContent = "Delete";
+                    buttonsContainer.appendChild(deleteButton);
+
+                    // Append the buttons container at the bottom of details
+                    detailsDiv.appendChild(buttonsContainer);
+
+                    // Assemble the card
                     cardDiv.appendChild(imgDiv);
                     cardDiv.appendChild(detailsDiv);
                     vehiclesListDiv.appendChild(cardDiv);
@@ -342,61 +405,63 @@
         function displayProperties(properties) {
             const propertiesListDiv = document.getElementById('propertiesList');
             const noPropertiesMessageDiv = document.getElementById('noPropertiesMessage');
-
-            // Clear any existing content in the properties list container
             propertiesListDiv.innerHTML = "";
 
             if (properties.length === 0) {
                 noPropertiesMessageDiv.style.display = "block";
             } else {
                 noPropertiesMessageDiv.style.display = "none";
-
                 properties.forEach(property => {
-                    // Create the outer card div for property
                     const cardDiv = document.createElement("div");
                     cardDiv.className = "list-card";
 
-                    // Left image container
                     const imgDiv = document.createElement("div");
                     imgDiv.className = "list-card-img";
                     const imgEl = document.createElement("img");
-                    // Adjust the source if the image is returned as Base64 or direct URL
-                    imgEl.src = property.image;
+                    if (!property.image.startsWith("data:image/")) {
+                        imgEl.src = "data:image/jpeg;base64," + property.image;
+                    } else {
+                        imgEl.src = property.image;
+                    }
                     imgEl.alt = property.name;
                     imgDiv.appendChild(imgEl);
 
-                    // Right details container
                     const detailsDiv = document.createElement("div");
                     detailsDiv.className = "list-card-details";
 
-                    // Create and add the property name as a heading
                     const heading = document.createElement("h3");
                     heading.textContent = property.name;
                     detailsDiv.appendChild(heading);
 
-                    // Description paragraph
                     const descriptionPara = document.createElement("p");
                     descriptionPara.innerHTML = `<strong>Description:</strong> ${property.description}`;
                     detailsDiv.appendChild(descriptionPara);
 
-                    // Address paragraph
                     const addressPara = document.createElement("p");
                     addressPara.innerHTML = `<strong>Address:</strong> ${property.address}`;
                     detailsDiv.appendChild(addressPara);
 
-                    // Price paragraph
                     const pricePara = document.createElement("p");
                     pricePara.innerHTML = `<strong>Price (Per Day):</strong> LKR ${property.price}`;
                     detailsDiv.appendChild(pricePara);
 
-                    // Edit button for property
+                    const buttonsContainer = document.createElement("div");
+                    buttonsContainer.className = "action-buttons";
+
                     const editButton = document.createElement("a");
                     editButton.className = "edit-button";
                     editButton.href = "edit_property.html?id=" + property.id;
                     editButton.textContent = "Edit";
-                    detailsDiv.appendChild(editButton);
+                    buttonsContainer.appendChild(editButton);
 
-                    // Combine image and details into card and add to the container
+                    const deleteButton = document.createElement("a");
+                    deleteButton.className = "delete-button";
+                    deleteButton.href = "delete_property.html?id=" + property.id; // Adjust URL as needed
+                    deleteButton.textContent = "Delete";
+                    buttonsContainer.appendChild(deleteButton);
+
+                    detailsDiv.appendChild(buttonsContainer);
+
                     cardDiv.appendChild(imgDiv);
                     cardDiv.appendChild(detailsDiv);
                     propertiesListDiv.appendChild(cardDiv);
@@ -406,5 +471,15 @@
     });
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const storedName = localStorage.getItem('name');
+        if (storedName) {
+            document.querySelectorAll('.username').forEach(el => {
+                el.textContent = storedName;
+            });
+        }
+    });
+</script>
 </body>
 </html>

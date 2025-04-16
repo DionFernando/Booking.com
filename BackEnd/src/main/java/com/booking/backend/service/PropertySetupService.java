@@ -11,3 +11,4 @@ public interface PropertySetupService {
     String uploadImages(UUID propertyId, List<MultipartFile> images) throws IOException;
 }
 */
+public interface PropertySetupService {}

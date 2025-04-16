@@ -31,13 +31,12 @@ public class PropertiesServiceImpl implements PropertiesService {
             property.setDescription(propertiesDTO.getDescription());
             property.setBedCount(propertiesDTO.getBedCount());
             property.setPrice(propertiesDTO.getPrice());
-            property.setUserEmail(propertiesDTO.getUserEmail()); // Save the user's email
+            property.setUserEmail(propertiesDTO.getUserEmail());
 
             if (imageFile != null && !imageFile.isEmpty()) {
                 property.setImage(imageFile.getBytes());
             }
             Properties saved = propertiesRepository.save(property);
-            // Optionally, map saved to a new DTO for response
             return propertiesDTO;
         } catch (Exception e) {
             throw new RuntimeException("Failed to save property", e);
@@ -47,7 +46,6 @@ public class PropertiesServiceImpl implements PropertiesService {
     @Override
     public List<PropertiesDTO> getPropertiesByUser(String email) {
         List<Properties> propertiesList = propertiesRepository.findByUserEmail(email);
-        // Map entity list to DTO list (manual mapping below):
         return propertiesList.stream().map(property -> {
             PropertiesDTO dto = new PropertiesDTO();
             dto.setId(property.getId());
@@ -59,13 +57,11 @@ public class PropertiesServiceImpl implements PropertiesService {
             dto.setDescription(property.getDescription());
             dto.setBedCount(property.getBedCount());
             dto.setPrice(property.getPrice());
-// Convert the image byte array to a Base64 string so it can be used on the frontend.
             if (property.getImage() != null) {
             dto.setImage(Base64.getEncoder().encodeToString(property.getImage()));
             }
             dto.setPrice(property.getPrice());
             dto.setUserEmail(property.getUserEmail());
-            // Omit image mapping if not needed or handle as required.
             return dto;
         }).collect(Collectors.toList());
     }
@@ -73,7 +69,6 @@ public class PropertiesServiceImpl implements PropertiesService {
     @Override
     public List<PropertiesDTO> getAllProperties() {
         List<Properties> propertiesList = propertiesRepository.findAll();
-        // Map entity list to DTO list (manual mapping below):
         return propertiesList.stream().map(property -> {
             PropertiesDTO dto = new PropertiesDTO();
             dto.setType(property.getType());
