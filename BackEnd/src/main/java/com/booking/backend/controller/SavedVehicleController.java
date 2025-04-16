@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.controller;
 
 import com.booking.backend.dto.SavedVehicleDTO;
@@ -23,3 +24,4 @@ public class SavedVehicleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedVehicle);
     }
 }
+*/
