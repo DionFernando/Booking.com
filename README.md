@@ -36,10 +36,11 @@ A fully responsive web application inspired by [Booking.com](https://www.booking
 
 ---
 
-## 📸 Screenshots![Screenshot from 2025-04-16 22-46-28](https://github.com/user-attachments/assets/febe3272-85a2-41ce-8750-62d65e5e316c)
+## 📸 Screenshots
+
+
+![Screenshot from 2025-04-16 22-46-28](https://github.com/user-attachments/assets/febe3272-85a2-41ce-8750-62d65e5e316c)
 ![Screenshot from 2025-04-16 22-46-17](https://github.com/user-attachments/assets/b14954c0-d4f7-43c3-99b2-ca6599235464)
-
-
 ![Screenshot from 2025-04-16 22-44-29](https://github.com/user-attachments/assets/90814ed8-06f8-49bb-8c90-302db46c3ebb)
 ![Screenshot from 2025-04-16 22-45-38](https://github.com/user-attachments/assets/f7580689-ab45-4662-af50-9e2a1efd4238)
 ![Screenshot from 2025-04-16 22-45-29](https://github.com/user-attachments/assets/e5ded6e1-7c71-44c0-84b9-92177ef5f55b)
