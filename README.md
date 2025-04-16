@@ -29,7 +29,7 @@ A fully responsive web application inspired by [Booking.com](https://www.booking
 - JavaScript 
 
 **Backend:**
-- Java 
+- Java Spring Boot
 
 **Database:**
 - MySQL
@@ -59,10 +59,18 @@ A fully responsive web application inspired by [Booking.com](https://www.booking
 ![Screenshot from 2025-04-16 22-58-03](https://github.com/user-attachments/assets/3faa2238-ef3b-4b8a-9476-4d6f0c2a87cf)
 
 
+---
+
+### 🔧 Backend Setup (Java + Spring Boot)
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/DionFernando/Booking.com.git
+   cd Booking.com/backend
 
 ---
 
 ## Youtube Video Link
 
-Video is under editing process. Will be uploaded soon...
+[View on YouTube :](https://youtu.be/XXqjXL5kJbA)
 
