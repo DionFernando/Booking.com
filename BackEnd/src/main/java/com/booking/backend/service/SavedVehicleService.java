@@ -1,3 +1,4 @@
+/*
 package com.booking.backend.service;
 
 import com.booking.backend.entity.SavedVehicle;
@@ -36,3 +37,4 @@ public class SavedVehicleService {
         return savedVehicleRepository.save(savedVehicle);
     }
 }
+*/

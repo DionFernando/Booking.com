@@ -85,8 +85,9 @@ public class PropertyServiceImpl implements PropertyService {
         );
     }
 }
-*/
+*//*
 
 
 
-public class PropertyServiceImpl  {}
+
+public class PropertyServiceImpl  {}*/
