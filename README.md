@@ -72,5 +72,5 @@ A fully responsive web application inspired by [Booking.com](https://www.booking
 
 ## Youtube Video Link
 
-[View on YouTube :](https://youtu.be/XXqjXL5kJbA)
+[View on YouTube](https://youtu.be/XXqjXL5kJbA)
 
